@@ -1,0 +1,620 @@
+# Changelog — CCSWE Avalonia Design System
+
+## 1.5.3 — 2026-06-04 — Code-review fixes: state-reflow, disabled treatment, ComboBox selection template, polish
+
+**Design System (Avalonia):** 1.5.2 → 1.5.3
+**Tokens:** 1.1.0 (unchanged) · **Avalonia:** 12.0.4
+
+Absorbs the consumer's max-effort code review of the emitted control themes
+(`avalonia-code-review-1.5.2.md`) at source. All items were fixed locally + visually
+confirmed by the consumer first; this folds them into the emitter. No new controls
+(set stays **18**), no token changes. The 1.5.2 `AutoCompleteBox` `ListBox` fix is now
+**runtime-confirmed** by the consumer (`avalonia-integration-1.5.2.md`) — Tier-1 fully
+closed.
+
+### Fixed — state changes no longer reflow content (container-border rule)
+
+- **`ToggleButton` pill jumped on every toggle.** `:checked` set `BorderThickness=0` on
+  `PART_Container`, whose thickness insets the content → 1px reflow. Now keeps
+  `BorderThickness=1` and sets `BorderBrush=Transparent` (fill reads through); same for
+  `:checked:disabled`. Color-only change, no layout shift.
+- **`NumericUpDown` / `ButtonSpinner` field shifted 1px on focus.** Content sat *inside*
+  `PART_BorderElement`, so `:focus-within` thickening it 1→2 inset the content. Restructured
+  to the **overlay** shape used by `TextBox`/`ComboBox`: `PART_BorderElement` is now an empty
+  `Border` *sibling* of the content `Grid` inside a `Panel` — the 1→2 focus thickening is
+  paint-only.
+
+### Fixed — validation & selection forwarding
+
+- **`NumericUpDown` showed no error border on invalid value.** The `:error` rule lived on the
+  inner `ButtonSpinner`, but validation surfaces `:error` on the *outer* `NumericUpDown`.
+  Now the template forwards it via `Classes.error="{Binding (DataValidationErrors.HasErrors)…}"`
+  and the spinner's error rule matches both `:error` and `.error` (placed last so red beats
+  the Primary focus color).
+- **`ComboBox` custom `ItemTemplate` not applied to the closed field.** The selection
+  `ContentControl` bound `SelectionBoxItem` but not its template, so the collapsed field fell
+  back to `ToString()`. Now forwards `ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"`
+  (null-safe).
+
+### Changed — disabled treatment unified across all controls (M3 recolor, not opacity dim)
+
+- Every control except `Button` previously dimmed via a whole-element `:disabled { Opacity=0.38 }`,
+  so a disabled **checked/selected** control read as a *faded brand tint* instead of neutral M3
+  gray. Replaced with `Button`'s documented primitive across **all** themes — container / fill /
+  outline / track → **`OnSurface12`**, content / label / glyph / indicator → **`OnSurface38`**:
+  CheckBox, RadioButton, ToggleSwitch, Slider, ProgressBar, ComboBox, ListBox/ListBoxItem,
+  TreeView/TreeViewItem, TabControl/TabItem, TabStrip/TabStripItem, Menu/MenuItem, Expander,
+  TextBox (Outlined+Filled), NumericUpDown/ButtonSpinner. AutoCompleteBox drops its root dim
+  entirely (the inner Outlined field recolors itself). Slider's thumb fill is now
+  `TemplateBinding Background` (was hard `Primary`) so it can recolor.
+
+### Fixed — lower-priority emitter polish (fixed at source this regen)
+
+- **ComboBox focus ring** stays lit while the dropdown is open (`^:focus, ^:dropdownopen`).
+- **ToggleSwitch** now emits the required `PART_OnContentPresenter` / `PART_OffContentPresenter`
+  slots, toggled by `:checked` (empty On/Off content renders nothing).
+- **NumericUpDown** honors `ButtonSpinnerLocation="Left"` (spinner moves to the leading column).
+- **TabItem** gets `LetterSpacing=0.1` (LabelLarge parity with `TabStripItem`).
+- **Expander** chevron flips smoothly via a `TransformOperationsTransition`
+  (`MotionDurationShort2`, parity with the TreeView chevron).
+- **Content-alignment bindings** on `TabControl`/`TabStrip`/`ListBox` item presenters now drive
+  `HorizontalContentAlignment`/`VerticalContentAlignment` (align content *within* the presenter)
+  instead of `Horizontal/VerticalAlignment` (which moved the whole presenter).
+
+### Conventions (added)
+
+- **A state change must never alter a *content-bearing* (container) border's thickness** — it
+  reflows. Use the **overlay** structure (border is a sibling of the content) when a resting
+  border must thicken for emphasis, or keep thickness constant and recolor only.
+- **Disabled = neutral recolor, never whole-element `Opacity`.** Container/fill/outline →
+  `OnSurface12`; content/label/glyph → `OnSurface38`. (Promotes the Button rule to an
+  emitter-wide primitive; emitter should lint root `Opacity` inside a `:disabled` selector.)
+- **When a composite control delegates its chrome to an inner control, the outer control must
+  forward its validation/`:error` state** (bound style class) — the inner control's pseudo-classes
+  don't see the outer's.
+- **A "current selection" surface must forward both the item and its template**
+  (`SelectionBoxItem` + `SelectionBoxItemTemplate`).
+
+### Deferred
+
+- **TabControl `PageTransition` cross-fade** (`PART_SelectedContentHost2`) — left as instant swap
+  this cycle; the second content-host shape needs a runtime pass before emitting. Still tracked.
+
+### Versioning
+
+- All emitted `*.axaml` headers stamped **v1.5.3**; bundle rebuilt.
+- No `Theme.axaml` / include changes (still 18 control files), no token changes.
+
+---
+
+## 1.5.2 — 2026-06-04 — AutoCompleteBox empty-dropdown fix (runtime)
+
+**Design System (Avalonia):** 1.5.1 → 1.5.2
+**Tokens:** 1.1.0 (unchanged) · **Avalonia:** 12.0.4
+
+Resolves the one runtime defect the consumer's Dark+Light visual pass surfaced on
+1.5.1 (per `avalonia-integration-1.5.1.md`). Compile-clean both before and after, so
+only the visual pass caught it. No new controls (set stays **18**), no token changes.
+
+### Fixed
+
+- **`AutoCompleteBox` suggestions now render** (P1 runtime — empty dropdown). With a
+  real `ItemsSource` bound, typing filtered and the popup opened, but the suggestion
+  list painted **no rows** (Dark + Light). **Root cause:** `PART_SelectingItemsControl`
+  was a bare `<SelectingItemsControl>` — a primitive base type with **no default
+  `ControlTheme`** in FluentTheme. Avalonia does **no** hierarchical ControlTheme
+  fallback, so the element got no template and rendered nothing; the popup chrome (the
+  `Border`) showed, but the items host inside it was invisible. The theme's own comment
+  promised "ListBoxItem containers … M3 list-item treatment for free" — which a bare
+  `SelectingItemsControl` never produces. **Source fix:** emit a **`ListBox`** for that
+  part (`Background` transparent, `BorderThickness="0"`). `ListBox` *is-a*
+  `SelectingItemsControl`, so it satisfies the part cast /
+  `SelectingItemsControlSelectionAdapter`, has a working template, and generates the
+  `ListBoxItem` rows the M3 treatment relies on (transparent bg so the popup's
+  `SurfaceContainer` reads through). This is also the type Avalonia's own Fluent
+  AutoCompleteBox template uses for that part.
+
+### Guard (CONVENTIONS)
+
+- **An items-host *part* that must DISPLAY items must be a templated,
+  container-generating type (`ListBox`), never a bare `SelectingItemsControl`/
+  `ItemsControl`** — the abstract/base items types have no default theme and (absent
+  hierarchical fallback) render empty. Added to `CONVENTIONS.md` (composite-controls
+  section).
+
+### Versioning
+
+- All emitted `*.axaml` headers stamped **v1.5.2**; bundle rebuilt.
+- No `Theme.axaml` / include changes (still 18 control files).
+
+### Consumer status
+
+- 1.5.1 **compile** fixes verified verbatim (TreeViewItem alignment, AutoCompleteBox
+  `PlaceholderText`); both CONVENTIONS guards accepted.
+- Tier-1 runtime visual pass: TabStrip, TreeView, ToggleButton, NumericUpDown ✅;
+  **AutoCompleteBox moves to ✅ once this `ListBox` source fix lands.** With 1.5.2 the
+  whole Tier-1 five is compile- and visually-confirmed.
+
+---
+
+## 1.5.1 — 2026-06-04 — Tier-1 compile fixes (TreeViewItem alignment, AutoCompleteBox Watermark)
+
+**Design System (Avalonia):** 1.5.0 → 1.5.1
+**Tokens:** 1.1.0 (unchanged) · **Avalonia:** 12.0.4
+
+Resolves the two emitter bugs the consumer found on first compile of 1.5.0 and
+fixed interim (per `avalonia-integration-1.5.0.md`). Both were behavior-neutral;
+this folds them in at source. No new controls (set stays **18**), no token changes.
+
+### Fixed
+
+- **`TreeViewItem` no longer emits `VerticalContentAlignment`** (P0 compile blocker,
+  `AVLN2000`). `TreeViewItem` derives from `HeaderedItemsControl` → `ItemsControl`,
+  **not** `ContentControl`, so it has no `Vertical/HorizontalContentAlignment`
+  property — a verbatim clone of the `ListBoxItem` setters (where it *is* a
+  `ContentControl`) carried over a property that doesn't resolve. The setter was
+  also **dead**: the header `ContentPresenter` (`PART_HeaderPresenter`) hardcodes
+  `VerticalAlignment="Center"`, so removing it is behavior-neutral. **Source fix:**
+  drop the setter; cloning `ListBoxItem` → an `ItemsControl`-derived item must not
+  carry `ContentControl`-only alignment setters.
+- **`AutoCompleteBox` inner field binds `PlaceholderText`, not `Watermark`** (P1
+  obsolete API, `AVLN5001` — `AutoCompleteBox.Watermark` is obsolete in Avalonia 12).
+  This is the **second** time the emitter shipped the obsolete `Watermark` (first on
+  `TextBox`, fixed in 1.2.0). Now `PART_TextBox.PlaceholderText` binds the control's
+  own `PlaceholderText`. `NumericUpDown` is **unchanged** — its
+  `PlaceholderText="{TemplateBinding Watermark}"` binds `NumericUpDown.Watermark`,
+  which is **not** deprecated and compiles clean (the consumer confirmed and left it).
+
+### Guard (CONVENTIONS)
+
+- **`Watermark` is now a standing emitter no-go on the deprecated declaring types
+  (`TextBox`, `AutoCompleteBox`)** — always emit `PlaceholderText`. Generation should
+  flag any emitted template referencing `Watermark` on those types. `NumericUpDown`
+  is the documented exception (its `Watermark` source is still valid). Added to
+  `CONVENTIONS.md` (required-parts section) so the recurrence doesn't return a third time.
+- **No `ContentControl`-only alignment setters on `ItemsControl`-derived items**
+  documented alongside, so the `TreeViewItem` clone slip doesn't recur.
+
+### Versioning
+
+- All emitted `*.axaml` headers stamped **v1.5.1**; bundle rebuilt.
+- No `Theme.axaml` / include changes (still 18 control files).
+
+### Consumer status
+
+- Compiles verbatim — **0 errors / 0 AVLN warnings, no interim patches** (1.5.1
+  integration confirmed). Both CONVENTIONS guards accepted.
+- **Tier-1 runtime visual pass (Dark + Light) — ✅ PASSED.** TabStrip, TreeView,
+  AutoCompleteBox, ToggleButton, NumericUpDown all moved from the coverage audit's
+  ⚠️ to ✅; the bucket-3 set is now both compile- and visually-confirmed. Next
+  emission is Tier 2 (`DropDownButton`, then `SplitButton`).
+
+---
+
+## 1.5.0 — 2026-06-04 — Tier-1 coverage: tab strip, tree, autocomplete, toggle button, numeric stepper
+
+**Design System (Avalonia):** 1.4.2 → 1.5.0
+**Tokens:** 1.1.0 (unchanged) · **Avalonia:** 12.0.4
+
+Acts on the consumer's refreshed coverage audit + per-control build specs
+(`avalonia-fluent-coverage-audit.md`, `avalonia-m3-control-specs.md`). Promotes
+the **Tier-1** gap controls — the ones the specs flagged as near-verbatim clones
+of an already-emitted ControlTheme (highest ROI) — from "⚠️ accent-remap only,
+Fluent chrome" to full M3 ControlThemes (bucket 3). Five new control files; the
+control set grows **13 → 18**. No token changes.
+
+### Added control themes
+
+- **`Controls/TabStrip.axaml`** — `TabStrip` / `TabStripItem`. The `TabItem`
+  treatment cloned onto the content-less strip: LabelLarge, OnSurfaceVariant →
+  Primary on `:selected`, 3dp Primary indicator, OnSurface state layer (.08/.10),
+  1px OutlineVariant bottom divider. Consistent with the themed `TabControl`.
+- **`Controls/TreeView.axaml`** — `TreeView` (transparent container) + `TreeViewItem`
+  mirroring the `ListBoxItem` row (48dp, OnSurface state layer, selected =
+  SecondaryContainer / OnSecondaryContainer). Adds `PART_ExpandCollapseChevron`
+  (an OnSurfaceVariant caret rotating 90° on `:expanded` over MotionDurationShort2)
+  and 24dp-per-level indentation via Avalonia's `MarginMultiplierConverter` on
+  `TreeViewItem.Level`. The chevron ToggleButton carries its own local template so
+  it opts out of the new M3 pill ToggleButton theme.
+- **`Controls/AutoCompleteBox.axaml`** — `AutoCompleteBox`. Inner `PART_TextBox`
+  reuses the M3 Outlined `TextBox` look (`Classes="Outlined"`); the suggestion
+  dropdown (`PART_Popup` / `PART_SelectingItemsControl`) reuses the ComboBox popup
+  chrome (SurfaceContainer, 4px radius, OutlineVariant border, elevation shadow),
+  themed in-control. Suggestion rows are `ListBoxItem` containers → M3 list-item
+  state-layer/selection for free.
+- **`Controls/ToggleButton.axaml`** — `ToggleButton` as the M3 Outlined →
+  Filled-Tonal flip: unselected = transparent pill + 1px Outline + OnSurfaceVariant;
+  `:checked` = SecondaryContainer / OnSecondaryContainer, no border. Pill shape,
+  MinHeight 40, state layers, and the Button-family disabled rule (container
+  OnSurface12, label recolored to neutral OnSurface38 — not an opacity dim).
+  Default theme (`{x:Type ToggleButton}`).
+- **`Controls/NumericUpDown.axaml`** — `NumericUpDown` + its inner `ButtonSpinner`
+  + an embedded borderless `TextBox` theme. The `ButtonSpinner` draws the single M3
+  Outlined field box (1px Outline → 2px Primary on `:focus-within`, Error on
+  `:error`); the up/down spinners (`PART_IncreaseButton` / `PART_DecreaseButton`)
+  are OnSurfaceVariant caret RepeatButtons with a circular state layer. The inner
+  field uses the embedded transparent theme (no double border).
+
+### Wiring & versioning
+
+- `Theme.axaml` now includes all **18** control files; all emitted `*.axaml`
+  headers stamped **v1.5.0**; bundle rebuilt.
+- FLUENT-AUDIT: TabStrip/TabStripItem, TreeView/TreeViewItem, AutoCompleteBox,
+  ToggleButton, NumericUpDown reclassified gap (⚠️) → bucket 3.
+
+### Compile-verification owed (consumer)
+
+- **TreeView** — confirm `Avalonia.Controls.Converters.MarginMultiplierConverter`
+  (assembly `Avalonia.Controls`) resolves on 12.0.4 and the `TreeViewItem.Level`
+  TemplateBinding indents nested rows; confirm `PART_ExpandCollapseChevron`
+  (ToggleButton) drives expand/collapse and `PART_ItemsPresenter` hosts children.
+- **NumericUpDown** — confirm `PART_Spinner` (ButtonSpinner) + `PART_TextBox`
+  resolve; the inner `ButtonSpinner` picks up the `{x:Type ButtonSpinner}` theme;
+  `PART_IncreaseButton` / `PART_DecreaseButton` spin; `:focus-within` raises the
+  field border to 2px Primary.
+- **AutoCompleteBox** — confirm `PART_TextBox` / `PART_SelectingItemsControl` /
+  `PART_Popup` satisfy the required-part contract and suggestion rows render as
+  M3 list items.
+- **ToggleButton** — confirm the default theme doesn't bleed onto ToggleButtons
+  used as template parts (TreeViewItem chevron, spinner buttons opt out via their
+  own templates), and `:checked` reads as the tonal fill (Dark + Light).
+- All five: Dark + Light visual pass to move each from the audit's ⚠️ to ✅.
+
+---
+
+## 1.4.2 — 2026-06-04 — slider active-fill + validation-text color
+
+**Design System (Avalonia):** 1.4.1 → 1.4.2
+**Tokens:** 1.1.0 (unchanged)
+
+Resolves the two items from the 1.4.1 runtime pass (per consumer feedback):
+the disabled-button fix was confirmed; the slider active fill was still not
+painting, and a new validation-text color bug surfaced. No new controls.
+
+### Fixed
+
+- **Slider active (filled) portion didn't render.** After the 1.4.1 rail fix the
+  inactive rail was visible but the `Primary` fill left of the thumb didn't paint —
+  the `DecreaseButton`'s nested content collapsed on the cross axis. **Fix:** the
+  active fill is now painted by the `DecreaseButton`'s **own background** (themed
+  `CcsweSliderFillH` / `CcsweSliderFillV` with a deterministic 4dp cross-size and a
+  trivial `Border` template), layered above the rail; the `IncreaseButton` is
+  transparent so the rail shows through the inactive side. Both orientations.
+- **Validation message text was Fluent-yellow, not `Error`.** The TextBox templates
+  wrap content in `<DataValidationErrors>` but never themed it, so the message
+  presenter fell back to Fluent's default error brush. **Fix:** `Controls/TextBox.axaml`
+  now emits a **`DataValidationErrors` ControlTheme** that renders the message in the
+  M3 **`Error`** color (bodySmall, below the field), matching the red `:error`
+  border/indicator. Completes the M3 text-field error treatment (border + supporting
+  text in one color).
+
+### Versioning
+
+- All emitted `*.axaml` headers stamped **v1.4.2**; bundle rebuilt.
+- No `Theme.axaml` / include changes (the `DataValidationErrors` theme rides inside
+  `Controls/TextBox.axaml`, already included).
+
+---
+
+## 1.4.1 — 2026-06-04 — disabled-label + slider-rail fixes
+
+**Design System (Avalonia):** 1.4.0 → 1.4.1
+**Tokens:** 1.1.0 (unchanged)
+
+Resolves the two design/render bugs the consumer reported against 1.4.0 (per
+consumer feedback). 1.4.0 compiled clean (zero changes); both items below are
+visual, found in the Demo runtime pass. No new controls, no API/key changes.
+
+### Fixed
+
+- **Disabled button labels read too light (dark scheme).** `Controls/Button.axaml`
+  dimmed the *variant's own* foreground via `Opacity="0.38"`, so a disabled Filled
+  label was `OnPrimary @ 38%` and a disabled Outlined/Text label was brand-blue
+  `Primary @ 38%` — a faint blue on near-black. **Fix:** recolor the disabled label
+  to the neutral **`OnSurface38`** token (`TextElement.Foreground`) and drop the
+  opacity dim (the token already encodes 38% alpha — keeping both would compound to
+  ~14%). This is the M3 intent: disabled content is a neutral `OnSurface @ 38%` for
+  *all* variants, independent of the enabled foreground. Container fill stays
+  `OnSurface12` (spec-correct).
+- **Slider track rail not visible.** `Controls/Slider.axaml` relied on the
+  `IncreaseButton` *content* to be the inactive rail, which collapsed (no rail where
+  the thumb sits), and used `SurfaceVariant` (`#1E293B`) on `Surface` (`#020617`) —
+  effectively invisible on dark. **Fix (both orientations):** the inactive rail is
+  now a dedicated full-length `Border` drawn *behind* `PART_Track` using the
+  higher-contrast **`SurfaceContainerHighest`**; the `DecreaseButton` paints the
+  active `Primary` fill on top, and the `IncreaseButton` is transparent so the rail
+  shows through the inactive portion.
+
+### Versioning
+
+- All emitted `*.axaml` headers stamped **v1.4.1**; bundle rebuilt.
+- No `Theme.axaml` / include changes (still 13 control files).
+
+---
+
+## 1.4.0 — 2026-06-04 — slider, progress, tabs
+
+**Design System (Avalonia):** 1.3.0 → 1.4.0
+**Tokens:** 1.1.0 (unchanged)
+
+Promotes the three highest-traffic **accent-tinted-only** controls (FLUENT-AUDIT
+bucket 1) to **full M3 ControlThemes** (bucket 3) — they now carry real M3
+templates, not just a brand accent on Fluent's stock template.
+
+### Added control themes
+
+- **`Controls/Slider.axaml`** — M3 slider, Horizontal + Vertical. Active track =
+  Primary, inactive = SurfaceVariant, 20dp Primary thumb with a 40dp hover/press
+  state layer (0.08 / 0.10). 4dp rounded tracks.
+- **`Controls/ProgressBar.axaml`** — M3 linear progress, 4dp fully-rounded.
+  Indicator = Primary, track = SurfaceVariant. Determinate fills by Value;
+  indeterminate runs a TemplateSettings-driven sweep (M3 standard easing).
+- **`Controls/TabControl.axaml`** — M3 primary tabs. TabStrip on Surface with a
+  1px OutlineVariant divider; TabItem reads OnSurfaceVariant→Primary on select,
+  3dp Primary indicator under the selected tab, state layer on hover/press.
+
+### Wiring & versioning
+
+- `Theme.axaml` now includes all **13** control files; headers stamped **v1.4.0**.
+- FLUENT-AUDIT bucket 1 → bucket 3 reclassification for Slider/ProgressBar/TabItem.
+
+### Compile-verification owed (consumer)
+
+- **ProgressBar indeterminate** binds `TemplateSettings.ContainerWidth` /
+  `ContainerAnimationStartPosition` / `ContainerAnimationEndPosition` — confirm
+  those names against Avalonia 12.0.3's `ProgressBar`. Determinate is independent.
+- **Slider** required parts present (`PART_Track`, `PART_DecreaseButton`,
+  `PART_IncreaseButton`, `Thumb`); confirm the `Track` decrease/increase split
+  paints active vs. inactive correctly in both orientations.
+- **TabControl** `PART_ItemsPresenter` / `PART_SelectedContentHost` present.
+
+---
+
+## 1.3.0 — 2026-06-04 — lists, dropdowns, menus, expander, cards
+
+**Design System (Avalonia):** 1.2.1 → 1.3.0
+**Tokens:** 1.1.0 (unchanged)
+**Status:** ✅ **verified by consumer** (per consumer feedback) — compiles
+clean as emitted, **zero changes required** (4 projects, 0 errors, 0 warnings). All
+four flagged spots (ComboBox `PART_Popup` + `ObjectConverters.IsNull`, MenuItem
+submenu `PART_Popup`, Expander two-way `IsExpanded`) confirmed structurally correct;
+in-control popup-chrome decision validated as zero-blast-radius. Doc-only follow-up:
+flagged `Card` as a reserved class name (README + CONVENTIONS + `Card.axaml`).
+Consumer still owes the runtime visual pass (Dark + Light).
+
+Closes the biggest bucket-❌ coverage gaps (the high-traffic unthemed surfaces).
+
+### Added control themes
+
+- **`Controls/ListBox.axaml`** — `ListBox` (transparent container) + M3 `ListBoxItem`
+  (48dp, state layer, selected = SecondaryContainer / OnSecondaryContainer).
+- **`Controls/ComboBox.axaml`** — `ComboBox` as an M3 exposed-dropdown (Outlined
+  closed control, 2px Primary focus) + `ComboBoxItem`; dropdown popup surface
+  themed in-control.
+- **`Controls/Menu.axaml`** — `Menu`, `MenuItem` (state layer + submenu popup),
+  `ContextMenu`, `MenuFlyoutPresenter`, `Separator`; popup surfaces themed in-control.
+- **`Controls/Expander.axaml`** — M3 expander: SurfaceContainerLow container,
+  full-width header with state layer + chevron that flips on expand.
+- **`Controls/Card.axaml`** — M3 Card convention as `Border.Card` style classes:
+  Elevated (shadow), Filled (SurfaceContainerHighest), Outlined (OutlineVariant border).
+
+### Popup-chrome decision (resolves the 1.2.1 deferral)
+
+Combo/menu popups paint their **own** surface (`SurfaceContainer` + radius +
+shadow) inside each ControlTheme — so the broad `SystemControlBackgroundAltHighBrush`
+/ `SystemControlForegroundBaseHighBrush` base brushes stay **deferred** and are now
+*moot* for these controls. In-control theming = zero blast radius. (`FLUENT-AUDIT.md`
+updated.)
+
+### Notes
+
+- Headers stamped **v1.3.0**; `Theme.axaml` now includes the five new files.
+- **Compile-verification owed** (same loop as prior cycles): the ComboBox / Menu /
+  Expander templates follow Avalonia 12 conventions and part names but have not
+  been compiled here. ComboBox `PART_Popup` placement, MenuItem submenu `PART_Popup`,
+  `ObjectConverters.IsNull` for the ComboBox placeholder, and the Expander toggle
+  binding are the spots most worth a close look on first build.
+
+---
+
+## 1.2.1 — 2026-06-04 — FLUENT-AUDIT bucket-2 verified & activated
+
+**Design System (Avalonia):** 1.2.0 → 1.2.1
+**Tokens:** 1.1.0 (unchanged) · **Fluent keys verified against:** Avalonia.Themes.Fluent 12.0.3
+
+Closes the item the consumer owed after 1.2.0 (per consumer feedback):
+the FLUENT-AUDIT bucket-2 neutral-chrome keys were verified against the actual
+12.0.3 Fluent assembly (enumerated from the `#US` UTF-16 string heap) and the real
+ones are now shipped **live** in `FluentOverrides.axaml`.
+
+### Changed
+
+- **Bucket-2 overrides activated** (per variant, from token roles): `ToolTipBackground`
+  (InverseSurface), `ToolTipForeground` (InverseOnSurface), `ToolTipBorderBrush`
+  (OutlineVariant), and `ScrollBarThumbFillPointerOver` (Outline).
+- **ScrollBar key corrected.** `ScrollBarThumbFill` **does not exist** in 12.0.3.
+  The resting thumb is a **Color** resource — `ScrollBarThumbBackgroundColor`
+  (OutlineVariant) — not a brush; only the *state* thumbs are `…Fill…` brushes.
+  Documented the naming asymmetry in `FLUENT-AUDIT.md`.
+- **Two `SystemControl*` keys** (`…BackgroundAltHighBrush` / `…ForegroundBaseHighBrush`)
+  verified present but **deferred** (broad blast radius — generic popup/menu/text
+  surfaces; needs a per-control visual pass). Shipped commented.
+- `FLUENT-AUDIT.md` now pins the verified Fluent version (12.0.3), documents the
+  `strings -e l` enumeration method, and marks each key verified/deferred.
+- Emitted-file headers stamped **v1.2.1** (token/control content unchanged from 1.2.0).
+
+### Owed by the consumer
+
+- Runtime visual sign-off of the now-live ToolTip + ScrollBar surfaces (Dark + Light).
+- The per-control pass on the two deferred `SystemControl*` keys.
+
+---
+
+## 1.2.0 — 2026-06-04 — first-integration fixes (compiled against Avalonia 12.0.3)
+
+**Design System (Avalonia):** 1.1.0 → 1.2.0
+**Tokens:** 1.1.0 (unchanged)
+
+Closes the consumer round-trip (per consumer feedback) — the bundle was
+dropped into `CCSWE.Avalonia.Theme` + a real Demo app and **compiled**, surfacing
+the verification 1.1.0 explicitly owed. All items below were emitter bugs.
+
+### P0 — compile blockers (fixed)
+
+- **Default `ControlTheme`s now wrapped in `<Styles.Resources>`** (CheckBox,
+  RadioButton, ToggleSwitch) — they were direct children of `<Styles>` (invalid,
+  `AVLN3000`). Emitter rule: every `ControlTheme` goes in `Styles.Resources`.
+- **`ToggleSwitch` now includes the required Avalonia 12 parts** `PART_SwitchKnob`
+  + `PART_MovingKnobs` (inert placeholders) — `AVLN2205` otherwise.
+- **`App.sample.axaml` / README wiring**: `ResourceInclude` is now merged via
+  `ResourceDictionary.MergedDictionaries` (can't sit directly under
+  `Application.Resources`).
+
+### P1 — correctness (fixed)
+
+- **Disabled button fill no longer double-dims / vanishes.** Was element
+  `Opacity` on the container (dimmed the label twice → ghosted). The interim
+  inline-`SolidColorBrush` fix made it *worse* — `DynamicResource` on a nested
+  setter object doesn't resolve, so the fill/border went transparent. Final fix:
+  emit themed **`OnSurface12` / `OnSurface38`** brushes in `Tokens.axaml` and
+  reference them as plain `DynamicResource` values.
+- **`TextBox.Watermark` → `PlaceholderText`** (template bindings + samples);
+  `Watermark` is obsolete in Avalonia 12.
+- **`App.sample.axaml` dropped a foreign `x:Class`** —
+  no `x:Class`, marked non-compiled.
+
+### P2 — layout & naming (adopted as emitter output)
+
+- **Dropped the `Themes/` and `library-glue/` folders** — everything emits at the
+  **library project root**; `FluentOverrides.axaml` / `App.sample.axaml` co-located
+  there. `Controls/` kept as a subfolder.
+- **`CcsweTheme.axaml` → `Theme.axaml`** (assembly already carries `Ccswe`). All
+  `avares://` URIs updated.
+
+### P3 — docs / version
+
+- HANDOFF csproj is now TFM-agnostic (net8.0+; consumer ships net10.0).
+- All emitted-file headers stamped **v1.2.0**.
+
+### P4 — fonts / demand signals
+
+- **Font acquisition scripts** (`Assets/Fonts/fetch-fonts.sh` + `.ps1`) pull the
+  upstream variable OFL TTFs + each `OFL.txt`. Consumer confirmed **variable fonts
+  work** (weight-match by family name on Avalonia 12.0.3) — variable is now the
+  recommended delivery; static cuts optional. (Can't vendor bytes from the DS
+  itself; the script is the self-contained path.)
+- **`onSurfaceMuted`**: second consumer confirms the muted-metadata need (device
+  serial subtext), using `OnSurfaceVariant` today. Upstream round-trip signal stands.
+
+### Owed by the consumer (next cycle)
+
+- Verify + un-comment the FLUENT-AUDIT bucket-2 neutral-chrome keys against the
+  Avalonia 12.0.3 Fluent source (accent remap is live + verified).
+
+---
+
+## 1.1.0 — 2026-06-04 — Avalonia 12, motion, text + selection controls, Fluent audit
+
+**Design System (Avalonia):** 1.0.0 → 1.1.0
+**Tokens:** 1.1.0 (unchanged)
+
+Second cycle. Targets **Avalonia 12**.
+
+### Added
+
+- **`Motion.axaml`** — the M3 motion scale: 10 durations as `sys:TimeSpan`
+  resources (`MotionDurationShort1` … `Long2`) and 6 easings as `SplineEasing`
+  resources built from the upstream cubic-bezier control-point arrays. Wired
+  into the button state-layer transition (replaces the prior literal duration).
+- **`Controls/TextBox.axaml`** — M3 Filled + Outlined text fields. Outlined: 1px
+  Outline box thickening to 2px Primary on focus; Filled: SurfaceContainerHighest
+  with a 1→2px Primary active indicator. Watermark while empty, `:error` → Error.
+- **`Controls/CheckBox.axaml`**, **`RadioButton.axaml`**, **`ToggleSwitch.axaml`** —
+  M3 selection controls with circular state layers; the Switch thumb grows 16→24
+  and slides on the emphasized easing. Keyed on `{x:Type Control}` (default theme,
+  no class needed).
+- **`FLUENT-AUDIT.md`** — real FluentTheme override audit: three-bucket strategy
+  (accent-driven / replaced-by-ControlTheme / neutral-chrome), per-control table,
+  and the pinned override set.
+
+### Changed
+
+- **All ControlTheme role references switched `StaticResource` → `DynamicResource`**
+  (Button included). Correctness fix: `StaticResource` froze the Dark brushes so
+  controls didn't repaint on a Light `ThemeVariant` switch. Also makes cross-file
+  token refs resolve reliably against merged app resources. `StaticResource` now
+  only used for same-file `BasedOn` / `Theme=` structural refs. (`CONVENTIONS.md`
+  updated.)
+- **`library-glue/FluentOverrides.axaml`** rewritten to match the audit: accent
+  remap stays live; neutral-chrome overrides ship commented with a verify-key note.
+- Docs: HANDOFF csproj → `Avalonia 12.*`; README/CONVENTIONS expanded for motion +
+  the new controls.
+
+### Verification still owed (cannot compile here)
+
+The new control templates follow Avalonia 12 conventions and part names but have
+not been compiled. A build pass in a real Avalonia 12 project should confirm:
+`SplineEasing`/`sys:TimeSpan` resource forms, the TextBox template part lookups,
+and the selection-control pseudo-class selectors. See HANDOFF testing checklist.
+
+---
+
+## 1.0.0 — 2026-06-04 — first Avalonia bundle
+
+**Design System (Avalonia):** — → 1.0.0
+**Tokens:** 1.1.0 (consumed verbatim)
+
+First emitted Avalonia / .NET desktop bundle. Created in response to a consuming
+desktop app's reciprocal handoff, which had been hand-translating the master
+tokens. Desktop now joins web and Android as a consume-verbatim platform.
+
+### Emitted
+
+- **`Tokens.axaml`** — `ResourceDictionary.ThemeDictionaries` keyed `Dark`
+  (app default) + `Light`. Full M3 role set + `onSurfaceStrong`, each as a
+  paired `Color` + `SolidColorBrush`. Resolved verbatim from the **master**
+  semantic layer (no Android-side overrides). Metrics at the root: shape →
+  `CornerRadius` (+ `CornerRadiusFull` pill sentinel), spacing → `double` +
+  `Thickness`.
+- **`Fonts.axaml`** — `avares://` `FontFamily` resources for Plus Jakarta Sans
+  (brand) + DM Sans (body).
+- **`Typography.axaml`** — 15-role M3 type scale as `TextBlock` style classes.
+- **`Controls/Button.axaml`** — M3 button family (Filled, Filled Tonal,
+  Elevated, Outlined, Text, Icon) as `ControlTheme`s, built entirely from token
+  resources, with M3 state layers (hover 0.08 / pressed 0.10) and disabled
+  treatment (container 0.12 / label 0.38).
+- **`CcsweTheme.axaml`** — one-stop merged include.
+
+### Resolved consumer questions
+
+- **letterSpacing em→DIP (was: unresolved, omitted by consumer):** emit the
+  upstream value **as an absolute DIP, verbatim**. `TextBlock.LetterSpacing` is
+  an absolute DIP offset; the figures are M3's published tracking, applied as
+  absolute by every consumer (Android → Compose `.sp`). `em × fontSize` caused
+  the consumer's too-wide tracking and is rejected. letterSpacing is now **on**.
+- **spacing scale (was: "adopt web 4px?"):** yes — adopted **verbatim** as
+  `double` + `Thickness`. Web + desktop share one neutral-density ramp.
+- **resource naming (was: "pin a convention"):** **pinned** — `Color` + `Brush`
+  pair, bare-PascalCase brush (`Primary`) / `…Color` color (`PrimaryColor`).
+- **fonts (was: "byte-shipping note"):** `FONTS.md` added — families, static
+  weights, `avares://` references, variable-font caveat, OFL posture.
+
+### Deferred (wired-but-unused)
+
+- **High-contrast schemes** — `darkHighContrast` / `lightHighContrast` resolve
+  cleanly upstream but are not emitted; no in-app HC toggle on desktop yet.
+- **Variant accents** (red / yellow / green) — Android-only today; no desktop
+  consumer.
+- **Mono / code fonts** — not vendored; no monospace surface in desktop UI.
+- **Adaptive spacing tiers** — single neutral scale this cycle; Android-style
+  Compact/Medium/Expanded desktop-window tiers deferred until a consumer needs
+  window-size-responsive layout rhythm.
+- **Motion** — the upstream motion scale (10 durations + 6 cubic-bezier
+  easings) maps 1:1 onto Avalonia `KeySpline` + `Duration`; not emitted until a
+  consumer animates. (Button state-layer transitions use a local 100ms fade.)
+
+### Round-trip notes for upstream
+
+- **`onSurfaceMuted`** — desktop has the same muted-metadata need the web alias
+  serves (dimmed subtext/metadata) and currently uses `OnSurfaceVariant`.
+  Second-consumer demand-signal for promoting a muted tier to core.

@@ -1,0 +1,306 @@
+{
+  "$meta": {
+    "name": "ccswe-tokens",
+    "version": "1.1.0",
+    "generated": "2026-05-04",
+    "description": "CCSWE design tokens — single source of truth for the marketing site (web) and the Android system (Jetpack Compose / Material 3). M3-anchored core: M3 ColorScheme roles, M3 type scale (15 roles), M3 shape scale, M3 motion scale (10 durations + 6 easings). Consumer-shaped translation lives in `tokens.web.json` (web) and `tokens.local.json` (Android).",
+    "schemes": ["dark", "light", "darkHighContrast", "lightHighContrast"],
+    "notes": [
+      "Values are unitless integers. Convention: 1 = 1dp on Android = 1sp on Android (for type) = 1/16 rem on web. At default density / default browser zoom these resolve to identical physical sizes.",
+      "Per-role `letterSpacing` is in em (relative), not the unitless dp/sp scale. M3 defines it that way; Android multiplies by sp at apply time, web emits as em directly.",
+      "This file is M3-anchored: M3 ColorScheme roles, M3 type scale (15 roles), M3 shape scale, M3 motion scale (10 durations + 6 easings). No spacing — spacing has no standard M3 category and surface needs don't generalize. Spacing lives in `tokens.web.json` (web) and `tokens.local.json` (Android).",
+      "No CSS-shaped fields here: no rem strings, no `ms` suffixes, no font-stack strings, no `cubic-bezier(...)` strings, no box-shadow strings, no gradient strings. Composition into CSS is the web layer's job.",
+      "`typography.fontFamily.<name>` is now structured: `{ googleName, loadedWeights }`. `googleName` is the family identifier as used by Google Fonts and CSS `font-family` literals. `loadedWeights` documents the weight set that consumers' default font-loading strategy (`tokens.fonts.css` or equivalent) ships — synthesizing weights outside this set produces fake-bold/fake-italic rendering.",
+      "Primitive ramps `surface` and `onSurface` are the Tailwind slate and gray scales respectively. Splitting them lets a scheme keep slate-tinted containers while body text and outlines pull from a true neutral.",
+      "The semantic layer encodes the M3 ColorScheme contract. Any value with `ref` resolves to a primitive at build time. Any value with `value` is a tuned hex used directly — these are reserved for the surface elevation ladder where exact ramp steps don't exist (e.g. `surfaceContainer` between 800 and 900).",
+      "Light, dark-HC, and light-HC schemes are encoded for Android. The web layer ships dark by default and exposes the others under `[data-theme=...]` selectors so a site can opt in later.",
+      "Brand triad container/onContainer values (e.g. `primaryContainer`) are tuned for dark, derived for light. They live on the brand layer rather than the neutral ramp.",
+      "`onSurfaceStrong` is a stronger-emphasis sibling of `onSurface` for headings and callout text that need a brightness step. M3-aligned conceptually but not part of the canonical M3 ColorScheme. Resolves brighter on dark, darker on light, mirroring `onSurface` itself."
+    ]
+  },
+
+  "primitive": {
+    "surface": {
+      "50":  "#F8FAFC",
+      "100": "#F1F5F9",
+      "200": "#E2E8F0",
+      "300": "#CBD5E1",
+      "400": "#94A3B8",
+      "500": "#64748B",
+      "600": "#475569",
+      "700": "#334155",
+      "800": "#1E293B",
+      "900": "#0F172A",
+      "950": "#020617"
+    },
+    "onSurface": {
+      "50":  "#F9FAFB",
+      "100": "#F3F4F6",
+      "200": "#E5E7EB",
+      "300": "#D1D5DB",
+      "400": "#9CA3AF",
+      "500": "#6B7280",
+      "600": "#4B5563",
+      "700": "#374151",
+      "800": "#1F2937",
+      "900": "#111827",
+      "950": "#030712"
+    },
+    "brand": {
+      "primary":   "#659EC7",
+      "secondary": "#336699",
+      "tertiary":  "#A0C8DF"
+    },
+    "error": {
+      "50":  "#FEF2F2",
+      "100": "#FEE2E2",
+      "200": "#FECACA",
+      "300": "#FCA5A5",
+      "400": "#F87171",
+      "500": "#EF4444",
+      "600": "#DC2626",
+      "700": "#B91C1C",
+      "800": "#991B1B",
+      "900": "#7F1D1D",
+      "950": "#450A0A"
+    },
+    "constants": {
+      "white": "#FFFFFF",
+      "black": "#000000"
+    }
+  },
+
+  "semantic": {
+    "dark": {
+      "background":              { "ref": "surface.950" },
+      "onBackground":            { "ref": "onSurface.200" },
+      "surface":                 { "ref": "surface.950" },
+      "onSurface":               { "ref": "onSurface.200" },
+      "onSurfaceStrong":         { "ref": "onSurface.100", "comment": "one step brighter than onSurface; for heading hierarchy and callout text" },
+      "surfaceVariant":          { "ref": "surface.800" },
+      "onSurfaceVariant":        { "ref": "onSurface.400" },
+      "surfaceDim":              { "ref": "surface.950" },
+      "surfaceBright":           { "ref": "surface.700" },
+      "surfaceContainerLowest":  { "value": "#01040C", "comment": "one step darker than surface-950 for the deepest elevation slot" },
+      "surfaceContainerLow":     { "ref": "surface.900" },
+      "surfaceContainer":        { "value": "#172238", "comment": "between surface-900 and surface-800; brand-warm intermediate" },
+      "surfaceContainerHigh":    { "ref": "surface.800" },
+      "surfaceContainerHighest": { "value": "#283446", "comment": "one step lighter than surface-800" },
+      "outline":                 { "ref": "onSurface.600" },
+      "outlineVariant":          { "ref": "onSurface.700" },
+      "scrim":                   { "ref": "constants.black" },
+      "inverseSurface":          { "ref": "onSurface.200" },
+      "inverseOnSurface":        { "ref": "onSurface.900" },
+
+      "primary":                 { "ref": "brand.primary" },
+      "onPrimary":               { "ref": "constants.white" },
+      "primaryContainer":        { "value": "#274C73" },
+      "onPrimaryContainer":      { "value": "#E6F1FB" },
+      "secondary":               { "ref": "brand.tertiary", "comment": "secondary uses the lighter tertiary on dark — preserves contrast against surface-950" },
+      "onSecondary":             { "value": "#02101C" },
+      "secondaryContainer":      { "value": "#1F3A4D" },
+      "onSecondaryContainer":    { "value": "#D6E8F3" },
+      "tertiary":                { "ref": "brand.tertiary" },
+      "onTertiary":              { "value": "#02101C" },
+      "tertiaryContainer":       { "value": "#284866" },
+      "onTertiaryContainer":     { "value": "#D6E8F3" },
+      "inversePrimary":          { "ref": "brand.secondary" },
+      "surfaceTint":             { "ref": "brand.primary" },
+
+      "error":                   { "ref": "error.400" },
+      "onError":                 { "ref": "error.950" },
+      "errorContainer":          { "ref": "error.800" },
+      "onErrorContainer":        { "ref": "error.100" }
+    },
+
+    "light": {
+      "background":              { "ref": "surface.50" },
+      "onBackground":            { "ref": "onSurface.900" },
+      "surface":                 { "ref": "surface.50" },
+      "onSurface":               { "ref": "onSurface.900" },
+      "onSurfaceStrong":         { "ref": "onSurface.950", "comment": "one step darker than onSurface; for heading hierarchy and callout text" },
+      "surfaceVariant":          { "ref": "surface.200" },
+      "onSurfaceVariant":        { "ref": "onSurface.600" },
+      "surfaceDim":              { "ref": "surface.200" },
+      "surfaceBright":           { "ref": "surface.50" },
+      "surfaceContainerLowest":  { "ref": "constants.white" },
+      "surfaceContainerLow":     { "ref": "surface.100" },
+      "surfaceContainer":        { "ref": "surface.200" },
+      "surfaceContainerHigh":    { "ref": "surface.300" },
+      "surfaceContainerHighest": { "ref": "surface.400" },
+      "outline":                 { "ref": "onSurface.500" },
+      "outlineVariant":          { "ref": "onSurface.300" },
+      "scrim":                   { "ref": "constants.black" },
+      "inverseSurface":          { "ref": "onSurface.800" },
+      "inverseOnSurface":        { "ref": "onSurface.100" },
+
+      "primary":                 { "ref": "brand.secondary", "comment": "secondary blue carries enough contrast on a light surface; primary alone is too light" },
+      "onPrimary":               { "ref": "constants.white" },
+      "primaryContainer":        { "value": "#D6E8F3" },
+      "onPrimaryContainer":      { "value": "#0F2A40" },
+      "secondary":               { "ref": "brand.primary" },
+      "onSecondary":             { "ref": "constants.white" },
+      "secondaryContainer":      { "value": "#E6F1FB" },
+      "onSecondaryContainer":    { "value": "#1A3553" },
+      "tertiary":                { "ref": "brand.secondary" },
+      "onTertiary":              { "ref": "constants.white" },
+      "tertiaryContainer":       { "value": "#D6E8F3" },
+      "onTertiaryContainer":     { "value": "#0F2A40" },
+      "inversePrimary":          { "ref": "brand.primary" },
+      "surfaceTint":             { "ref": "brand.secondary" },
+
+      "error":                   { "ref": "error.600" },
+      "onError":                 { "ref": "constants.white" },
+      "errorContainer":          { "ref": "error.100" },
+      "onErrorContainer":        { "ref": "error.900" }
+    },
+
+    "darkHighContrast": {
+      "background":              { "ref": "surface.950" },
+      "onBackground":            { "ref": "onSurface.50" },
+      "surface":                 { "ref": "surface.950" },
+      "onSurface":               { "ref": "onSurface.50" },
+      "onSurfaceStrong":         { "ref": "onSurface.50", "comment": "darkHC onSurface is already onSurface.50 — strong tier matches; document for symmetry" },
+      "surfaceVariant":          { "ref": "surface.800" },
+      "onSurfaceVariant":        { "ref": "onSurface.100" },
+      "surfaceDim":              { "ref": "surface.950" },
+      "surfaceBright":           { "ref": "surface.700" },
+      "surfaceContainerLowest":  { "ref": "constants.black" },
+      "surfaceContainerLow":     { "ref": "surface.900" },
+      "surfaceContainer":        { "ref": "surface.800" },
+      "surfaceContainerHigh":    { "ref": "surface.700" },
+      "surfaceContainerHighest": { "ref": "surface.600" },
+      "outline":                 { "ref": "onSurface.300" },
+      "outlineVariant":          { "ref": "onSurface.400" },
+      "scrim":                   { "ref": "constants.black" },
+      "inverseSurface":          { "ref": "onSurface.50" },
+      "inverseOnSurface":        { "ref": "onSurface.950" },
+
+      "primary":                 { "ref": "brand.tertiary" },
+      "onPrimary":               { "ref": "constants.black" },
+      "primaryContainer":        { "ref": "brand.primary" },
+      "onPrimaryContainer":      { "ref": "constants.black" },
+      "secondary":               { "ref": "brand.tertiary" },
+      "onSecondary":             { "ref": "constants.black" },
+      "secondaryContainer":      { "ref": "brand.primary" },
+      "onSecondaryContainer":    { "ref": "constants.black" },
+      "tertiary":                { "ref": "brand.tertiary" },
+      "onTertiary":              { "ref": "constants.black" },
+      "tertiaryContainer":       { "ref": "brand.primary" },
+      "onTertiaryContainer":     { "ref": "constants.black" },
+      "inversePrimary":          { "ref": "brand.secondary" },
+      "surfaceTint":             { "ref": "brand.tertiary" },
+
+      "error":                   { "ref": "error.300" },
+      "onError":                 { "ref": "constants.black" },
+      "errorContainer":          { "ref": "error.500" },
+      "onErrorContainer":        { "ref": "constants.black" }
+    },
+
+    "lightHighContrast": {
+      "background":              { "ref": "constants.white" },
+      "onBackground":            { "ref": "onSurface.950" },
+      "surface":                 { "ref": "constants.white" },
+      "onSurface":               { "ref": "onSurface.950" },
+      "onSurfaceStrong":         { "ref": "onSurface.950", "comment": "lightHC onSurface is already maximum-contrast; strong tier matches" },
+      "surfaceVariant":          { "ref": "surface.100" },
+      "onSurfaceVariant":        { "ref": "onSurface.900" },
+      "surfaceDim":              { "ref": "surface.200" },
+      "surfaceBright":           { "ref": "constants.white" },
+      "surfaceContainerLowest":  { "ref": "constants.white" },
+      "surfaceContainerLow":     { "ref": "surface.50" },
+      "surfaceContainer":        { "ref": "surface.100" },
+      "surfaceContainerHigh":    { "ref": "surface.200" },
+      "surfaceContainerHighest": { "ref": "surface.300" },
+      "outline":                 { "ref": "onSurface.950" },
+      "outlineVariant":          { "ref": "onSurface.700" },
+      "scrim":                   { "ref": "constants.black" },
+      "inverseSurface":          { "ref": "onSurface.900" },
+      "inverseOnSurface":        { "ref": "onSurface.50" },
+
+      "primary":                 { "ref": "brand.secondary" },
+      "onPrimary":               { "ref": "constants.white" },
+      "primaryContainer":        { "ref": "brand.secondary" },
+      "onPrimaryContainer":      { "ref": "constants.white" },
+      "secondary":               { "ref": "brand.secondary" },
+      "onSecondary":             { "ref": "constants.white" },
+      "secondaryContainer":      { "ref": "brand.secondary" },
+      "onSecondaryContainer":    { "ref": "constants.white" },
+      "tertiary":                { "ref": "brand.secondary" },
+      "onTertiary":              { "ref": "constants.white" },
+      "tertiaryContainer":       { "ref": "brand.secondary" },
+      "onTertiaryContainer":     { "ref": "constants.white" },
+      "inversePrimary":          { "ref": "brand.primary" },
+      "surfaceTint":             { "ref": "brand.secondary" },
+
+      "error":                   { "ref": "error.700" },
+      "onError":                 { "ref": "constants.white" },
+      "errorContainer":          { "ref": "error.700" },
+      "onErrorContainer":        { "ref": "constants.white" }
+    }
+  },
+
+  "typography": {
+    "fontFamily": {
+      "sans":  { "googleName": "DM Sans",           "loadedWeights": [300, 400, 500, 600, 700], "comment": "DM Sans variable font axis 300..700, italic + roman, optical-size 9..40 (per tokens.fonts.css)" },
+      "brand": { "googleName": "Plus Jakarta Sans", "loadedWeights": [400, 500, 600, 700, 800], "comment": "Plus Jakarta Sans variable font axis 400..800, italic + roman" },
+      "mono":  { "googleName": "DM Mono",           "loadedWeights": [400, 500],                "comment": "DM Mono on Google Fonts ships ONLY weights 400 and 500, roman only — synthesizes fake-bold above 500 or fake-italic" },
+      "code":  { "googleName": "JetBrains Mono",    "loadedWeights": [400, 500, 600, 700],      "comment": "JetBrains Mono variable font axis 400..700, italic + roman" }
+    },
+    "fontWeight": {
+      "regular":   400,
+      "medium":    500,
+      "semibold":  600,
+      "bold":      700,
+      "extrabold": 800
+    },
+    "role": {
+      "displayLarge":   { "family": "brand", "size": 57, "lineHeight": 64, "weight": 600, "letterSpacing": -0.25 },
+      "displayMedium":  { "family": "brand", "size": 45, "lineHeight": 52, "weight": 600, "letterSpacing": 0 },
+      "displaySmall":   { "family": "brand", "size": 36, "lineHeight": 44, "weight": 600, "letterSpacing": 0 },
+      "headlineLarge":  { "family": "brand", "size": 32, "lineHeight": 40, "weight": 600, "letterSpacing": 0 },
+      "headlineMedium": { "family": "brand", "size": 28, "lineHeight": 36, "weight": 600, "letterSpacing": 0 },
+      "headlineSmall":  { "family": "brand", "size": 24, "lineHeight": 32, "weight": 600, "letterSpacing": 0 },
+      "titleLarge":     { "family": "brand", "size": 22, "lineHeight": 28, "weight": 600, "letterSpacing": 0 },
+      "titleMedium":    { "family": "sans",  "size": 16, "lineHeight": 24, "weight": 500, "letterSpacing": 0.15 },
+      "titleSmall":     { "family": "sans",  "size": 14, "lineHeight": 20, "weight": 500, "letterSpacing": 0.1 },
+      "bodyLarge":      { "family": "sans",  "size": 16, "lineHeight": 26, "weight": 400, "letterSpacing": 0.5 },
+      "bodyMedium":     { "family": "sans",  "size": 14, "lineHeight": 23, "weight": 400, "letterSpacing": 0.25 },
+      "bodySmall":      { "family": "sans",  "size": 12, "lineHeight": 20, "weight": 400, "letterSpacing": 0.4 },
+      "labelLarge":     { "family": "sans",  "size": 14, "lineHeight": 20, "weight": 500, "letterSpacing": 0.1 },
+      "labelMedium":    { "family": "sans",  "size": 12, "lineHeight": 16, "weight": 500, "letterSpacing": 0.5 },
+      "labelSmall":     { "family": "sans",  "size": 11, "lineHeight": 16, "weight": 500, "letterSpacing": 0.5 }
+    }
+  },
+
+  "shape": {
+    "extraSmall":  4,
+    "small":       8,
+    "medium":     12,
+    "large":      16,
+    "extraLarge": 28
+  },
+
+  "motion": {
+    "duration": {
+      "short1":  50,
+      "short2":  100,
+      "short3":  150,
+      "short4":  200,
+      "medium1": 250,
+      "medium2": 300,
+      "medium3": 350,
+      "medium4": 400,
+      "long1":   450,
+      "long2":   500
+    },
+    "easing": {
+      "standard":             [0.2,  0,    0,    1],
+      "standardAccelerate":   [0.3,  0,    1,    1],
+      "standardDecelerate":   [0,    0,    0,    1],
+      "emphasized":           [0.2,  0,    0,    1],
+      "emphasizedAccelerate": [0.3,  0,    0.8,  0.15],
+      "emphasizedDecelerate": [0.05, 0.7,  0.1,  1]
+    }
+  }
+}

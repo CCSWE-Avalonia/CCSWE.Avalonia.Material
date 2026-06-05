@@ -1,0 +1,70 @@
+{
+  "$meta": {
+    "name": "CCSWE Avalonia Local Tokens",
+    "version": "1.0.0",
+    "tokens": "1.1.0",
+    "generated": "2026-06-04",
+    "description": "Avalonia / .NET desktop translation layer for ccswe-tokens. The cross-platform color/type/shape/motion values live upstream in tokens.upstream-1.1.0.json (consumed verbatim). This file holds only the desktop-side decisions the upstream core deliberately omits or leaves to the consumer: the spacing scale, the letterSpacing unit resolution, the resource-naming convention, font delivery, and which theme variants the bundle wires. Analogous to the web tokens.web.json and the Android tokens.local.json. The Avalonia emitter resolves tokens.upstream + this file into Tokens.axaml / Typography.axaml / Fonts.axaml.",
+    "notes": [
+      "Avalonia is the first .NET desktop consumer at tokens 1.1.0. It consumes the master tokens.json verbatim (the four-scheme semantic layer, the 15-role M3 type scale, the M3 shape scale) and adds only the desktop-shaped fields below.",
+      "Schemes wired this cycle: dark (app default) + light. The two high-contrast schemes resolve cleanly through the upstream semantic layer but are NOT emitted yet (no HC toggle on desktop) — wired-but-unused, same status as the `code` font family on Android.",
+      "Variant accents (red/yellow/green) are NOT consumed on desktop yet — deferred until a desktop consumer asks. They remain a per-platform concern (Android-only today).",
+      "Composition into AXAML (ResourceDictionary.ThemeDictionaries, SolidColorBrush, CornerRadius, Thickness, FontFamily) is this layer's job. No AXAML-shaped strings live upstream."
+    ]
+  },
+
+  "schemes": {
+    "emit": ["dark", "light"],
+    "default": "dark",
+    "themeVariantMap": {
+      "dark": "Dark",
+      "light": "Light"
+    },
+    "highContrast": {
+      "emit": false,
+      "comment": "darkHighContrast / lightHighContrast resolve through the upstream semantic layer and would map to custom ThemeVariant keys (e.g. 'darkHighContrast'), but are not emitted until an in-app HC toggle exists."
+    }
+  },
+
+  "naming": {
+    "convention": "PascalCaseRolePair",
+    "comment": "Each semantic role emits a paired Color + SolidColorBrush. The Brush takes the bare PascalCase role name (the common case — most Avalonia APIs want IBrush). The Color takes the role name + 'Color' suffix (for the APIs that want a raw Color, e.g. Pen, GradientStop, or interop). The Brush references the Color via {StaticResource}. Example: PrimaryColor (Color) / Primary (SolidColorBrush); OnSurfaceVariantColor / OnSurfaceVariant; SurfaceContainerHighColor / SurfaceContainerHigh.",
+    "examples": {
+      "primary":            { "color": "PrimaryColor",            "brush": "Primary" },
+      "onSurface":          { "color": "OnSurfaceColor",          "brush": "OnSurface" },
+      "surfaceContainerHigh": { "color": "SurfaceContainerHighColor", "brush": "SurfaceContainerHigh" },
+      "outlineVariant":     { "color": "OutlineVariantColor",     "brush": "OutlineVariant" }
+    },
+    "roleSetEmitted": "Full M3 ColorScheme + onSurfaceStrong. onSurfaceMuted (web-only alias) is NOT emitted — muted metadata uses OnSurfaceVariant for now (second-consumer demand-signal recorded in the reciprocal handoff)."
+  },
+
+  "letterSpacing": {
+    "resolution": "absoluteDipVerbatim",
+    "comment": "The upstream typography.role.*.letterSpacing values are documented as 'em', but every consumer applies them as ABSOLUTE tracking, not relative: Android passes the value to Compose as `.sp` (an absolute unit), and the figures themselves are M3's published per-role tracking (bodyLarge 0.5, labelLarge 0.1, displayLarge -0.25). Avalonia's TextBlock.LetterSpacing is an absolute DIP offset, so the correct mapping is value -> DIP DIRECTLY. The naive `em x fontSize` conversion (e.g. 0.5 x 16 = 8 DIP on bodyLarge) is what produced the visibly-too-wide tracking the first desktop consumer reported; do not use it. With this resolution letterSpacing is turned ON for the desktop type scale.",
+    "transform": "letterSpacingDip = role.letterSpacing"
+  },
+
+  "spacing": {
+    "adopted": "web-4px",
+    "comment": "Upstream core carries no spacing scale (no standard M3 category). Desktop adopts the web tokens.web.json 4px scale verbatim — it fits desktop density fine and keeps web + desktop on one neutral-density ramp. Emitted as paired `double` (e.g. Spacing4 = 16.0) + uniform `Thickness` (e.g. Spacing4Thickness = 16) resources. Adaptive Compact/Medium/Expanded desktop window tiers (Android-style) are deferred — single neutral scale this cycle.",
+    "scale": {
+      "0": 0, "1": 4, "2": 8, "3": 12, "4": 16, "5": 20, "6": 24,
+      "8": 32, "10": 40, "12": 48, "16": 64, "20": 80, "24": 96
+    }
+  },
+
+  "shape": {
+    "comment": "CornerRadius resources resolved from upstream `shape` (extraSmall 4 -> extraLarge 28). Adds CornerRadiusFull — the web radiusFull 9999 pill sentinel — required for the M3 button stadium shape. Emitted as Avalonia CornerRadius resources.",
+    "radiusFull": 9999
+  },
+
+  "fonts": {
+    "delivery": "embeddedStaticTtf",
+    "comment": "Desktop can use neither web's Google Fonts @import nor Android's downloadable-fonts provider — it must ship font bytes inside the app. Vendor DM Sans (body/sans) and Plus Jakarta Sans (brand) as OFL static-weight TTFs from the upstream google/fonts repo, placed under Assets/Fonts/ and referenced via avares:// FontFamily resources. Mono (DM Mono) and code (JetBrains Mono) are NOT vendored — no monospace surface in desktop UI yet.",
+    "families": {
+      "brand": { "googleName": "Plus Jakarta Sans", "staticWeights": [400, 500, 600, 700], "avaresKey": "BrandFontFamily" },
+      "body":  { "googleName": "DM Sans",            "staticWeights": [400, 500, 700],      "avaresKey": "BodyFontFamily" }
+    },
+    "variableFontCaveat": "The upstream google/fonts TTFs are variable (DMSans[opsz,wght], PlusJakartaSans[wght]). Avalonia selects an instance via FontWeight, which works, but static per-weight instances render more predictably across platforms — prefer the static cuts. See FONTS.md for the exact files and license posture."
+  }
+}

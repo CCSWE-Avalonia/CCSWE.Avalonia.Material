@@ -1,0 +1,35 @@
+<!--
+  =============================================================================
+  HAND-AUTHORED DOC SNIPPET - not compiled, not emitted as a buildable file.
+  Shows how a consuming app wires the CCSWE Avalonia theme. Copy the relevant
+  bits into your own App.axaml (which has its own x:Class).
+  =============================================================================
+
+  NOTE: intentionally has NO x:Class - a theme library must not carry a
+  consumer's application type, and an x:Class here would auto-glob into a
+  consuming AXAML build and fail to resolve. Add your own x:Class in your app.
+-->
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             RequestedThemeVariant="Dark">
+  <!-- RequestedThemeVariant="Dark" makes dark the app default, matching web and
+       the upstream design intent. Set "Light" or bind to a setting to switch;
+       the emitted ThemeDictionaries respond automatically. -->
+
+  <Application.Styles>
+    <FluentTheme />
+    <StyleInclude Source="avares://CCSWE.Avalonia.Theme/Theme.axaml" />
+  </Application.Styles>
+
+  <Application.Resources>
+    <!-- Application.Resources is an IResourceDictionary; a ResourceInclude must be
+         merged via ResourceDictionary.MergedDictionaries (it cannot sit directly
+         under Application.Resources). Merge AFTER the styles above so the accent
+         remap wins over FluentTheme. -->
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceInclude Source="avares://CCSWE.Avalonia.Theme/FluentOverrides.axaml" />
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </Application.Resources>
+</Application>

@@ -1,0 +1,27 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="CCSWE.Avalonia.Theme.Demo.App"
+             RequestedThemeVariant="Dark">
+             <!-- Dark is the CCSWE app default (matches web + upstream intent).
+                  The Demo flips this at runtime via the header toggle. -->
+
+    <Application.Styles>
+        <FluentTheme />
+        <!-- FluentTheme supplies the control templates the CCSWE bundle doesn't
+             override; Theme.axaml layers tokens + type + M3 control themes on top. -->
+        <StyleInclude Source="avares://CCSWE.Avalonia.Theme/Theme.axaml" />
+    </Application.Styles>
+
+    <Application.Resources>
+        <!-- Accent remap: brand-izes the stock Fluent controls the DS doesn't
+             theme (Slider, ProgressBar, selection highlights). Must merge AFTER
+             the styles so it wins over Fluent. A ResourceInclude has to be merged
+             via ResourceDictionary.MergedDictionaries - it can't sit directly in
+             Application.Resources. -->
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceInclude Source="avares://CCSWE.Avalonia.Theme/FluentOverrides.axaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
