@@ -9,7 +9,7 @@ A **theme + tokens** library — color schemes, metrics, type scale, fonts,
 motion, and M3 control themes (button family & `ToggleButton`, text fields,
 `AutoCompleteBox`, `NumericUpDown`, selection controls, lists & `TreeView`,
 `ComboBox`, menus, `Expander`, `Slider`, `ProgressBar`, tabs `TabControl`/`TabStrip`,
-cards, navigation drawer `DrawerPage`). It does
+cards, navigation drawer + rail `DrawerPage`). It does
 **not** ship custom controls or app plumbing. Consumers style stock Avalonia
 controls with the emitted resources and classes and let the tokens drive the look.
 
@@ -42,7 +42,7 @@ CCSWE.Avalonia.Theme/            (Avalonia 12 class library; TFM-agnostic, net8.
 │   ├── AutoCompleteBox.axaml   (1.5.0)
 │   ├── ToggleButton.axaml      (1.5.0)
 │   ├── NumericUpDown.axaml     (1.5.0)
-│   └── DrawerPage.axaml        (1.6.0)
+│   └── DrawerPage.axaml        (1.6.0 drawer · 1.7.0 rail)
 ├── FluentOverrides.axaml        ← hand-authored (see FLUENT-AUDIT.md)
 ├── App.sample.axaml             ← hand-authored, non-compiled wiring snippet
 └── Assets/Fonts/                ← run fetch-fonts.{sh,ps1} (see FONTS.md)
@@ -105,6 +105,63 @@ High-contrast: not emitted this cycle. When wired, the upstream
 `darkHighContrast` / `lightHighContrast` schemes would emit as custom
 `ThemeVariant` keys and the host would request them the same way.
 
+## Navigation drawer & rail — consumer markup contract
+
+The bundle themes the **destinations**; the `DrawerPage` container, header, icons, and
+labels are consumer content. Two host classes, applied to a `ListBox` inside the
+`DrawerPage` pane:
+
+**Drawer** (full-width pill, `DrawerBehavior=Locked`/`Split` or overlay) — icon + label
+go in `Content`:
+
+```xml
+<ListBox Classes="NavigationDrawer" SelectedIndex="0">
+  <ListBoxItem>
+    <StackPanel Orientation="Horizontal" Spacing="12">
+      <PathIcon Data="{StaticResource DashboardGlyph}" Width="24" Height="24" />
+      <TextBlock Classes="LabelLarge" Text="Dashboard" VerticalAlignment="Center" />
+    </StackPanel>
+  </ListBoxItem>
+  <!-- … -->
+</ListBox>
+```
+
+**Rail** (compact 80dp, `DrawerLayoutBehavior=CompactInline`/`CompactOverlay`) — the
+indicator hugs the **icon only** and the label sits below, so the icon goes in `Content`
+and the label string in **`Tag`** (the no-C# split; `Tag` is stringly-typed — no
+`HeaderTemplate`):
+
+```xml
+<ListBox Classes="NavigationRail" SelectedIndex="0">
+  <ListBoxItem Tag="Dashboard">
+    <PathIcon Data="{StaticResource DashboardGlyph}" Width="24" Height="24" />
+  </ListBoxItem>
+  <!-- … -->
+</ListBox>
+```
+
+Icons are consumer-supplied (the bundle ships no icon set). The rail's active state
+colors icon and label **differently** (icon `OnSecondaryContainer`, label `OnSurface`)
+— that's M3-correct, not a bug.
+
+### Trailing-edge divider (docked) — interim until upstream property
+
+M3's docked drawer/rail carries a **1dp `OutlineVariant` divider on the pane's trailing
+edge**. `DrawerPage` exposes **no border property**, so the theme can't emit it (it's a
+`Style` layered over Fluent's template, and there's no `DrawerBorderBrush` to set — see
+CHANGELOG 1.7.0 / CONVENTIONS). A `DrawerBorderBrush`/`DrawerBorderThickness` request is
+filed upstream. **Until it lands, draw it consumer-side** in **docked** modes only
+(skip `Overlay`/`CompactOverlay` — the `Scrim32` backdrop already separates):
+
+```xml
+<!-- Between the DrawerPage pane and the main content, DrawerPlacement=Left.
+     Mirror to "1,0,0,0" for Right. -->
+<Border BorderBrush="{DynamicResource OutlineVariant}" BorderThickness="0,0,1,0" />
+```
+
+Use this one pattern (don't fork it per view) so the seam stays consistent until the
+emitted treatment replaces it.
+
 ## Regenerating the preview (no-drift contract — DS-side dev artifact)
 
 > The HTML preview is a **design-system-side dev artifact** and is **not** shipped
@@ -162,6 +219,9 @@ radii, and state-layer opacities in `Controls/Button.axaml`.
 - [ ] Navigation drawer: `ListBox Classes="NavigationDrawer"` shows 56dp full-pill
       destinations; active = SecondaryContainer / OnSecondaryContainer (icon + label
       recolor together); `DrawerPage` pane = SurfaceContainerLow, modal scrim = Scrim @ 32%
+- [ ] Navigation rail: `ListBox Classes="NavigationRail"` (in a CompactInline/CompactOverlay
+      `DrawerPage`) shows 80dp icon-over-label items; 56×32 indicator hugs the icon; active
+      recolors icon → OnSecondaryContainer **and** label → OnSurface; selection doesn't reflow
 - [ ] Theme switch repaints all of the above (DynamicResource — no frozen brushes)
 - [ ] Non-themed stock controls (e.g. CalendarDatePicker, ScrollBar) pick up the
       brand accent via FluentOverrides, not Fluent blue (see FLUENT-AUDIT.md)

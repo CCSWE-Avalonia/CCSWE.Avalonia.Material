@@ -1,5 +1,96 @@
 # Changelog — CCSWE Avalonia Design System
 
+## 1.7.0 — 2026-06-05 — Navigation Rail (`DrawerPage` compact) + trailing-divider decision
+
+**Design System (Avalonia):** 1.6.0 → 1.7.0
+**Tokens:** 1.1.0 (unchanged — no new tokens) · **Avalonia:** 12.0.4
+
+Acts on `avalonia-nav-rail-spec.md` (promotes the §6 follow-on of the drawer spec)
+and the one open follow-up from `avalonia-integration-1.6.0.md`. The rail is the
+drawer's **compact sibling**: it rides in the **same** `Controls/DrawerPage.axaml`,
+so the **control count stays 19** and **no new file** ships. No token changes — the
+rail reuses the 1.6.0 set (incl. `Scrim32`).
+
+### Added — `Controls/DrawerPage.axaml`
+
+- **`M3NavigationRailItem`** (keyed `ControlTheme`, `TargetType="ListBoxItem"`) — the
+  M3 **rail** destination for `DrawerPage`'s `CompactInline`/`CompactOverlay` (80dp)
+  modes. Icon-over-label, **not** a width variant of the drawer item: a **56×32**
+  active-indicator pill wraps the **icon only**, the label sits **below** it (4dp gap,
+  Label Medium, centered, ≤2 lines), and active colors the two **differently** — icon
+  `OnSecondaryContainer`, **label `OnSurface`** (the one place the rail diverges from
+  the drawer). So icon and label recolor on **separate** targets (the drawer's single
+  `TextElement.Foreground` cascade can't express the split). State layer is clipped to
+  the 56×32 indicator, `OnSurface` .08/.10 (`OnSecondaryContainer` when active);
+  selection toggles the indicator `Opacity` at constant size (no reflow). Disabled =
+  neutral recolor (`OnSurface38` icon + label / `OnSurface12` fill).
+- **Content contract (no C#):** `Content` = the icon, `Tag` = the label string — the
+  template puts the icon `ContentPresenter` inside the indicator and binds a
+  `TextBlock Text="{TemplateBinding Tag}"` below it. Lets the theme position + recolor
+  the two independently without a custom control. `Tag` is stringly-typed (no
+  `HeaderTemplate`) — acceptable for a rail label; documented in HANDOFF.
+- **`ListBox.NavigationRail`** (style selector) — the host: transparent `Background`,
+  `BorderThickness=0`, centered content, `Padding="0,12"` (12dp rail end padding), and
+  `ItemContainerTheme="{StaticResource M3NavigationRailItem}"`. Width is the
+  `DrawerPage` `CompactDrawerLength` (80dp) — the host fills it; the 12dp item-to-item
+  gap rides on each item's `Margin="0,6"`.
+
+### Resolved — `avalonia-nav-rail-spec.md` open questions
+
+- **Content contract** = `Content`=icon / `Tag`=label (no C# to split a single
+  `ListBoxItem.Content`; the off-spec "wrap the whole Content" alternative is rejected
+  — it loses the icon-only indicator and the active icon/label split). · **Active label
+  color** = `OnSurface` confirmed (not `OnSecondaryContainer`). · **Labels always
+  shown** (drawer parity; selected-only variant deferred unless asked). · **Menu/FAB
+  rail header** = consumer composes it; out of scope.
+
+### Decision — trailing-edge divider (`avalonia-integration-1.6.0.md` follow-up)
+
+The docked drawer/rail wants a **1dp `OutlineVariant` trailing-edge divider** (the
+pane↔content seam reads too soft on dark). **Verified: `DrawerPage` exposes no border
+property.** Its public surface (re-confirmed against the Avalonia 12 source) is
+pane/header/footer `Background` + `*Foreground` + `BackdropBrush` + `DrawerLength`/
+`CompactDrawerLength` only; its base `SplitView` has `PaneBackground` but **no**
+pane-border brush. So the divider **cannot be layered** by a property `Setter` the way
+`DrawerBackground` is, and reaching into Fluent's internal pane-root `Border` by part
+name is **rejected** (CONVENTIONS: the bundle does not depend on Fluent's non-contract
+internal part names — the whole reason `DrawerPage` is a `Style`, not a re-template).
+
+**DS decision (avoids per-consumer drift): request `DrawerBorderBrush` /
+`DrawerBorderThickness` upstream**, so a future cycle sets them in the existing
+`Style Selector="DrawerPage"` keyed off `DrawerPlacement` — one container-level concern
+shared by drawer and rail, set once. **Interim (until the property lands):** the
+consumer draws a single 1dp `Border` (`BorderBrush=OutlineVariant`,
+`BorderThickness="0,0,1,0"` for `Left` placement) between the pane and content in docked
+modes — the **one blessed pattern**, documented in HANDOFF so it doesn't fork per
+consumer. Scoped to docked modes (`Locked`/`Split`, rail `CompactInline`); skipped for
+`Overlay`/`CompactOverlay` where the `Scrim32` backdrop already separates. **Not emitted
+this cycle** — flagged upstream.
+
+### Wiring & versioning
+
+- `Controls/DrawerPage.axaml` gains `M3NavigationRailItem` + `ListBox.NavigationRail`
+  in place — no new `StyleInclude`, **control count stays 19**.
+- All emitted `*.axaml` headers stamped **v1.7.0** (24 files); bundle rebuilt (36 entries).
+- `tokens.preview.css` **not** regenerated — `Tokens.axaml` is unchanged this cycle
+  (no-drift contract only requires regen after a `Tokens.axaml` edit).
+- README / HANDOFF / FLUENT-AUDIT note the rail under `DrawerPage`; CONVENTIONS adds the
+  rail item-treatment rule and the "no border property → request upstream" gotcha.
+  Preview adds a compact-rail showcase.
+
+### Compile / runtime-verification owed (consumer)
+
+- Confirm `ListBox Classes="NavigationRail"` picks up `M3NavigationRailItem` via
+  `ItemContainerTheme`; the 56×32 indicator hugs the icon, label sits below; active
+  recolors icon → `OnSecondaryContainer` **and** label → `OnSurface` (Dark + Light);
+  state layer + disabled recolor read on-brand; no reflow on selection.
+- Confirm the `Content`=icon / `Tag`=label contract binds cleanly (`Text="{TemplateBinding
+  Tag}"`), and that the rail fills `CompactDrawerLength=80` in `CompactInline` mode.
+- **Carried open:** the trailing-divider upstream property request above (yes/no on
+  whether the consumer wants the interim `Border` pattern in the demo meanwhile).
+
+---
+
 ## 1.6.0 — 2026-06-04 — Navigation Drawer (`DrawerPage`) + `Scrim32` token
 
 **Design System (Avalonia):** 1.5.4 → 1.6.0

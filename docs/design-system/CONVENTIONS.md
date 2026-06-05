@@ -401,3 +401,48 @@ second `{x:Type ListBoxItem}` (that key is owned by `ListBox.axaml`; a duplicate
 default collides and one silently wins). The host opts in with a class selector
 (`ListBox.NavigationDrawer`) whose `Setter` points `ItemContainerTheme` at the keyed
 theme. Same pattern for any `ItemsControl` variant. (1.6.0.)
+
+### Multi-element item state — recolor on separate targets, and `Content`/`Tag` to split a `ListBoxItem`
+
+Two rules from the nav **rail** (`M3NavigationRailItem`, 1.7.0), the drawer item's
+compact sibling:
+
+- **When an item's active state colors two sub-elements *differently*, you can't reuse a
+  single `TextElement.Foreground` cascade — recolor each on its own target.** The
+  drawer item gets away with one `^:selected /template/ ContentPresenter` foreground
+  setter because icon **and** label both go `OnSecondaryContainer` (a `PathIcon` paints
+  from the inherited `Foreground`, so one cascade does both). The rail diverges: active
+  icon = `OnSecondaryContainer` but active **label = `OnSurface`**. So the rail template
+  keeps the icon in a `ContentPresenter` (recolored via `TextElement.Foreground`) and
+  the label in a **separate** named `TextBlock` (recolored via its own `Foreground`),
+  each with its own `^:selected` setter. Don't force a single cascade when the spec
+  colors the parts apart.
+- **To split one `ListBoxItem` into two themed slots without C#, use `Content` + `Tag`.**
+  `ListBoxItem` has a single `Content`; the DS emits axaml only (no code-behind to add a
+  second content property). When a variant needs the theme to position/recolor two
+  consumer-supplied pieces independently (rail: icon inside the indicator, label below
+  it), put the primary in `Content` and the secondary string in `Tag`, and bind
+  `Text="{TemplateBinding Tag}"` in the template. `Tag` is stringly-typed (no
+  `HeaderTemplate`) — fine for a short label; flag the contract in HANDOFF so consumer
+  markup is stable. (1.7.0.)
+
+### Layering a `Style` over a template you don't own — only reaches *existing* properties
+
+The `Style Selector="Type"` layering technique (above) can set **only properties the
+control actually declares**. It cannot inject template structure. So when a feature
+needs chrome the control exposes no property for, layering can't deliver it — and
+reaching into the framework template's internal parts by name
+(`Style Selector="T /template/ Border#PART_…"`) to fake it is a **standing no-go**: it
+depends on Fluent's internal part names, which aren't a stable contract (the same reason
+the bundle ships full templates instead of `BasedOn` Fluent — see "Control themes — full
+templates"). The worked case (1.7.0): the M3 docked nav drawer/rail wants a 1dp
+`OutlineVariant` **trailing-edge divider**, but `DrawerPage` exposes **no** border
+property (verified: pane/header/footer `Background` + `*Foreground` + `BackdropBrush` +
+lengths only; its `SplitView` base has `PaneBackground`, no pane-border brush). Decision:
+**request the missing property upstream** (`DrawerBorderBrush`/`DrawerBorderThickness`)
+so a future `Style` setter delivers it as one container-level concern — *don't* reach
+into the pane-root part, and *don't* let each consumer hand-roll it differently (drift).
+Interim, document **one** consumer-side pattern (a 1dp `Border` between pane and content,
+docked modes only) in HANDOFF. **Rule:** if a `Style`-layered control lacks the property
+you need, the answer is an upstream property request + a single documented interim — not
+a `/template/` reach into framework internals. (1.7.0.)

@@ -71,7 +71,7 @@ Then add three things to your `App.axaml` (full sample in
 - **Buttons:** `Filled`, `FilledTonal`, `Elevated`, `Outlined`, `Text`, `Icon`.
 - **Text fields:** `Outlined`, `Filled`.
 - **Cards:** a `Border` with `Card` + `Elevated` / `Filled` / `Outlined`.
-- **Navigation:** a `DrawerPage` shell with a `ListBox Classes="NavigationDrawer"` of destinations (the active row gets the M3 indicator pill).
+- **Navigation:** a `DrawerPage` shell with a `ListBox Classes="NavigationDrawer"` of destinations, or `Classes="NavigationRail"` for the compact 80dp rail (the active destination gets the M3 indicator pill).
 - **Default-themed (no class needed):** `ToggleButton`, `AutoCompleteBox`,
   `NumericUpDown`, `CheckBox`, `RadioButton`, `ToggleSwitch`, `ListBox`, `TreeView`,
   `ComboBox`, `Menu`, `Expander`, `Slider`, `ProgressBar`, `TabControl`, `TabStrip`.

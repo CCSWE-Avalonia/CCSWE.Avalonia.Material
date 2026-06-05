@@ -1,6 +1,6 @@
 # CCSWE Avalonia Design System
 
-**Design System (Avalonia):** 1.6.0
+**Design System (Avalonia):** 1.7.0
 **Tokens:** 1.1.0 · **Avalonia:** 12
 **Sources of truth:** `tokens/tokens.upstream-1.1.0.json` (the master CCSWE cross-platform tokens — primitive ramps + four-scheme M3 semantic layer + 15-role type scale + shape + motion, consumed **verbatim**) and `tokens/tokens.local.json` (the Avalonia/.NET desktop translation layer — spacing scale, letterSpacing resolution, resource-naming convention, font delivery, which schemes to wire).
 
@@ -19,7 +19,7 @@ It is a **theme + tokens** bundle. It ships:
 - **Type scale** — the 15-role M3 type scale as `TextBlock` style classes.
 - **Fonts** — `avares://` `FontFamily` resources for the two embedded families.
 - **Motion** — the M3 motion scale (10 durations as `TimeSpan`, 6 easings as `SplineEasing`) in `Motion.axaml`, consumed directly by Avalonia animations/transitions.
-- **Control themes** — M3 restyling of stock controls, built entirely from token resources: the **button** family (Filled, Filled Tonal, Elevated, Outlined, Text, Icon), **`ToggleButton`** (Outlined → Filled-Tonal flip), **text fields** (Filled + Outlined `TextBox`), **`AutoCompleteBox`** (M3 field + suggestion popup), **`NumericUpDown`** (M3 field + spinner buttons), **selection controls** (`CheckBox`, `RadioButton`, `ToggleSwitch`/M3 Switch), **lists** (`ListBox` / `ListBoxItem`), **`TreeView`/`TreeViewItem`** (M3 rows + chevron + indentation), **`ComboBox`**, **menus** (`Menu` / `MenuItem` / `ContextMenu` / `MenuFlyoutPresenter` / `Separator`), **`Expander`**, **`Slider`** (H+V), **`ProgressBar`** (determinate + indeterminate), **`TabControl`/`TabItem`** and **`TabStrip`/`TabStripItem`** (M3 primary tabs), and an M3 **Card** convention (`Border.Card` Elevated/Filled/Outlined), and an M3 **navigation drawer** (`DrawerPage` pane surface + scrim + a `ListBox.NavigationDrawer` destination treatment with the 56dp active-indicator pill). Popup surfaces (combo/menu/autocomplete) are themed in-control.
+- **Control themes** — M3 restyling of stock controls, built entirely from token resources: the **button** family (Filled, Filled Tonal, Elevated, Outlined, Text, Icon), **`ToggleButton`** (Outlined → Filled-Tonal flip), **text fields** (Filled + Outlined `TextBox`), **`AutoCompleteBox`** (M3 field + suggestion popup), **`NumericUpDown`** (M3 field + spinner buttons), **selection controls** (`CheckBox`, `RadioButton`, `ToggleSwitch`/M3 Switch), **lists** (`ListBox` / `ListBoxItem`), **`TreeView`/`TreeViewItem`** (M3 rows + chevron + indentation), **`ComboBox`**, **menus** (`Menu` / `MenuItem` / `ContextMenu` / `MenuFlyoutPresenter` / `Separator`), **`Expander`**, **`Slider`** (H+V), **`ProgressBar`** (determinate + indeterminate), **`TabControl`/`TabItem`** and **`TabStrip`/`TabStripItem`** (M3 primary tabs), and an M3 **Card** convention (`Border.Card` Elevated/Filled/Outlined), and an M3 **navigation drawer + rail** (`DrawerPage` pane surface + scrim + width defaults, with a `ListBox.NavigationDrawer` destination treatment — the 56dp active-indicator pill — and a compact `ListBox.NavigationRail` for the 80dp rail modes — a 56×32 icon-only indicator with the label below). Popup surfaces (combo/menu/autocomplete) are themed in-control.
 
 Targets **Avalonia 12** (`FluentTheme` base). All control-theme role references use `DynamicResource` so they track Dark↔Light `ThemeVariant` switches at runtime. As of **1.5.3**, disabled state is a uniform M3 recolor across every control (`OnSurface12` container / `OnSurface38` content, never a whole-element opacity dim), and state-driven border-thickness changes never reflow content (overlay-border / constant-thickness rule).
 
@@ -72,6 +72,7 @@ CCSWE.Avalonia.Theme/          (library root — emit straight here, no Themes/ 
   Controls/AutoCompleteBox.axaml  M3 field + suggestion popup (in-control chrome)
   Controls/ToggleButton.axaml  M3 toggle (Outlined → Filled-Tonal on :checked)
   Controls/NumericUpDown.axaml M3 field + ButtonSpinner + spinner RepeatButtons
+  Controls/DrawerPage.axaml    M3 navigation drawer + rail (destinations + pane/scrim defaults)
   FluentOverrides.axaml        HAND-AUTHORED — FluentTheme accent → brand remap
   App.sample.axaml             HAND-AUTHORED — non-compiled wiring snippet
   Assets/Fonts/                fetch-fonts.sh / .ps1 (acquisition) → TTFs + OFL.txt (see FONTS.md)

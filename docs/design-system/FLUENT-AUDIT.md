@@ -1,6 +1,6 @@
 # FluentTheme override audit — CCSWE.Avalonia.Theme
 
-**Avalonia:** 12.0.4 · **Bundle:** 1.6.0 · **Fluent keys verified against:** `Avalonia.Themes.Fluent` 12.0.3 (consumer confirms keys stable through 12.0.4)
+**Avalonia:** 12.0.4 · **Bundle:** 1.7.0 · **Fluent keys verified against:** `Avalonia.Themes.Fluent` 12.0.3 (consumer confirms keys stable through 12.0.4)
 **Base theme:** `FluentTheme` (Avalonia's stock control templates)
 **Question:** with our token brushes loaded and our ControlThemes covering a few
 controls, *which stock Fluent controls still render with Fluent's default colors
@@ -79,7 +79,7 @@ the intended M3 flatter accent language.
 | `ToggleButton` (Outlined → Filled-Tonal on `:checked`) | `Controls/ToggleButton.axaml` |
 | `NumericUpDown` / `ButtonSpinner` (M3 field + spinners) | `Controls/NumericUpDown.axaml` |
 | Card (`Border.Card` Elevated/Filled/Outlined) | `Controls/Card.axaml` |
-| Navigation drawer — `ListBox.NavigationDrawer` destinations (keyed `M3NavigationDrawerItem` via `ItemContainerTheme`) + `DrawerPage` pane/scrim/width defaults (layered as a `Style`, not a template replacement — see CONVENTIONS) | `Controls/DrawerPage.axaml` |
+| Navigation drawer + rail — `ListBox.NavigationDrawer` destinations (keyed `M3NavigationDrawerItem`) and `ListBox.NavigationRail` compact destinations (keyed `M3NavigationRailItem`, 56×32 icon-only indicator), both via `ItemContainerTheme` + `DrawerPage` pane/scrim/width defaults (layered as a `Style`, not a template replacement — see CONVENTIONS) | `Controls/DrawerPage.axaml` |
 
 These ignore Fluent's resources entirely (full templates built from tokens), so
 no override is needed — and our CheckBox/Radio/Switch deliberately do **not**
