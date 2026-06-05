@@ -1,6 +1,6 @@
 # CCSWE.Avalonia.Theme
 
-[![CI](https://github.com/CoryCharlton/ccswe-avalonia-theme/actions/workflows/dotnet-build-publish-library.yml/badge.svg)](https://github.com/CoryCharlton/ccswe-avalonia-theme/actions/workflows/dotnet-build-publish-library.yml)
+[![Build](https://github.com/CoryCharlton/ccswe-avalonia-theme/actions/workflows/dotnet-build-publish-library.yml/badge.svg)](https://github.com/CoryCharlton/ccswe-avalonia-theme/actions/workflows/dotnet-build-publish-library.yml)
 [![NuGet](https://img.shields.io/nuget/v/CCSWE.Avalonia.Theme.svg)](https://www.nuget.org/packages/CCSWE.Avalonia.Theme)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.md)
 
@@ -15,6 +15,8 @@ It is the desktop sibling of the CCSWE **web** and **Android** bundles — all t
 consume the same shared cross-platform design tokens. This library turns those
 tokens into Avalonia `ResourceDictionary` + `Styles` and ships them as a NuGet
 package.
+
+![CCSWE.Avalonia.Theme demo gallery — Material 3 controls with a Dark/Light toggle](docs/images/demo.gif)
 
 ## Install & wire up
 
