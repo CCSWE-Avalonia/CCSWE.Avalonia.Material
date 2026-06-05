@@ -5,6 +5,7 @@
     <Description>Branded Material 3 theme for Avalonia 12 — a Dark/Light color system, the M3 type scale, motion, embedded brand fonts (DM Sans, Plus Jakarta Sans), and M3 control themes that give stock Avalonia controls a consistent CCSWE look.</Description>
     <PackageTags>avalonia;theme;material-design;material-3;m3;ui;xaml;fluent;dark-theme;controls</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>ccswe-logo.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,6 +19,7 @@
 
   <ItemGroup>
     <None Include="README.md" Pack="true" PackagePath="/" />
+    <None Include="ccswe-logo.png" Pack="true" PackagePath="/" />
     <None Include="Assets/Fonts/*-OFL.txt" Pack="true" PackagePath="THIRD-PARTY-NOTICES/" />
   </ItemGroup>
 
