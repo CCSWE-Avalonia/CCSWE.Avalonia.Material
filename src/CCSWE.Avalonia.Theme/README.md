@@ -73,10 +73,10 @@ Application.Current!.RequestedThemeVariant =
 
 ## License
 
-[MIT](https://github.com/CoryCharlton/ccswe-avalonia-theme/blob/master/LICENSE.md).
+[MIT](https://github.com/CoryCharlton/CCSWE.Avalonia.Theme/blob/master/LICENSE.md).
 Bundles **DM Sans** and **Plus Jakarta Sans** under the
 [SIL Open Font License 1.1](https://openfontlicense.org); their `OFL.txt` files
 ship in the package under `THIRD-PARTY-NOTICES/`.
 
 Source, docs, and the control gallery:
-<https://github.com/CoryCharlton/ccswe-avalonia-theme>
+<https://github.com/CoryCharlton/CCSWE.Avalonia.Theme>

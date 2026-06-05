@@ -1,6 +1,6 @@
 # CCSWE.Avalonia.Theme
 
-[![Build](https://github.com/CoryCharlton/ccswe-avalonia-theme/actions/workflows/dotnet-build-publish-library.yml/badge.svg)](https://github.com/CoryCharlton/ccswe-avalonia-theme/actions/workflows/dotnet-build-publish-library.yml)
+[![Build](https://github.com/CoryCharlton/CCSWE.Avalonia.Theme/actions/workflows/dotnet-build-publish-library.yml/badge.svg)](https://github.com/CoryCharlton/CCSWE.Avalonia.Theme/actions/workflows/dotnet-build-publish-library.yml)
 [![NuGet](https://img.shields.io/nuget/v/CCSWE.Avalonia.Theme.svg)](https://www.nuget.org/packages/CCSWE.Avalonia.Theme)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.md)
 
