@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 # Project
 
-A branded **Material 3** theme library for **Avalonia** 12. It gives stock Avalonia controls the CCSWE look — a Dark/Light color system, M3 type scale, motion, embedded brand fonts, and M3 control themes for buttons (incl. toggle buttons), text fields, autocomplete, numeric steppers, selection controls, lists, tree views, dropdowns, menus, expander, cards, sliders, progress, and tabs (tab control + tab strip) — so consuming apps get consistent branding by referencing the package.
+A branded **Material 3** theme library for **Avalonia** 12. It gives stock Avalonia controls the CCSWE look — a Dark/Light color system, M3 type scale, motion, embedded brand fonts, and M3 control themes for buttons (incl. toggle buttons), text fields, autocomplete, numeric steppers, selection controls, lists, tree views, dropdowns, menus, expander, cards, sliders, progress, tabs (tab control + tab strip), and a navigation drawer (`DrawerPage`) — so consuming apps get consistent branding by referencing the package.
 
 The library is .NET 10 / C# targeting `net10.0`, built against **Avalonia 12**, distributed as a NuGet package (`CCSWE.Avalonia.Theme`). It is the desktop sibling of the CCSWE web and Android bundles: all three consume the same shared cross-platform design tokens.
 
@@ -62,7 +62,7 @@ Projects in `src/CCSWE.Avalonia.Theme.slnx`:
 - **`CCSWE.Avalonia.Theme`** — the theme class library (NuGet package). Pure library, no front-end dependency. The axaml live **flat at the project root** (no `Themes/` folder), grouped only by the `Controls/` subfolder:
   - `Theme.axaml` — the one-stop include consumers add to `App.axaml`; merges the resource dictionaries (`Fonts`, `Tokens`, `Motion`) and `StyleInclude`s the style files (`Typography`, `Controls/*`).
   - `Tokens.axaml` — Dark/Light color roles (as `ResourceDictionary.ThemeDictionaries`) + theme-invariant metrics (`CornerRadius*`, `Spacing*`).
-  - `Fonts.axaml`, `Motion.axaml`, `Typography.axaml`, `Controls/{Button,ToggleButton,TextBox,AutoCompleteBox,NumericUpDown,CheckBox,RadioButton,ToggleSwitch,ListBox,TreeView,ComboBox,Menu,Expander,Card,Slider,ProgressBar,TabControl,TabStrip}.axaml` (18 control files).
+  - `Fonts.axaml`, `Motion.axaml`, `Typography.axaml`, `Controls/{Button,ToggleButton,TextBox,AutoCompleteBox,NumericUpDown,CheckBox,RadioButton,ToggleSwitch,ListBox,TreeView,ComboBox,Menu,Expander,Card,Slider,ProgressBar,TabControl,TabStrip,DrawerPage}.axaml` (19 control files).
   - `FluentOverrides.axaml` — hand-authored accent remap (lives at the root, not in a `library-glue/` folder).
   - `Assets/Fonts/` — embedded OFL variable TTFs (DM Sans, Plus Jakarta Sans), referenced by family name from `Fonts.axaml`.
 - **`CCSWE.Avalonia.Theme.Demo`** — an Avalonia desktop app that wires the theme and renders a control gallery with a Dark/Light toggle. It is the **visual verification harness**; keep it in sync when adding controls to the theme.

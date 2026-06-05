@@ -8,8 +8,8 @@ A branded **Material 3** theme for [Avalonia](https://avaloniaui.net) 12. It giv
 stock Avalonia controls the CCSWE look: a Dark/Light color system, the M3 type
 scale, motion, embedded brand fonts, and M3 control themes for buttons (incl.
 toggle buttons), text fields, autocomplete, numeric steppers, selection controls,
-lists, tree views, dropdowns, menus, expander, cards, sliders, progress, and tabs
-(tab control + tab strip).
+lists, tree views, dropdowns, menus, expander, cards, sliders, progress, tabs
+(tab control + tab strip), and a navigation drawer (`DrawerPage`).
 
 It is the desktop sibling of the CCSWE **web** and **Android** bundles — all three
 consume the same shared cross-platform design tokens. This library turns those
@@ -71,6 +71,7 @@ Then add three things to your `App.axaml` (full sample in
 - **Buttons:** `Filled`, `FilledTonal`, `Elevated`, `Outlined`, `Text`, `Icon`.
 - **Text fields:** `Outlined`, `Filled`.
 - **Cards:** a `Border` with `Card` + `Elevated` / `Filled` / `Outlined`.
+- **Navigation:** a `DrawerPage` shell with a `ListBox Classes="NavigationDrawer"` of destinations (the active row gets the M3 indicator pill).
 - **Default-themed (no class needed):** `ToggleButton`, `AutoCompleteBox`,
   `NumericUpDown`, `CheckBox`, `RadioButton`, `ToggleSwitch`, `ListBox`, `TreeView`,
   `ComboBox`, `Menu`, `Expander`, `Slider`, `ProgressBar`, `TabControl`, `TabStrip`.

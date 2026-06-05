@@ -9,7 +9,7 @@ A **theme + tokens** library — color schemes, metrics, type scale, fonts,
 motion, and M3 control themes (button family & `ToggleButton`, text fields,
 `AutoCompleteBox`, `NumericUpDown`, selection controls, lists & `TreeView`,
 `ComboBox`, menus, `Expander`, `Slider`, `ProgressBar`, tabs `TabControl`/`TabStrip`,
-cards). It does
+cards, navigation drawer `DrawerPage`). It does
 **not** ship custom controls or app plumbing. Consumers style stock Avalonia
 controls with the emitted resources and classes and let the tokens drive the look.
 
@@ -41,7 +41,8 @@ CCSWE.Avalonia.Theme/            (Avalonia 12 class library; TFM-agnostic, net8.
 │   ├── TreeView.axaml          (1.5.0)
 │   ├── AutoCompleteBox.axaml   (1.5.0)
 │   ├── ToggleButton.axaml      (1.5.0)
-│   └── NumericUpDown.axaml     (1.5.0)
+│   ├── NumericUpDown.axaml     (1.5.0)
+│   └── DrawerPage.axaml        (1.6.0)
 ├── FluentOverrides.axaml        ← hand-authored (see FLUENT-AUDIT.md)
 ├── App.sample.axaml             ← hand-authored, non-compiled wiring snippet
 └── Assets/Fonts/                ← run fetch-fonts.{sh,ps1} (see FONTS.md)
@@ -158,6 +159,9 @@ radii, and state-layer opacities in `Controls/Button.axaml`.
 - [ ] TabStrip / TabStripItem: matches the TabControl indicator + state layer
 - [ ] TreeView / TreeViewItem: 48dp rows, OnSurface state layer, selected =
       SecondaryContainer; chevron rotates on expand; nested rows indent 24dp/level
+- [ ] Navigation drawer: `ListBox Classes="NavigationDrawer"` shows 56dp full-pill
+      destinations; active = SecondaryContainer / OnSecondaryContainer (icon + label
+      recolor together); `DrawerPage` pane = SurfaceContainerLow, modal scrim = Scrim @ 32%
 - [ ] Theme switch repaints all of the above (DynamicResource — no frozen brushes)
 - [ ] Non-themed stock controls (e.g. CalendarDatePicker, ScrollBar) pick up the
       brand accent via FluentOverrides, not Fluent blue (see FLUENT-AUDIT.md)

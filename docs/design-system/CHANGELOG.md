@@ -1,5 +1,144 @@
 # Changelog — CCSWE Avalonia Design System
 
+## 1.6.0 — 2026-06-04 — Navigation Drawer (`DrawerPage`) + `Scrim32` token
+
+**Design System (Avalonia):** 1.5.4 → 1.6.0
+**Tokens:** 1.1.0 (+ one derived scrim brush) · **Avalonia:** 12.0.4
+
+Acts on `avalonia-nav-drawer-spec.md`: promotes the M3 **navigation drawer** to a
+full bucket-3 treatment. Adds **1 control file** (set **18 → 19**) and one derived
+alpha brush. The signature (the selectable destinations) ships as a keyed
+`ListBoxItem` theme; the `DrawerPage` container gets thin token-driven defaults.
+
+### Added — `Controls/DrawerPage.axaml`
+
+- **`M3NavigationDrawerItem`** (keyed `ControlTheme`, `TargetType="ListBoxItem"`) — the
+  M3 destination: 56dp **full-pill** row, `OnSurfaceVariant` content; active
+  (`:selected`) fills `SecondaryContainer` / `OnSecondaryContainer`; `OnSurface` state
+  layer at .08/.10 (`OnSecondaryContainer` when active). Active indicator is a
+  constant-size pill whose `Opacity` toggles (selection can't reflow the row).
+  `TextElement.Foreground` on the content presenter recolors label **and** a `PathIcon`
+  together. Disabled = neutral recolor (`OnSurface38` content / `OnSurface12` active
+  fill), per the bundle-wide rule. **Keyed**, not `{x:Type ListBoxItem}` — no collision
+  with `ListBox.axaml`'s global item theme.
+- **`ListBox.NavigationDrawer`** (style selector) — the host: transparent `Background`,
+  `BorderThickness=0`, `Padding="0,8"`, and `ItemContainerTheme="{StaticResource
+  M3NavigationDrawerItem}"` so destinations get the treatment via single-select `ListBox`.
+- **`DrawerPage` container defaults** (style selector) — `DrawerBackground` /
+  `DrawerHeaderBackground` / `DrawerFooterBackground` = `SurfaceContainerLow`; header/
+  footer `Foreground` = `OnSurface`; `BackdropBrush` = `Scrim32`; `DrawerLength=360` /
+  `CompactDrawerLength=80` (M3 widths). Consumer supplies header, icons, labels.
+
+### Added — token
+
+- **`Scrim32`** brush (`Scrim` @ 32%) in both `ThemeDictionaries`, following the
+  established alpha-brush pattern (`OnSurface12`/`OnSurface38`). The M3 modal-drawer
+  backdrop. No new color — derived from the existing `ScrimColor`.
+
+### Emit-time decisions (resolves the spec's open questions, verified against source)
+
+- **Container = a `Style`, not a replacing `ControlTheme`.** FluentTheme already ships
+  the `DrawerPage` ControlTheme (template + 9 `PART_*` + open/dock/overlay animation). A
+  `ControlTheme x:Key="{x:Type DrawerPage}"` here would replace it and — with no way to
+  `BasedOn` Fluent's internal key — drop the template. A `Style Selector="DrawerPage"`
+  **layers** token-driven property defaults over Fluent's template (non-destructive;
+  instance values still win). The control's 9 template parts are all **non-required**
+  `[TemplatePart]` (it null-guards every `Find<>`), so layering needs none of them — all
+  verified against the Avalonia `DrawerPage` source, which also confirms the public
+  property names (`DrawerBackground`, `BackdropBrush`, `DrawerLength`,
+  `CompactDrawerLength`, …) and `StyleKeyOverride => typeof(DrawerPage)`.
+- **Pane = `SurfaceContainerLow`** (the bundle's elevated-surface choice, cf. Expander;
+  better dark-scheme readability than raw M3 `Surface`). · **DrawerLength 360 /
+  CompactDrawerLength 80** (M3 widths; Avalonia defaults 320/48) as non-destructive
+  defaults. · Destinations = **single-select `ListBox`** (matches the AutoCompleteBox
+  items-host precedent). · **Navigation rail** (compact, icon-over-label) **deferred**
+  to a follow-on bundle.
+
+### Conventions (added)
+
+- **Theme a control's property defaults with a `Style Selector="Type"`, not a keyed
+  `ControlTheme`, when you don't own the template.** A `ControlTheme x:Key="{x:Type T}"`
+  replaces the framework theme wholesale (template included); without a `BasedOn` to the
+  base theme's key you lose it. A type `Style` layers setters over the existing template
+  non-destructively. Use a (keyed or `{x:Type}`) `ControlTheme` only when you actually
+  emit the template.
+- **Ship an item-treatment variant as a *keyed* `ControlTheme` applied via
+  `ItemContainerTheme`** — never a second `{x:Type ListBoxItem}` (that key is owned by
+  `ListBox.axaml`; a duplicate collides). The host opts in with a class selector
+  (`ListBox.NavigationDrawer`) setting `ItemContainerTheme`.
+
+### Wiring & versioning
+
+- `Theme.axaml` includes the new `Controls/DrawerPage.axaml` (now **19** control files).
+- All emitted `*.axaml` headers stamped **v1.6.0**; bundle rebuilt (36 entries).
+- README / HANDOFF control count **18 → 19**; FLUENT-AUDIT adds `DrawerPage` to bucket 3.
+
+### Compile-verification owed (consumer)
+
+- Confirm `Style Selector="DrawerPage"` layers over Fluent's template (pane =
+  `SurfaceContainerLow`, modal backdrop = `Scrim32`) without dropping it, and that the
+  `DrawerLength`/`CompactDrawerLength` defaults apply yet stay overridable per-instance.
+- Confirm `ListBox Classes="NavigationDrawer"` picks up `M3NavigationDrawerItem` via
+  `ItemContainerTheme`, the active pill reads `SecondaryContainer`/`OnSecondaryContainer`
+  (Dark + Light), and a `PathIcon` + label recolor together on `:selected`.
+
+---
+
+## 1.5.4 — 2026-06-04 — 1.5.3 integration fixes: TextPresenter recolor (compile) + ToggleSwitch label leak
+
+**Design System (Avalonia):** 1.5.3 → 1.5.4
+**Tokens:** 1.1.0 (unchanged) · **Avalonia:** 12.0.4
+
+Resolves the two source defects the consumer found integrating 1.5.3
+(`avalonia-integration-1.5.3.md`): one P0 compile blocker the disabled-recolor pass
+introduced, and one runtime regression from the new ToggleSwitch On/Off slots. The rest
+of 1.5.3 landed verbatim and is confirmed (code-review absorption, AutoCompleteBox
+`ListBox` runtime-confirmed — Tier-1 fully closed). No new controls (set stays **18**),
+no token changes.
+
+### Fixed — `Foreground` not settable on `TextPresenter` (P0 compile blocker, AVLN3000)
+
+- The 1.5.3 disabled-recolor pass set `Property="Foreground"` on a `TextPresenter`, which
+  throws **AVLN3000 "Foreground is not an AvaloniaProperty"** — `TextPresenter` has no
+  `Foreground` AvaloniaProperty; it renders via the attached **`TextElement.Foreground`**.
+  Three occurrences fixed (`Property="Foreground"` → `TextElement.Foreground` on
+  `^:disabled /template/ TextPresenter#PART_TextPresenter`): **`TextBox.axaml`** (Outlined +
+  Filled) and **`NumericUpDown.axaml`** (`CcsweEmbeddedTextBox`). Same idiom the emitter
+  already used on `ToggleButton`'s disabled `ContentPresenter` label; the new pass just
+  didn't apply it to the `TextPresenter` targets.
+
+### Fixed — ToggleSwitch leaked Avalonia's default `On`/`Off` content (regression from 1.5.3)
+
+- Adding `PART_On/OffContentPresenter` (1.5.3) was correct, but Avalonia's `ToggleSwitch`
+  defaults `OnContent="On"` / `OffContent="Off"`, so **every** switch then rendered that
+  text — `Content="Light mode"` read **"Light modeOff"**. M3 switches carry no on/off
+  labels. **Fix:** the ControlTheme now defaults both to empty
+  (`<Setter Property="OnContent" Value="" /><Setter Property="OffContent" Value="" />`), so
+  the presenters render nothing unless a consumer explicitly sets them.
+
+### Conventions (added)
+
+- **To recolor a `TextPresenter`'s text, set `TextElement.Foreground`, never the bare
+  `Foreground`** — `TextPresenter` has no `Foreground` AvaloniaProperty (AVLN3000); only
+  `TextBlock`/`TemplatedControl` expose a real one. Emitter lint: flag `Property="Foreground"`
+  in any style whose selector targets a `TextPresenter`/content `ContentPresenter`.
+- **Neutralize framework-default content the ControlTheme would surface.** When emitting a
+  presenter for a control property Avalonia pre-populates non-empty (`OnContent`/`OffContent`),
+  reset it to empty in the theme so it doesn't render unbidden.
+
+### Versioning
+
+- All emitted `*.axaml` headers stamped **v1.5.4**; bundle rebuilt.
+- No `Theme.axaml` / include changes (still 18 control files), no token changes.
+
+### Owed by the consumer
+
+- Verbatim-verify both source fixes (the `TextElement.Foreground` recolor + the empty
+  On/Off defaults), and run the Dark + Light visual pass on the unified disabled states
+  (the big 1.5.3 change) now that it compiles clean at source.
+
+---
+
 ## 1.5.3 — 2026-06-04 — Code-review fixes: state-reflow, disabled treatment, ComboBox selection template, polish
 
 **Design System (Avalonia):** 1.5.2 → 1.5.3

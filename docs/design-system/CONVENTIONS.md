@@ -191,6 +191,18 @@ required parts — as inert `IsVisible="False"` placeholders if the control's ow
 positioning logic isn't used. Audit every emitted template against its control's
 Avalonia 12 part contract.
 
+### Neutralize framework-default content the ControlTheme would surface
+
+When a ControlTheme emits a presenter for a control property that Avalonia
+**pre-populates with a non-empty default**, neutralize that default in the theme or it
+renders unbidden. `ToggleSwitch` defaults `OnContent="On"` / `OffContent="Off"`, so once
+the theme adds `PART_On/OffContentPresenter` (1.5.3) **every** M3 switch leaked that text —
+a switch with `Content="Light mode"` read **"Light modeOff"** (1.5.3 regression, fixed 1.5.4).
+The theme sets `OnContent=""` / `OffContent=""` so the presenters render nothing unless a
+consumer explicitly sets them (M3 switches carry no on/off labels). **Generalize:** any
+framework default that would surface through an emitted presenter (`OnContent`/`OffContent`,
+etc.) must be reset to empty in the ControlTheme.
+
 ### `Watermark` is obsolete — emit `PlaceholderText` (standing no-go)
 
 `Watermark` is deprecated in Avalonia 12 on **`TextBox`** and **`AutoCompleteBox`**;
@@ -247,6 +259,14 @@ setter inside a `:disabled` selector.** Where the visible chrome is an *inner* c
 recolor carry it and emit **no** outer dim (an outer dim would double-apply). To recolor
 text whose presenter sets its own `Foreground` (an embedded field), target the
 `TextPresenter`/`TextBlock` directly — an outer `TextElement.Foreground` won't reach it.
+**When that target is a `TextPresenter`, set `TextElement.Foreground`, never the bare
+`Foreground`** — a `TextPresenter` has no `Foreground` AvaloniaProperty (`Property="Foreground"`
+throws `AVLN3000: Foreground is not an AvaloniaProperty`); it renders text via the attached
+`TextElement.Foreground`. Only true `TextElement`s (`TextBlock`) and `TemplatedControl`s expose
+a real `Foreground`. (Same idiom already used on `ContentPresenter` disabled-label recolors;
+the 1.5.3 disabled pass just missed applying it to the `TextPresenter` targets — fixed 1.5.4.)
+**Emitter lint:** flag `Property="Foreground"` in any style whose selector targets a
+`TextPresenter` (or a `ContentPresenter` content recolor) — it must be `TextElement.Foreground`.
 
 ### State changes must not reflow content — overlay vs. container borders
 
@@ -353,3 +373,31 @@ The chevron is a `PART_ExpandCollapseChevron` ToggleButton (`IsChecked` two-way 
 `IsExpanded`); rotate it via the TreeViewItem's `:expanded` pseudo-class targeting
 the part directly (`^:expanded /template/ ToggleButton#PART_ExpandCollapseChevron`),
 not a selector reaching into the chevron's own nested template. (1.5.0.)
+
+### Theming a control you don't template — `Style`, not a replacing `ControlTheme`
+
+To set token-driven **property defaults** on a control whose template you do *not*
+own (FluentTheme already ships it), use a **`Style Selector="Type"`**, not a
+`ControlTheme x:Key="{x:Type Type}"`. A `ControlTheme` keyed on the type **replaces**
+the framework's whole theme — template included — and without a `BasedOn` to the base
+theme's (often internal, unreferenceable) key you lose the template and the control
+renders blank. A type `Style` **layers** setters over the existing template,
+non-destructively: instance/local values still win, so M3 defaults stay overridable.
+This is how `Controls/DrawerPage.axaml` colors the pane (`DrawerBackground` =
+`SurfaceContainerLow`), wires the modal scrim (`BackdropBrush` = `Scrim32`), and sets
+the M3 pane/rail widths (`DrawerLength=360` / `CompactDrawerLength=80`) without
+re-emitting `DrawerPage`'s 9-part template. **Reserve a (keyed or `{x:Type}`)
+`ControlTheme` for when you actually emit the template.** Before choosing, verify the
+property names and whether the parts are `IsRequired` against the Avalonia source —
+`DrawerPage`'s parts are all non-required (it null-guards every `Find<>`), so layering
+needs none of them. (1.6.0.)
+
+### Item-treatment variants — keyed `ControlTheme` + `ItemContainerTheme`
+
+A second look for an items control's containers (a nav-drawer destination vs. a plain
+list row) ships as a **keyed** `ControlTheme` (`x:Key="M3NavigationDrawerItem"`,
+`TargetType="ListBoxItem"`) applied by the host via **`ItemContainerTheme`** — never a
+second `{x:Type ListBoxItem}` (that key is owned by `ListBox.axaml`; a duplicate
+default collides and one silently wins). The host opts in with a class selector
+(`ListBox.NavigationDrawer`) whose `Setter` points `ItemContainerTheme` at the keyed
+theme. Same pattern for any `ItemsControl` variant. (1.6.0.)
