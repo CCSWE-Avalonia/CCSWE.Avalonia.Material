@@ -1,5 +1,14 @@
 # Handoff — CCSWE.Avalonia.Material
 
+> **v2 contract — no-base (read first).** CCSWE.Avalonia.Material is now a **standalone
+> Material 3 theme**: no `FluentTheme`/`SimpleTheme` base. The design system emits the
+> **token layer only** (`Tokens` / `Typography` / `Motion` / `Fonts`); the **library owns**
+> the `MaterialTheme` entry, all `Controls/*` M3 themes, and the interim `Base/*` infra
+> (forked from Avalonia.Themes.Simple 12.0.4, shrinking as controls are hand-rolled to M3).
+> Consumers wire one `<theme:MaterialTheme/>`. North star: **Material 3 / Android fidelity**.
+> The authoritative contract is the repo-root [`CLAUDE.md`](../../CLAUDE.md); anything below
+> that references `FluentTheme` / `FluentOverrides.axaml` / `Theme.axaml` is superseded.
+
 How a developer (or Claude Code) wires the emitted bundle into the
 **CCSWE.Avalonia.Material** library and a consuming desktop app.
 

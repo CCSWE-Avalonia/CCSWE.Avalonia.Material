@@ -1,5 +1,14 @@
 # CCSWE Avalonia Design System
 
+> **v2 contract — no-base (read first).** CCSWE.Avalonia.Material is now a **standalone
+> Material 3 theme**: no `FluentTheme`/`SimpleTheme` base. Going forward the design system
+> emits the **token layer only** (`Tokens` / `Typography` / `Motion` / `Fonts`); the
+> **library owns** the `MaterialTheme` entry, all `Controls/*` M3 themes, and the interim
+> `Base/*` infrastructure (forked from Avalonia.Themes.Simple 12.0.4, hand-rolled to M3 over
+> time). North star: **Material 3 / Android fidelity**. Authoritative contract: repo-root
+> [`CLAUDE.md`](../../CLAUDE.md); references below to `FluentTheme`/`Theme.axaml`/`FluentOverrides`
+> are superseded.
+
 **Design System (Avalonia):** 1.7.3
 **Tokens:** 1.1.0 · **Avalonia:** 12
 **Sources of truth:** `tokens/tokens.upstream-1.1.0.json` (the master CCSWE cross-platform tokens — primitive ramps + four-scheme M3 semantic layer + 15-role type scale + shape + motion, consumed **verbatim**) and `tokens/tokens.local.json` (the Avalonia/.NET desktop translation layer — spacing scale, letterSpacing resolution, resource-naming convention, font delivery, which schemes to wire).

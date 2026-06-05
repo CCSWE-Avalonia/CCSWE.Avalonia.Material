@@ -1,8 +1,8 @@
 <!--
   =============================================================================
   HAND-AUTHORED DOC SNIPPET - not compiled, not emitted as a buildable file.
-  Shows how a consuming app wires the CCSWE Avalonia theme. Copy the relevant
-  bits into your own App.axaml (which has its own x:Class).
+  Shows how a consuming app wires the CCSWE Avalonia Material theme. Copy the
+  relevant bits into your own App.axaml (which has its own x:Class).
   =============================================================================
 
   NOTE: intentionally has NO x:Class - a theme library must not carry a
@@ -11,25 +11,15 @@
 -->
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:theme="using:CCSWE.Avalonia.Material"
              RequestedThemeVariant="Dark">
   <!-- RequestedThemeVariant="Dark" makes dark the app default, matching web and
        the upstream design intent. Set "Light" or bind to a setting to switch;
-       the emitted ThemeDictionaries respond automatically. -->
+       the theme's ThemeDictionaries respond automatically. -->
 
   <Application.Styles>
-    <FluentTheme />
-    <StyleInclude Source="avares://CCSWE.Avalonia.Material/Theme.axaml" />
+    <!-- One element: the standalone Material 3 theme. It supplies the whole
+         control surface itself - no <FluentTheme/> or other base theme needed. -->
+    <theme:MaterialTheme />
   </Application.Styles>
-
-  <Application.Resources>
-    <!-- Application.Resources is an IResourceDictionary; a ResourceInclude must be
-         merged via ResourceDictionary.MergedDictionaries (it cannot sit directly
-         under Application.Resources). Merge AFTER the styles above so the accent
-         remap wins over FluentTheme. -->
-    <ResourceDictionary>
-      <ResourceDictionary.MergedDictionaries>
-        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/FluentOverrides.axaml" />
-      </ResourceDictionary.MergedDictionaries>
-    </ResourceDictionary>
-  </Application.Resources>
 </Application>

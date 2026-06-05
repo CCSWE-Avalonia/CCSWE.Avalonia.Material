@@ -1,5 +1,14 @@
 # CCSWE Avalonia Bundle — Conventions
 
+> **v2 contract — no-base (read first).** CCSWE.Avalonia.Material is now a **standalone
+> Material 3 theme**: no `FluentTheme`/`SimpleTheme` base. The design system emits the
+> **token layer only** (`Tokens` / `Typography` / `Motion` / `Fonts`); the **library owns**
+> the `MaterialTheme` entry, all `Controls/*` M3 themes, and the interim `Base/*` infra.
+> Control themes reference the **global M3 roles directly** and have **no base theme to
+> `BasedOn`**. The token/resource-naming and `DynamicResource`-in-ControlThemes rules below
+> still hold; anything referencing `FluentTheme` / `FluentOverrides.axaml` / `Theme.axaml`
+> is superseded. Authoritative contract: repo-root [`CLAUDE.md`](../../CLAUDE.md).
+
 Naming and placement rules the Avalonia emitter follows. Mirrors the Android
 bundle's `CONVENTIONS.md`, adapted to AXAML / .NET. Read before editing an
 emitter or adding a resource.

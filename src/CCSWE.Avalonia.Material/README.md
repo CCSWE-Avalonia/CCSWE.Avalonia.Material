@@ -1,8 +1,9 @@
 # CCSWE.Avalonia.Material
 
-A branded **Material 3** theme for [Avalonia](https://avaloniaui.net) 12 — a
+A standalone **Material 3** theme for [Avalonia](https://avaloniaui.net) 12 — a
 Dark/Light color system, the M3 type scale, motion, embedded brand fonts, and M3
-control themes that give stock Avalonia controls a consistent look.
+control themes for the full control set. Depends only on **Avalonia core** — no
+`FluentTheme`/`SimpleTheme` base required.
 
 ## Install
 
@@ -12,33 +13,23 @@ dotnet add package CCSWE.Avalonia.Material
 
 ## Wire it up
 
-Add three things to your `App.axaml`:
+Add one element to your `App.axaml`:
 
 ```xml
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:theme="using:CCSWE.Avalonia.Material"
              x:Class="YourApp.App"
              RequestedThemeVariant="Dark"> <!-- Dark is the default -->
 
   <Application.Styles>
-    <FluentTheme />
-    <StyleInclude Source="avares://CCSWE.Avalonia.Material/Theme.axaml" />
+    <theme:MaterialTheme />
   </Application.Styles>
-
-  <Application.Resources>
-    <ResourceDictionary>
-      <ResourceDictionary.MergedDictionaries>
-        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/FluentOverrides.axaml" />
-      </ResourceDictionary.MergedDictionaries>
-    </ResourceDictionary>
-  </Application.Resources>
 </Application>
 ```
 
-1. `<FluentTheme />` supplies the control templates this theme doesn't override.
-2. `Theme.axaml` layers the tokens, type scale, motion, and M3 control themes on top.
-3. `FluentOverrides.axaml` (merged *after* the styles) remaps Fluent's accent onto
-   the brand so stock controls (Slider, ProgressBar, selection highlights) match.
+`MaterialTheme` is standalone — it supplies the whole control surface itself and
+depends only on Avalonia core. **No `<FluentTheme/>` (or other base theme) is required.**
 
 ## Use it
 
