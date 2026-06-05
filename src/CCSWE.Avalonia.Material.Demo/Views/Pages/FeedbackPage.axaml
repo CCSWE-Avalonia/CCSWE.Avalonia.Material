@@ -20,6 +20,14 @@
                         <Button Classes="Outlined" Content="Hover for tooltip" Margin="0,0,12,0"
                                 ToolTip.Tip="Tooltips show informative text when users hover, focus, or press an element." />
                     </WrapPanel>
+
+                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="NOTIFICATIONS (NotificationCard)" />
+                    <WrapPanel>
+                        <Button Classes="FilledTonal" Content="Information" Margin="0,0,12,12" Click="OnShowInformation" />
+                        <Button Classes="FilledTonal" Content="Success" Margin="0,0,12,12" Click="OnShowSuccess" />
+                        <Button Classes="FilledTonal" Content="Warning" Margin="0,0,12,12" Click="OnShowWarning" />
+                        <Button Classes="FilledTonal" Content="Error" Margin="0,0,12,12" Click="OnShowError" />
+                    </WrapPanel>
                 </StackPanel>
             </Border>
         </StackPanel>

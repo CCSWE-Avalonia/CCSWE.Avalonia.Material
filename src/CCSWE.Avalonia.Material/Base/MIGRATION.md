@@ -34,7 +34,7 @@ interim forks, and which are verified in the Demo. Update this **per control** a
 | PipsPager | ✅ M3 | — | OutlineVariant pips, Primary selected, M3 icon nav buttons; `Base/PipsPager` deleted |
 | ItemsControl, HeaderedContentControl | ✅ M3 | — | structural; OnSurface foreground default; forks deleted |
 | RefreshContainer, RefreshVisualizer | ✅ M3 | — | RefreshVisualizer spinner → Primary, transparent bg; forks deleted |
-| NotificationCard | ⬜ Forked | — | needs DS success/warning/info tokens (only Error exists) — see ds-feedback |
+| NotificationCard | ✅ M3 | — | snackbar look (InverseSurface), error→ErrorContainer, success→TertiaryContainer; info/warning need DS tokens (see ds-feedback/semantic-status-tokens.md); `Base/NotificationCard` deleted |
 | ContentPage, CarouselPage, TabbedPage, NavigationPage, Carousel | ⬜ Forked | — | page shells |
 | Calendar, CalendarButton, CalendarDayButton, CalendarItem, CalendarDatePicker, DatePicker, TimePicker, DateTimePickerShared | ⬜ Forked | — | date family — **deferred ("maybe later")** |
 
