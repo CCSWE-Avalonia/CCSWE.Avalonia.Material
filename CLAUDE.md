@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 A branded **Material 3** theme library for **Avalonia** 12. It gives stock Avalonia controls the CCSWE look — a Dark/Light color system, M3 type scale, motion, embedded brand fonts, and M3 control themes for buttons (incl. toggle buttons), text fields, autocomplete, numeric steppers, selection controls, lists, tree views, dropdowns, menus, expander, cards, sliders, progress, tabs (tab control + tab strip), and a navigation drawer (`DrawerPage`) — so consuming apps get consistent branding by referencing the package.
 
-The library is .NET 10 / C# targeting `net10.0`, built against **Avalonia 12**, distributed as a NuGet package (`CCSWE.Avalonia.Theme`). It is the desktop sibling of the CCSWE web and Android bundles: all three consume the same shared cross-platform design tokens.
+The library is .NET 10 / C# targeting `net10.0`, built against **Avalonia 12**, distributed as a NuGet package (`CCSWE.Avalonia.Material`). It is the desktop sibling of the CCSWE web and Android bundles: all three consume the same shared cross-platform design tokens.
 
 Consumers wire it into `App.axaml` with `<FluentTheme />` + `Theme.axaml` in `Application.Styles`, and `FluentOverrides.axaml` in `Application.Resources` (see `docs/samples/App.sample.axaml` and the root `README.md`). Dark is the default `ThemeVariant`.
 
@@ -20,23 +20,23 @@ The token JSON source-of-truth lives in `tokens/`; the design-system handoff doc
 
 ## Build & Pack Commands
 
-Projects live under `src/`; the solution is `src/CCSWE.Avalonia.Theme.slnx`.
+Projects live under `src/`; the solution is `src/CCSWE.Avalonia.Material.slnx`.
 
 ```bash
 # Build everything (library + Demo)
-dotnet build src/CCSWE.Avalonia.Theme.slnx --configuration Release
+dotnet build src/CCSWE.Avalonia.Material.slnx --configuration Release
 
 # Run the Demo gallery (visual verification harness — Dark/Light toggle)
-dotnet run --project src/CCSWE.Avalonia.Theme.Demo
+dotnet run --project src/CCSWE.Avalonia.Material.Demo
 
 # Pack the NuGet package (library only)
-dotnet pack src/CCSWE.Avalonia.Theme/CCSWE.Avalonia.Theme.csproj --configuration Release
+dotnet pack src/CCSWE.Avalonia.Material/CCSWE.Avalonia.Material.csproj --configuration Release
 
 # Run all tests (once a test project is added under tests/)
-dotnet test src/CCSWE.Avalonia.Theme.slnx
+dotnet test src/CCSWE.Avalonia.Material.slnx
 
 # Run a specific test
-dotnet test src/CCSWE.Avalonia.Theme.slnx --filter "FullyQualifiedName~ClassName"
+dotnet test src/CCSWE.Avalonia.Material.slnx --filter "FullyQualifiedName~ClassName"
 ```
 
 The SDK is pinned to `10.0.0` (`rollForward: latestMinor`) via the root `global.json`. `src/Directory.Build.props` applies `LangVersion=preview`, `ImplicitUsings=enable`, and `Nullable=enable` solution-wide, and references JetBrains.Annotations and Nerdbank.GitVersioning (version derived from git history — base `0.1` in the root `version.json`).
@@ -49,30 +49,30 @@ Keep the Avalonia package versions (`Avalonia`, `Avalonia.Themes.Fluent`, etc.) 
 
 ## Publishing
 
-The library publishes to **NuGet.org** as `CCSWE.Avalonia.Theme`. Versioning is **Nerdbank.GitVersioning** (root `version.json`, base `0.1` → `0.1.x`). Shared package metadata lives in `src/Directory.Build.props`; per-package metadata (description, tags, README) in the library csproj. The Demo sets `IsPackable=false`. SourceLink + `snupkg` symbols are enabled.
+The library publishes to **NuGet.org** as `CCSWE.Avalonia.Material`. Versioning is **Nerdbank.GitVersioning** (root `version.json`, base `0.1` → `0.1.x`). Shared package metadata lives in `src/Directory.Build.props`; per-package metadata (description, tags, README) in the library csproj. The Demo sets `IsPackable=false`. SourceLink + `snupkg` symbols are enabled.
 
 CI (`.github/workflows/dotnet-build-publish-library.yml`): pushes to **`master`** build + test + pack + **publish to NuGet.org** (via the `NUGET_API_KEY` secret); PRs build + test only. NuGet versions are immutable, so every `master` push is an immutable public release. There is no committed `nuget.config` with credentials.
 
-The package embeds a self-contained NuGet README (`src/CCSWE.Avalonia.Theme/README.md`, distinct from the repo root `README.md`, which uses repo-relative links) and the fonts' `OFL.txt` under `THIRD-PARTY-NOTICES/`.
+The package embeds a self-contained NuGet README (`src/CCSWE.Avalonia.Material/README.md`, distinct from the repo root `README.md`, which uses repo-relative links) and the fonts' `OFL.txt` under `THIRD-PARTY-NOTICES/`.
 
 ## Architecture
 
-Projects in `src/CCSWE.Avalonia.Theme.slnx`:
+Projects in `src/CCSWE.Avalonia.Material.slnx`:
 
-- **`CCSWE.Avalonia.Theme`** — the theme class library (NuGet package). Pure library, no front-end dependency. The axaml live **flat at the project root** (no `Themes/` folder), grouped only by the `Controls/` subfolder:
+- **`CCSWE.Avalonia.Material`** — the theme class library (NuGet package). Pure library, no front-end dependency. The axaml live **flat at the project root** (no `Themes/` folder), grouped only by the `Controls/` subfolder:
   - `Theme.axaml` — the one-stop include consumers add to `App.axaml`; merges the resource dictionaries (`Fonts`, `Tokens`, `Motion`) and `StyleInclude`s the style files (`Typography`, `Controls/*`).
   - `Tokens.axaml` — Dark/Light color roles (as `ResourceDictionary.ThemeDictionaries`) + theme-invariant metrics (`CornerRadius*`, `Spacing*`).
   - `Fonts.axaml`, `Motion.axaml`, `Typography.axaml`, `Controls/{Button,ToggleButton,TextBox,AutoCompleteBox,NumericUpDown,CheckBox,RadioButton,ToggleSwitch,ListBox,TreeView,ComboBox,Menu,Expander,Card,Slider,ProgressBar,TabControl,TabStrip,DrawerPage}.axaml` (19 control files).
   - `FluentOverrides.axaml` — hand-authored accent remap (lives at the root, not in a `library-glue/` folder).
   - `Assets/Fonts/` — embedded OFL variable TTFs (DM Sans, Plus Jakarta Sans), referenced by family name from `Fonts.axaml`.
-- **`CCSWE.Avalonia.Theme.Demo`** — an Avalonia desktop app that wires the theme and renders a control gallery with a Dark/Light toggle. It is the **visual verification harness**; keep it in sync when adding controls to the theme.
+- **`CCSWE.Avalonia.Material.Demo`** — an Avalonia desktop app that wires the theme and renders a control gallery with a Dark/Light toggle. It is the **visual verification harness**; keep it in sync when adding controls to the theme.
 
 Conventions when working on the theme (full detail in `docs/design-system/CONVENTIONS.md`):
 
 - **Resource naming:** each color role emits a paired `SolidColorBrush` (bare PascalCase, e.g. `Primary` — the common case) and `Color` (role + `Color` suffix, e.g. `PrimaryColor`). Reach for the bare brush name in markup.
 - **`DynamicResource` inside `ControlTheme`s — always**, for color/metric/motion refs. `StaticResource` freezes a brush at parse time so the control won't repaint on a `ThemeVariant` flip (a real bug). `StaticResource` is only for same-file structural refs (`BasedOn=`, the `Theme=` convenience assignments).
 - **Control themes** are full templates (they don't `BasedOn` Fluent), honoring required Avalonia part names (`PART_*`) and the standard pseudo-classes (`:checked`, `:error`, `:focus-within`, …). `ControlTheme`s must be declared inside `<Styles.Resources>`.
-- Files are `AvaloniaResource` (auto-globbed for axaml; fonts are included explicitly in the csproj) and resolve via `avares://CCSWE.Avalonia.Theme/...` URIs.
+- Files are `AvaloniaResource` (auto-globbed for axaml; fonts are included explicitly in the csproj) and resolve via `avares://CCSWE.Avalonia.Material/...` URIs.
 
 Tests belong under the solution's `tests/` folder (no test project exists yet — see Testing).
 

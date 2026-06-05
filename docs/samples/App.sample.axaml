@@ -18,7 +18,7 @@
 
   <Application.Styles>
     <FluentTheme />
-    <StyleInclude Source="avares://CCSWE.Avalonia.Theme/Theme.axaml" />
+    <StyleInclude Source="avares://CCSWE.Avalonia.Material/Theme.axaml" />
   </Application.Styles>
 
   <Application.Resources>
@@ -28,7 +28,7 @@
          remap wins over FluentTheme. -->
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
-        <ResourceInclude Source="avares://CCSWE.Avalonia.Theme/FluentOverrides.axaml" />
+        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/FluentOverrides.axaml" />
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </Application.Resources>

@@ -1,0 +1,21 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:CCSWE.Avalonia.Material.Demo.ViewModels"
+             x:Class="CCSWE.Avalonia.Material.Demo.Views.Pages.FeedbackPage"
+             x:DataType="vm:MainWindowViewModel">
+    <ScrollViewer x:DataType="vm:MainWindowViewModel">
+        <StackPanel Spacing="24" Margin="32,24,32,48">
+            <TextBlock Classes="HeadlineSmall" Text="Sliders &amp; progress" />
+            <Border Classes="Card Outlined">
+                <StackPanel Spacing="16">
+                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="SLIDER" />
+                    <Slider Minimum="0" Maximum="100" Value="60" />
+
+                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="PROGRESSBAR" />
+                    <ProgressBar Minimum="0" Maximum="100" Value="60" Height="8" />
+                    <ProgressBar IsIndeterminate="True" Height="8" />
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

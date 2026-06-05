@@ -1,0 +1,39 @@
+<Solution>
+  <Folder Name="/docs/">
+    <File Path="../CLAUDE.md" />
+    <File Path="../LICENSE.md" />
+    <File Path="../README.md" />
+    <File Path="../THIRD-PARTY-NOTICES.md" />
+  </Folder>
+  <Folder Name="/docs/design-system/">
+    <File Path="../docs/design-system/README.md" />
+    <File Path="../docs/design-system/HANDOFF.md" />
+    <File Path="../docs/design-system/CONVENTIONS.md" />
+    <File Path="../docs/design-system/FONTS.md" />
+    <File Path="../docs/design-system/FLUENT-AUDIT.md" />
+    <File Path="../docs/design-system/CHANGELOG.md" />
+  </Folder>
+  <Folder Name="/docs/samples/">
+    <File Path="../docs/samples/App.sample.axaml" />
+  </Folder>
+  <Folder Name="/eng/">
+    <File Path="../.gitattributes" />
+    <File Path="../.gitignore" />
+    <File Path="../global.json" />
+    <File Path="../version.json" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+  </Folder>
+  <Folder Name="/eng/GitHub Actions/">
+    <File Path="../.github/workflows/dotnet-build-publish-library.yml" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="CCSWE.Avalonia.Material.Demo/CCSWE.Avalonia.Material.Demo.csproj" />
+    <Project Path="CCSWE.Avalonia.Material/CCSWE.Avalonia.Material.csproj" />
+  </Folder>
+  <Folder Name="/tests/" />
+  <Folder Name="/tokens/">
+    <File Path="../tokens/tokens.upstream-1.1.0.json" />
+    <File Path="../tokens/tokens.local.json" />
+  </Folder>
+</Solution>

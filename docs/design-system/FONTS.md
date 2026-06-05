@@ -23,7 +23,7 @@ The bundle ships fetch scripts in `Assets/Fonts/` — run the one for your OS fr
 that folder. They pull the two variable TTFs **and** each `OFL.txt`:
 
 ```bash
-cd CCSWE.Avalonia.Theme/Assets/Fonts
+cd CCSWE.Avalonia.Material/Assets/Fonts
 ./fetch-fonts.sh           # macOS / Linux
 # or
 pwsh ./fetch-fonts.ps1     # Windows / cross-platform PowerShell
@@ -51,7 +51,7 @@ body 500 (title-small / labels), 700 for emphasis.
 ## Where they go
 
 ```
-CCSWE.Avalonia.Theme/Assets/Fonts/
+CCSWE.Avalonia.Material/Assets/Fonts/
 ├── fetch-fonts.sh / fetch-fonts.ps1   (acquisition scripts, shipped)
 ├── PlusJakartaSans[wght].ttf          (downloaded)
 ├── PlusJakartaSans-OFL.txt            (downloaded)
@@ -63,8 +63,8 @@ Include the TTFs as `AvaloniaResource` in the csproj (see `HANDOFF.md`). The
 emitted `Fonts.axaml` references them by **family name**, not file name:
 
 ```xml
-<FontFamily x:Key="BrandFontFamily">avares://CCSWE.Avalonia.Theme/Assets/Fonts/#Plus Jakarta Sans</FontFamily>
-<FontFamily x:Key="BodyFontFamily">avares://CCSWE.Avalonia.Theme/Assets/Fonts/#DM Sans</FontFamily>
+<FontFamily x:Key="BrandFontFamily">avares://CCSWE.Avalonia.Material/Assets/Fonts/#Plus Jakarta Sans</FontFamily>
+<FontFamily x:Key="BodyFontFamily">avares://CCSWE.Avalonia.Material/Assets/Fonts/#DM Sans</FontFamily>
 ```
 
 The `#Family Name` fragment must match the font's internal family name exactly,

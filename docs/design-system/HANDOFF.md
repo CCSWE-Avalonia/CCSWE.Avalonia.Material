@@ -1,7 +1,7 @@
-# Handoff — CCSWE.Avalonia.Theme
+# Handoff — CCSWE.Avalonia.Material
 
 How a developer (or Claude Code) wires the emitted bundle into the
-**CCSWE.Avalonia.Theme** library and a consuming desktop app.
+**CCSWE.Avalonia.Material** library and a consuming desktop app.
 
 ## Scope
 
@@ -16,8 +16,8 @@ controls with the emitted resources and classes and let the tokens drive the loo
 ## Library project layout
 
 ```
-CCSWE.Avalonia.Theme/            (Avalonia 12 class library; TFM-agnostic, net8.0+)
-├── CCSWE.Avalonia.Theme.csproj
+CCSWE.Avalonia.Material/            (Avalonia 12 class library; TFM-agnostic, net8.0+)
+├── CCSWE.Avalonia.Material.csproj
 ├── Tokens.axaml                 ← emitted bundle, drop in verbatim at the project root
 ├── Fonts.axaml
 ├── Motion.axaml
@@ -72,8 +72,8 @@ CCSWE.Avalonia.Theme/            (Avalonia 12 class library; TFM-agnostic, net8.
 </Project>
 ```
 
-The `avares://CCSWE.Avalonia.Theme/...` URIs in the emitted files assume the
-assembly name is `CCSWE.Avalonia.Theme`. If you name the assembly differently,
+The `avares://CCSWE.Avalonia.Material/...` URIs in the emitted files assume the
+assembly name is `CCSWE.Avalonia.Material`. If you name the assembly differently,
 find-and-replace the authority segment in `Theme.axaml`, `Fonts.axaml`, and
 `FluentOverrides.axaml`.
 

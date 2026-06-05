@@ -1,0 +1,120 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:CCSWE.Avalonia.Material.Demo.ViewModels"
+             x:Class="CCSWE.Avalonia.Material.Demo.Views.Pages.TypographyPage"
+             x:DataType="vm:MainWindowViewModel">
+    <ScrollViewer x:DataType="vm:MainWindowViewModel">
+        <StackPanel Spacing="24" Margin="32,24,32,48">
+            <StackPanel Spacing="4">
+                <TextBlock Classes="HeadlineSmall" Text="Typography" />
+                <TextBlock Classes="BodyMedium" Foreground="{DynamicResource OnSurfaceVariant}"
+                           Text="The full Material 3 type scale — 15 roles across Display, Headline, Title, Body, and Label." />
+            </StackPanel>
+
+            <!-- DISPLAY -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="LabelLarge" Foreground="{DynamicResource Primary}" Text="DISPLAY" />
+                <Border Classes="Card Outlined">
+                    <StackPanel Spacing="16">
+                        <StackPanel Spacing="2">
+                            <TextBlock Classes="DisplayLarge" Text="Display Large" />
+                            <TextBlock Classes="LabelSmall" Foreground="{DynamicResource OnSurfaceVariant}" Text="57 / 64" />
+                        </StackPanel>
+                        <StackPanel Spacing="2">
+                            <TextBlock Classes="DisplayMedium" Text="Display Medium" />
+                            <TextBlock Classes="LabelSmall" Foreground="{DynamicResource OnSurfaceVariant}" Text="45 / 52" />
+                        </StackPanel>
+                        <StackPanel Spacing="2">
+                            <TextBlock Classes="DisplaySmall" Text="Display Small" />
+                            <TextBlock Classes="LabelSmall" Foreground="{DynamicResource OnSurfaceVariant}" Text="36 / 44" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+            <!-- HEADLINE -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="LabelLarge" Foreground="{DynamicResource Primary}" Text="HEADLINE" />
+                <Border Classes="Card Outlined">
+                    <StackPanel Spacing="16">
+                        <StackPanel Spacing="2">
+                            <TextBlock Classes="HeadlineLarge" Text="Headline Large" />
+                            <TextBlock Classes="LabelSmall" Foreground="{DynamicResource OnSurfaceVariant}" Text="32 / 40" />
+                        </StackPanel>
+                        <StackPanel Spacing="2">
+                            <TextBlock Classes="HeadlineMedium" Text="Headline Medium" />
+                            <TextBlock Classes="LabelSmall" Foreground="{DynamicResource OnSurfaceVariant}" Text="28 / 36" />
+                        </StackPanel>
+                        <StackPanel Spacing="2">
+                            <TextBlock Classes="HeadlineSmall" Text="Headline Small" />
+                            <TextBlock Classes="LabelSmall" Foreground="{DynamicResource OnSurfaceVariant}" Text="24 / 32" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+            <!-- TITLE -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="LabelLarge" Foreground="{DynamicResource Primary}" Text="TITLE" />
+                <Border Classes="Card Outlined">
+                    <StackPanel Spacing="16">
+                        <StackPanel Spacing="2">
+                            <TextBlock Classes="TitleLarge" Text="Title Large" />
+                            <TextBlock Classes="LabelSmall" Foreground="{DynamicResource OnSurfaceVariant}" Text="22 / 28" />
+                        </StackPanel>
+                        <StackPanel Spacing="2">
+                            <TextBlock Classes="TitleMedium" Text="Title Medium" />
+                            <TextBlock Classes="LabelSmall" Foreground="{DynamicResource OnSurfaceVariant}" Text="16 / 24" />
+                        </StackPanel>
+                        <StackPanel Spacing="2">
+                            <TextBlock Classes="TitleSmall" Text="Title Small" />
+                            <TextBlock Classes="LabelSmall" Foreground="{DynamicResource OnSurfaceVariant}" Text="14 / 20" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+            <!-- BODY -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="LabelLarge" Foreground="{DynamicResource Primary}" Text="BODY" />
+                <Border Classes="Card Outlined">
+                    <StackPanel Spacing="16">
+                        <StackPanel Spacing="2">
+                            <TextBlock Classes="BodyLarge" Text="Body Large — the quick brown fox jumps over the lazy dog." />
+                            <TextBlock Classes="LabelSmall" Foreground="{DynamicResource OnSurfaceVariant}" Text="16 / 26" />
+                        </StackPanel>
+                        <StackPanel Spacing="2">
+                            <TextBlock Classes="BodyMedium" Text="Body Medium — the quick brown fox jumps over the lazy dog." />
+                            <TextBlock Classes="LabelSmall" Foreground="{DynamicResource OnSurfaceVariant}" Text="14 / 23" />
+                        </StackPanel>
+                        <StackPanel Spacing="2">
+                            <TextBlock Classes="BodySmall" Text="Body Small — the quick brown fox jumps over the lazy dog." />
+                            <TextBlock Classes="LabelSmall" Foreground="{DynamicResource OnSurfaceVariant}" Text="12 / 20" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+            <!-- LABEL -->
+            <StackPanel Spacing="8">
+                <TextBlock Classes="LabelLarge" Foreground="{DynamicResource Primary}" Text="LABEL" />
+                <Border Classes="Card Outlined">
+                    <StackPanel Spacing="16">
+                        <StackPanel Spacing="2">
+                            <TextBlock Classes="LabelLarge" Text="Label Large" />
+                            <TextBlock Classes="LabelSmall" Foreground="{DynamicResource OnSurfaceVariant}" Text="14 / 20" />
+                        </StackPanel>
+                        <StackPanel Spacing="2">
+                            <TextBlock Classes="LabelMedium" Text="Label Medium" />
+                            <TextBlock Classes="LabelSmall" Foreground="{DynamicResource OnSurfaceVariant}" Text="12 / 16" />
+                        </StackPanel>
+                        <StackPanel Spacing="2">
+                            <TextBlock Classes="LabelSmall" Text="Label Small" />
+                            <TextBlock Classes="LabelSmall" Foreground="{DynamicResource OnSurfaceVariant}" Text="11 / 16" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

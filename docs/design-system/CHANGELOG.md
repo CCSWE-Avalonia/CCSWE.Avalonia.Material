@@ -792,7 +792,7 @@ ones are now shipped **live** in `FluentOverrides.axaml`.
 **Tokens:** 1.1.0 (unchanged)
 
 Closes the consumer round-trip (per consumer feedback) — the bundle was
-dropped into `CCSWE.Avalonia.Theme` + a real Demo app and **compiled**, surfacing
+dropped into `CCSWE.Avalonia.Material` + a real Demo app and **compiled**, surfacing
 the verification 1.1.0 explicitly owed. All items below were emitter bugs.
 
 ### P0 — compile blockers (fixed)

@@ -1,0 +1,34 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:CCSWE.Avalonia.Material.Demo.ViewModels"
+             x:Class="CCSWE.Avalonia.Material.Demo.Views.Pages.TabsPage"
+             x:DataType="vm:MainWindowViewModel">
+    <ScrollViewer x:DataType="vm:MainWindowViewModel">
+        <StackPanel Spacing="24" Margin="32,24,32,48">
+            <TextBlock Classes="HeadlineSmall" Text="Tabs" />
+            <Border Classes="Card Outlined">
+                <StackPanel Spacing="16">
+                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="TABCONTROL" />
+                    <TabControl>
+                        <TabItem Header="Devices">
+                            <TextBlock Classes="BodyMedium" Margin="0,12,0,0" Text="Connected devices appear here." />
+                        </TabItem>
+                        <TabItem Header="Emulators">
+                            <TextBlock Classes="BodyMedium" Margin="0,12,0,0" Text="Start and manage Android emulators." />
+                        </TabItem>
+                        <TabItem Header="Settings">
+                            <TextBlock Classes="BodyMedium" Margin="0,12,0,0" Text="Theme and connection settings." />
+                        </TabItem>
+                    </TabControl>
+
+                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="TABSTRIP" Margin="0,8,0,0" />
+                    <TabStrip>
+                        <TabStripItem>Devices</TabStripItem>
+                        <TabStripItem>Logs</TabStripItem>
+                        <TabStripItem>Settings</TabStripItem>
+                    </TabStrip>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

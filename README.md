@@ -1,7 +1,7 @@
-# CCSWE.Avalonia.Theme
+# CCSWE.Avalonia.Material
 
-[![Build](https://github.com/CoryCharlton/CCSWE.Avalonia.Theme/actions/workflows/dotnet-build-publish-library.yml/badge.svg)](https://github.com/CoryCharlton/CCSWE.Avalonia.Theme/actions/workflows/dotnet-build-publish-library.yml)
-[![NuGet](https://img.shields.io/nuget/v/CCSWE.Avalonia.Theme.svg)](https://www.nuget.org/packages/CCSWE.Avalonia.Theme)
+[![Build](https://github.com/CoryCharlton/CCSWE.Avalonia.Material/actions/workflows/dotnet-build-publish-library.yml/badge.svg)](https://github.com/CoryCharlton/CCSWE.Avalonia.Material/actions/workflows/dotnet-build-publish-library.yml)
+[![NuGet](https://img.shields.io/nuget/v/CCSWE.Avalonia.Material.svg)](https://www.nuget.org/packages/CCSWE.Avalonia.Material)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.md)
 
 A branded **Material 3** theme for [Avalonia](https://avaloniaui.net) 12. It gives
@@ -16,12 +16,12 @@ consume the same shared cross-platform design tokens. This library turns those
 tokens into Avalonia `ResourceDictionary` + `Styles` and ships them as a NuGet
 package.
 
-![CCSWE.Avalonia.Theme demo gallery — Material 3 controls with a Dark/Light toggle](docs/images/demo.gif)
+![CCSWE.Avalonia.Material demo gallery — Material 3 controls with a Dark/Light toggle](docs/images/demo.gif)
 
 ## Install & wire up
 
 ```sh
-dotnet add package CCSWE.Avalonia.Theme
+dotnet add package CCSWE.Avalonia.Material
 ```
 
 Then add three things to your `App.axaml` (full sample in
@@ -35,13 +35,13 @@ Then add three things to your `App.axaml` (full sample in
 
   <Application.Styles>
     <FluentTheme />
-    <StyleInclude Source="avares://CCSWE.Avalonia.Theme/Theme.axaml" />
+    <StyleInclude Source="avares://CCSWE.Avalonia.Material/Theme.axaml" />
   </Application.Styles>
 
   <Application.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
-        <ResourceInclude Source="avares://CCSWE.Avalonia.Theme/FluentOverrides.axaml" />
+        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/FluentOverrides.axaml" />
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </Application.Resources>
@@ -94,7 +94,7 @@ Application.Current!.RequestedThemeVariant =
 
 ```
 src/
-  CCSWE.Avalonia.Theme/        the theme library (NuGet package)
+  CCSWE.Avalonia.Material/        the theme library (NuGet package)
     Theme.axaml                one-stop include (add this to App.axaml)
     Tokens.axaml               Dark/Light color roles + metrics
     Fonts.axaml                embedded FontFamily resources
@@ -103,7 +103,7 @@ src/
     Controls/*.axaml           M3 control themes
     FluentOverrides.axaml      FluentTheme accent remap (hand-authored)
     Assets/Fonts/              embedded OFL TTFs (DM Sans, Plus Jakarta Sans)
-  CCSWE.Avalonia.Theme.Demo/   gallery app — visual verification harness
+  CCSWE.Avalonia.Material.Demo/   gallery app — visual verification harness
 tokens/                        shared token JSON (source of truth)
 docs/design-system/            the design-system handoff bundle (conventions, fonts, audit)
 docs/samples/                  App.axaml wiring sample
@@ -120,13 +120,13 @@ full contract.
 
 ```bash
 # Build everything
-dotnet build src/CCSWE.Avalonia.Theme.slnx -c Release
+dotnet build src/CCSWE.Avalonia.Material.slnx -c Release
 
 # Run the gallery (Dark/Light toggle + every themed control)
-dotnet run --project src/CCSWE.Avalonia.Theme.Demo
+dotnet run --project src/CCSWE.Avalonia.Material.Demo
 
 # Pack the library
-dotnet pack src/CCSWE.Avalonia.Theme/CCSWE.Avalonia.Theme.csproj -c Release
+dotnet pack src/CCSWE.Avalonia.Material/CCSWE.Avalonia.Material.csproj -c Release
 ```
 
 Requires the .NET 10 SDK (pinned via `global.json`).
@@ -135,4 +135,4 @@ Requires the .NET 10 SDK (pinned via `global.json`).
 
 The library is under [`LICENSE.md`](LICENSE.md). The embedded fonts (DM Sans, Plus
 Jakarta Sans) are under the SIL Open Font License 1.1 — their `OFL.txt` files ship
-alongside the TTFs in `src/CCSWE.Avalonia.Theme/Assets/Fonts/`.
+alongside the TTFs in `src/CCSWE.Avalonia.Material/Assets/Fonts/`.

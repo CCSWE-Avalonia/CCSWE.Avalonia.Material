@@ -4,7 +4,7 @@
 **Tokens:** 1.1.0 · **Avalonia:** 12
 **Sources of truth:** `tokens/tokens.upstream-1.1.0.json` (the master CCSWE cross-platform tokens — primitive ramps + four-scheme M3 semantic layer + 15-role type scale + shape + motion, consumed **verbatim**) and `tokens/tokens.local.json` (the Avalonia/.NET desktop translation layer — spacing scale, letterSpacing resolution, resource-naming convention, font delivery, which schemes to wire).
 
-It is the desktop sibling of the **web** bundle (emits `tokens.css`) and the **Android** bundle (emits Kotlin/XML), all consuming one shared token set. It turns those tokens into Avalonia `ResourceDictionary` + `Styles` files that drop into the **CCSWE.Avalonia.Theme** library, so desktop is a **consume-verbatim** platform alongside web/Android rather than hand-translating tokens on every version bump.
+It is the desktop sibling of the **web** bundle (emits `tokens.css`) and the **Android** bundle (emits Kotlin/XML), all consuming one shared token set. It turns those tokens into Avalonia `ResourceDictionary` + `Styles` files that drop into the **CCSWE.Avalonia.Material** library, so desktop is a **consume-verbatim** platform alongside web/Android rather than hand-translating tokens on every version bump.
 
 The goal: **a branded theme that gives stock Avalonia controls the Material 3 look.**
 
@@ -31,7 +31,7 @@ It does **not** ship: a component library, custom controls, or app plumbing. It 
 
 The split:
 
-| | **Design System emits** (consume-verbatim, never hand-edit) | **CCSWE.Avalonia.Theme library owns** (hand-authored) |
+| | **Design System emits** (consume-verbatim, never hand-edit) | **CCSWE.Avalonia.Material library owns** (hand-authored) |
 |---|---|---|
 | **Rule** | Anything that is a *pure function of the tokens* | Anything that depends on app/runtime context or Avalonia framework wiring |
 | **Files** | `Tokens.axaml`, `Fonts.axaml`, `Motion.axaml`, `Typography.axaml`, all `Controls/*.axaml`, `Theme.axaml` | `FluentOverrides.axaml` (accent remap), `App.sample.axaml` (wiring), theme-variant switching, packaging/NuGet, markup/class helper conveniences |
@@ -48,7 +48,7 @@ The **control themes are emitted** — an M3 control template is a deterministic
 tokens/
   tokens.upstream-1.1.0.json   master tokens, consumed verbatim
   tokens.local.json            Avalonia-side desktop decisions
-CCSWE.Avalonia.Theme/          (library root — emit straight here, no Themes/ wrapper)
+CCSWE.Avalonia.Material/          (library root — emit straight here, no Themes/ wrapper)
   Tokens.axaml                 ThemeDictionaries Dark/Light + metrics  ← single source of truth for color/metric values
   Fonts.axaml                  avares:// FontFamily resources
   Motion.axaml                 durations (TimeSpan) + easings (SplineEasing)
@@ -92,13 +92,13 @@ delivered package.)
 <Application RequestedThemeVariant="Dark"> <!-- Dark is the app default -->
   <Application.Styles>
     <FluentTheme />
-    <StyleInclude Source="avares://CCSWE.Avalonia.Theme/Theme.axaml" />
+    <StyleInclude Source="avares://CCSWE.Avalonia.Material/Theme.axaml" />
   </Application.Styles>
   <Application.Resources>
     <!-- ResourceInclude must be merged via MergedDictionaries, not placed directly. -->
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
-        <ResourceInclude Source="avares://CCSWE.Avalonia.Theme/FluentOverrides.axaml" />
+        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/FluentOverrides.axaml" />
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </Application.Resources>

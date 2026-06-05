@@ -1,4 +1,4 @@
-# FluentTheme override audit — CCSWE.Avalonia.Theme
+# FluentTheme override audit — CCSWE.Avalonia.Material
 
 **Avalonia:** 12.0.4 · **Bundle:** 1.7.3 · **Fluent keys verified against:** `Avalonia.Themes.Fluent` 12.0.3 (consumer confirms keys stable through 12.0.4)
 **Base theme:** `FluentTheme` (Avalonia's stock control templates)
