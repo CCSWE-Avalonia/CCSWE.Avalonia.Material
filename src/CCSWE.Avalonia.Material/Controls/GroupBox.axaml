@@ -1,0 +1,85 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:converters="clr-namespace:Avalonia.Controls.Converters;assembly=Avalonia.Controls">
+
+  <Styles.Resources>
+    <converters:BorderGapMaskConverter x:Key="BorderGapMaskConverter" />
+
+    <ControlTheme x:Key="{x:Type GroupBox}" TargetType="GroupBox">
+      <Setter Property="Foreground" Value="{DynamicResource OnSurface}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource Outline}" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusMedium}" />
+      <Setter Property="FontFamily" Value="{DynamicResource BodyFontFamily}" />
+      <Setter Property="FontSize" Value="{DynamicResource FontSizeBodyMedium}" />
+      <Setter Property="Template">
+        <ControlTemplate>
+          <Grid x:Name="RootGrid" UseLayoutRounding="true" ColumnDefinitions="12,Auto,*,12" RowDefinitions="Auto,Auto,*,12">
+            <!-- Separate Border for the background so the gap opacity mask isn't applied to it. -->
+            <Border Grid.Row="1"
+                    Grid.RowSpan="3"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="4"
+                    CornerRadius="{TemplateBinding CornerRadius}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    BorderBrush="Transparent"
+                    Background="{TemplateBinding Background}" />
+
+            <Border Grid.Row="1"
+                    Grid.RowSpan="3"
+                    Grid.ColumnSpan="4"
+                    CornerRadius="{TemplateBinding CornerRadius}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    BorderBrush="{TemplateBinding BorderBrush}">
+              <Border.OpacityMask>
+                <MultiBinding Converter="{StaticResource BorderGapMaskConverter}"
+                              ConverterParameter="12">
+                  <Binding ElementName="Header" Path="Bounds.Width" />
+                  <Binding RelativeSource="{RelativeSource Self}" Path="Bounds.Width" />
+                  <Binding RelativeSource="{RelativeSource Self}" Path="Bounds.Height" />
+                </MultiBinding>
+              </Border.OpacityMask>
+            </Border>
+
+            <!-- Header -->
+            <Border x:Name="Header"
+                    Padding="4,0,4,0"
+                    Grid.Row="0"
+                    Grid.RowSpan="2"
+                    Grid.Column="1">
+              <ContentPresenter Name="PART_HeaderPresenter"
+                                Content="{TemplateBinding Header}"
+                                ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                Foreground="{DynamicResource OnSurfaceVariant}"
+                                FontSize="{DynamicResource FontSizeLabelLarge}"
+                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                UseLayoutRounding="{TemplateBinding UseLayoutRounding}" />
+            </Border>
+
+            <!-- Content -->
+            <ContentPresenter Grid.Row="2"
+                              Grid.Column="1"
+                              Grid.ColumnSpan="2"
+                              Name="PART_ContentPresenter"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              Content="{TemplateBinding Content}"
+                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              UseLayoutRounding="{TemplateBinding UseLayoutRounding}"
+                              Margin="{TemplateBinding Padding}" />
+          </Grid>
+        </ControlTemplate>
+      </Setter>
+
+      <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="RecognizesAccessKey" Value="True" />
+      </Style>
+
+      <Style Selector="^ /template/ ContentPresenter#PART_HeaderPresenter">
+        <Setter Property="RecognizesAccessKey" Value="True" />
+      </Style>
+    </ControlTheme>
+  </Styles.Resources>
+
+</Styles>

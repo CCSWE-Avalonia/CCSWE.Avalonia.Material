@@ -47,11 +47,8 @@
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/DrawerPage.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/EmbeddableControlRoot.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/FlyoutPresenter.axaml" />
-        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/GridSplitter.axaml" />
-        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/GroupBox.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/HeaderedContentControl.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/ItemsControl.axaml" />
-        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/Label.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/NavigationPage.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/NotificationCard.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/OverlayPopupHost.axaml" />
@@ -62,7 +59,6 @@
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/RefreshVisualizer.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/RepeatButton.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/ScrollViewer.axaml" />
-        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/SelectableTextBlock.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/SplitView.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/TabbedPage.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/TextSelectionHandle.axaml" />
@@ -92,6 +88,10 @@
   <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/Card.axaml" />
   <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/ScrollBar.axaml" />
   <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/ToolTip.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/GridSplitter.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/GroupBox.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/Label.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/SelectableTextBlock.axaml" />
   <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/Slider.axaml" />
   <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/ProgressBar.axaml" />
   <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/TabControl.axaml" />

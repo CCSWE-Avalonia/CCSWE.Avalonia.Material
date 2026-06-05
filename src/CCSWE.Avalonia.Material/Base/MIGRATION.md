@@ -27,7 +27,11 @@ interim forks, and which are verified in the Demo. Update this **per control** a
 | ToolTip | ✅ M3 | — | InverseSurface chip, ExtraSmall corners, fade-in on :open; `Base/ToolTip` deleted |
 | HyperlinkButton, DropDownButton, SplitButton | ✅ M3 | — | hand-rolled M3 (link; Tonal pill + dropdown chevron / split); forks deleted |
 | CommandBar | ⬜ Forked | — | button-family (other three done); CommandBar remaining |
-| GroupBox, Label, SelectableTextBlock, PipsPager, GridSplitter, RefreshVisualizer, RefreshContainer, NotificationCard, ItemsControl, HeaderedContentControl | ⬜ Forked | — | styleable gaps |
+| GroupBox | ✅ M3 | — | M3 outlined container, header LabelLarge OnSurfaceVariant, MediumCorner; `Base/GroupBox` deleted |
+| Label | ✅ M3 | — | OnSurface, BodyLarge, disabled 0.38; `Base/Label` deleted |
+| SelectableTextBlock | ✅ M3 | — | OnSurface, selection PrimaryContainer/OnPrimaryContainer; `Base/SelectableTextBlock` deleted |
+| GridSplitter | ✅ M3 | — | OutlineVariant divider, Outline on hover, Primary preview; `Base/GridSplitter` deleted |
+| PipsPager, RefreshVisualizer, RefreshContainer, NotificationCard, ItemsControl, HeaderedContentControl | ⬜ Forked | — | styleable gaps |
 | ContentPage, CarouselPage, TabbedPage, NavigationPage, Carousel | ⬜ Forked | — | page shells |
 | Calendar, CalendarButton, CalendarDayButton, CalendarItem, CalendarDatePicker, DatePicker, TimePicker, DateTimePickerShared | ⬜ Forked | — | date family — **deferred ("maybe later")** |
 

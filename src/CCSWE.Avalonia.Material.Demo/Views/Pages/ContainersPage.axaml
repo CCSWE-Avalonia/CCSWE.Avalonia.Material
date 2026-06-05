@@ -28,6 +28,25 @@
                             <TextBlock Classes="TitleSmall" Text="Outlined" />
                         </Border>
                     </Grid>
+
+                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="GROUPBOX" />
+                    <GroupBox Header="Connection">
+                        <StackPanel Spacing="8" Margin="0,8,0,0">
+                            <Label Content="Server address" />
+                            <SelectableTextBlock Text="vpn.ccswe.example.com — select and copy this text" />
+                        </StackPanel>
+                    </GroupBox>
+
+                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="GRIDSPLITTER" />
+                    <Grid ColumnDefinitions="*,Auto,*" Height="80">
+                        <Border Grid.Column="0" Classes="Card Filled">
+                            <TextBlock Classes="BodySmall" Text="Left pane" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        </Border>
+                        <GridSplitter Grid.Column="1" Width="4" Margin="6,0" />
+                        <Border Grid.Column="2" Classes="Card Filled">
+                            <TextBlock Classes="BodySmall" Text="Right pane" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        </Border>
+                    </Grid>
                 </StackPanel>
             </Border>
         </StackPanel>
