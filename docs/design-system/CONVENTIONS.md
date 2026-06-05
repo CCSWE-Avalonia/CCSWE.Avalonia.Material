@@ -226,6 +226,21 @@ across a different base class must shed the base-only setters (and any matching
 `TemplateBinding`); align the header `ContentPresenter` directly instead. Also:
 `TextBox.Watermark` is obsolete in 12 — emit `PlaceholderText` (see above).
 
+**Same trap on a host `Style`, not just a cloned `ControlTheme` (1.7.1, `AVLN2000`):**
+`Style Selector="ListBox.NavigationRail"` set `HorizontalContentAlignment="Center"`
+directly on the `ListBox`. `ListBox` is a `SelectingItemsControl` → `ItemsControl`
+— `Horizontal/VerticalContentAlignment` is a `ContentControl` property it doesn't
+have, so it hard-fails the build (same class as the `TreeViewItem` slip above). Push
+content alignment **onto the item** instead: the `M3NavigationRailItem`
+(`ListBoxItem`, a `ContentControl`) sets `HorizontalContentAlignment="Center"` and
+the template centers via `HorizontalAlignment`/`TextAlignment`. The sibling
+`ListBox.NavigationDrawer` host correctly never set it.
+
+**Emitter lint:** flag any `Horizontal/VerticalContentAlignment` setter emitted onto
+an `ItemsControl`-derived target (`ListBox`, `TabStrip`, `ItemsControl`, `TreeView`,
+`Menu`, …) — whether in a cloned `ControlTheme` or a host `Style`. These properties
+exist only on `ContentControl`/`ItemsControl`-items, never the items host.
+
 ### Disabled fills — themed alpha brush, never element `Opacity`
 
 A disabled *fill* (M3: container `OnSurface` @ 12%, content @ 38%) must be a

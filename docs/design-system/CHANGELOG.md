@@ -1,5 +1,38 @@
 # Changelog — CCSWE Avalonia Design System
 
+## 1.7.1 — 2026-06-04 — Nav Rail compile fix (`HorizontalContentAlignment` on `ListBox`)
+
+**Design System (Avalonia):** 1.7.0 → 1.7.1
+**Tokens:** 1.1.0 (unchanged) · **Avalonia:** 12.0.4
+
+Patch resolving the single blocking compile error reported in
+`avalonia-integration-1.7.0.md`. No token, control-count, or behavior change — the
+rail renders identically; this only removes an invalid setter so the bundle builds
+on first regen.
+
+### Fixed — `Controls/DrawerPage.axaml`
+
+- **`ListBox.NavigationRail` no longer sets `HorizontalContentAlignment`** (`AVLN2000`,
+  hard build failure). `ListBox` is a `SelectingItemsControl` → `ItemsControl` and has
+  no `HorizontalContentAlignment` (that's a `ContentControl` property) — the exact
+  `ContentControl`-only-setter trap CONVENTIONS already documents for the 1.5.1
+  `TreeViewItem`/`VerticalContentAlignment` slip. The setter was redundant anyway:
+  centering is fully owned by the item — `M3NavigationRailItem` (`ListBoxItem`) sets
+  `HorizontalContentAlignment="Center"` and its template centers via
+  `HorizontalAlignment`/`TextAlignment`. The sibling `ListBox.NavigationDrawer` host
+  never set it. Matches the consumer's local fix verbatim (setter deleted at source).
+
+### Docs
+
+- **CONVENTIONS.md** — extended "Clone only the setters the target type actually has"
+  to cover the same trap on a **host `Style`** (not just cloned `ControlTheme`s), plus
+  a suggested **emitter lint**: flag `Horizontal/VerticalContentAlignment` setters
+  emitted onto any `ItemsControl`-derived target.
+- All emitted `*.axaml` headers stamped **v1.7.1** (24 files); bundle rebuilt.
+- `tokens.preview.css` **not** regenerated — `Tokens.axaml` unchanged this cycle.
+
+---
+
 ## 1.7.0 — 2026-06-05 — Navigation Rail (`DrawerPage` compact) + trailing-divider decision
 
 **Design System (Avalonia):** 1.6.0 → 1.7.0

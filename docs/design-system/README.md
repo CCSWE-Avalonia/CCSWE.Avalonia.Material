@@ -1,6 +1,6 @@
 # CCSWE Avalonia Design System
 
-**Design System (Avalonia):** 1.7.0
+**Design System (Avalonia):** 1.7.1
 **Tokens:** 1.1.0 · **Avalonia:** 12
 **Sources of truth:** `tokens/tokens.upstream-1.1.0.json` (the master CCSWE cross-platform tokens — primitive ramps + four-scheme M3 semantic layer + 15-role type scale + shape + motion, consumed **verbatim**) and `tokens/tokens.local.json` (the Avalonia/.NET desktop translation layer — spacing scale, letterSpacing resolution, resource-naming convention, font delivery, which schemes to wire).
 
