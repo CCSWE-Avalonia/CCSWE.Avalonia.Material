@@ -24,7 +24,8 @@ interim forks, and which are verified in the Demo. Update this **per control** a
 | Window, WindowDrawnDecorations | 🏗 Infra | ✓ (boots) | `Base/Window` recolored to M3 tokens; chrome stays forked |
 | PopupRoot, OverlayPopupHost, EmbeddableControlRoot, AdornerLayer, ThemeVariantScope, TransitioningContentControl, PathIcon, RepeatButton, TextSelectionHandle, WindowNotificationManager | ⬜ Forked | runs | structural infra; recolor/keep as forks; M3 polish low priority |
 | ScrollViewer, FlyoutPresenter, ToolTip, DataValidationErrors | ⬜ Forked | runs | visible chrome — M3 polish wanted |
-| DropDownButton, SplitButton, HyperlinkButton, CommandBar | ⬜ Forked | — | button-family gaps — **next up**, reuse Button patterns |
+| HyperlinkButton, DropDownButton, SplitButton | ✅ M3 | — | hand-rolled M3 (link; Tonal pill + dropdown chevron / split); forks deleted |
+| CommandBar | ⬜ Forked | — | button-family (other three done); CommandBar remaining |
 | GroupBox, Label, SelectableTextBlock, PipsPager, GridSplitter, RefreshVisualizer, RefreshContainer, NotificationCard, ItemsControl, HeaderedContentControl | ⬜ Forked | — | styleable gaps |
 | ContentPage, CarouselPage, TabbedPage, NavigationPage, Carousel | ⬜ Forked | — | page shells |
 | Calendar, CalendarButton, CalendarDayButton, CalendarItem, CalendarDatePicker, DatePicker, TimePicker, DateTimePickerShared | ⬜ Forked | — | date family — **deferred ("maybe later")** |

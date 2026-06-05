@@ -45,13 +45,11 @@
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/DatePicker.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/DateTimePickerShared.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/DrawerPage.axaml" />
-        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/DropDownButton.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/EmbeddableControlRoot.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/FlyoutPresenter.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/GridSplitter.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/GroupBox.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/HeaderedContentControl.axaml" />
-        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/HyperlinkButton.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/ItemsControl.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/Label.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/NavigationPage.axaml" />
@@ -65,7 +63,6 @@
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/RepeatButton.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/ScrollViewer.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/SelectableTextBlock.axaml" />
-        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/SplitButton.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/SplitView.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/TabbedPage.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/TextSelectionHandle.axaml" />
@@ -82,6 +79,9 @@
 
   <StyleInclude Source="avares://CCSWE.Avalonia.Material/Typography.axaml" />
   <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/Button.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/HyperlinkButton.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/DropDownButton.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/SplitButton.axaml" />
   <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/TextBox.axaml" />
   <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/CheckBox.axaml" />
   <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/RadioButton.axaml" />
