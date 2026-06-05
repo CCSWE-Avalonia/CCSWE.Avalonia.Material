@@ -14,6 +14,12 @@
                     <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="PROGRESSBAR" />
                     <ProgressBar Minimum="0" Maximum="100" Value="60" Height="8" />
                     <ProgressBar IsIndeterminate="True" Height="8" />
+
+                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="TOOLTIP" />
+                    <WrapPanel>
+                        <Button Classes="Outlined" Content="Hover for tooltip" Margin="0,0,12,0"
+                                ToolTip.Tip="Tooltips show informative text when users hover, focus, or press an element." />
+                    </WrapPanel>
                 </StackPanel>
             </Border>
         </StackPanel>

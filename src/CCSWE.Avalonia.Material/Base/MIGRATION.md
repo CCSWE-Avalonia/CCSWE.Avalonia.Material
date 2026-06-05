@@ -23,7 +23,8 @@ interim forks, and which are verified in the Demo. Update this **per control** a
 | AutoCompleteBox, CheckBox, ComboBox, Card, Expander, ListBox, Menu, NumericUpDown, ProgressBar, RadioButton, Slider, TabControl, TabStrip, ToggleButton, ToggleSwitch, TreeView | ✅ M3 | mostly ✓ | owned `{x:Type}` (Card via style classes); no `Base/` fork |
 | Window, WindowDrawnDecorations | 🏗 Infra | ✓ (boots) | `Base/Window` recolored to M3 tokens; chrome stays forked |
 | PopupRoot, OverlayPopupHost, EmbeddableControlRoot, AdornerLayer, ThemeVariantScope, TransitioningContentControl, PathIcon, RepeatButton, TextSelectionHandle, WindowNotificationManager | ⬜ Forked | runs | structural infra; recolor/keep as forks; M3 polish low priority |
-| ScrollViewer, FlyoutPresenter, ToolTip, DataValidationErrors | ⬜ Forked | runs | visible chrome — M3 polish wanted |
+| ScrollViewer, FlyoutPresenter, DataValidationErrors | ⬜ Forked | runs | visible chrome — M3 polish wanted |
+| ToolTip | ✅ M3 | — | InverseSurface chip, ExtraSmall corners, fade-in on :open; `Base/ToolTip` deleted |
 | HyperlinkButton, DropDownButton, SplitButton | ✅ M3 | — | hand-rolled M3 (link; Tonal pill + dropdown chevron / split); forks deleted |
 | CommandBar | ⬜ Forked | — | button-family (other three done); CommandBar remaining |
 | GroupBox, Label, SelectableTextBlock, PipsPager, GridSplitter, RefreshVisualizer, RefreshContainer, NotificationCard, ItemsControl, HeaderedContentControl | ⬜ Forked | — | styleable gaps |
