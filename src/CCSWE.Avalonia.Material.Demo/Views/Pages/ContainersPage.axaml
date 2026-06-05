@@ -47,6 +47,42 @@
                             <TextBlock Classes="BodySmall" Text="Right pane" VerticalAlignment="Center" HorizontalAlignment="Center" />
                         </Border>
                     </Grid>
+
+                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="TABBEDPAGE (primary tabs)" />
+                    <Border Height="200" CornerRadius="{DynamicResource CornerRadiusMedium}" BorderBrush="{DynamicResource OutlineVariant}" BorderThickness="1" ClipToBounds="True">
+                        <TabbedPage>
+                            <ContentPage Header="Home">
+                                <TextBlock Classes="BodyMedium" Text="Home page content" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </ContentPage>
+                            <ContentPage Header="Devices">
+                                <TextBlock Classes="BodyMedium" Text="Devices page content" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </ContentPage>
+                            <ContentPage Header="Settings">
+                                <TextBlock Classes="BodyMedium" Text="Settings page content" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </ContentPage>
+                        </TabbedPage>
+                    </Border>
+
+                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="NAVIGATIONPAGE (top app bar)" />
+                    <Border Height="160" CornerRadius="{DynamicResource CornerRadiusMedium}" BorderBrush="{DynamicResource OutlineVariant}" BorderThickness="1" ClipToBounds="True">
+                        <NavigationPage>
+                            <ContentPage Header="Connected devices">
+                                <TextBlock Classes="BodyMedium" Text="Page content sits below the M3 top app bar." HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </ContentPage>
+                        </NavigationPage>
+                    </Border>
+
+                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="CAROUSELPAGE (swipe / drag between pages)" />
+                    <Border Height="160" CornerRadius="{DynamicResource CornerRadiusMedium}" BorderBrush="{DynamicResource OutlineVariant}" BorderThickness="1" ClipToBounds="True">
+                        <CarouselPage>
+                            <ContentPage Header="Page 1">
+                                <TextBlock Classes="BodyMedium" Text="First page — drag horizontally to advance" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </ContentPage>
+                            <ContentPage Header="Page 2">
+                                <TextBlock Classes="BodyMedium" Text="Second page" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </ContentPage>
+                        </CarouselPage>
+                    </Border>
                 </StackPanel>
             </Border>
         </StackPanel>

@@ -35,7 +35,9 @@ interim forks, and which are verified in the Demo. Update this **per control** a
 | ItemsControl, HeaderedContentControl | ✅ M3 | — | structural; OnSurface foreground default; forks deleted |
 | RefreshContainer, RefreshVisualizer | ✅ M3 | — | RefreshVisualizer spinner → Primary, transparent bg; forks deleted |
 | NotificationCard | ✅ M3 | — | snackbar look (InverseSurface), error→ErrorContainer, success→TertiaryContainer; info/warning need DS tokens (see ds-feedback/semantic-status-tokens.md); `Base/NotificationCard` deleted |
-| ContentPage, CarouselPage, TabbedPage, NavigationPage, Carousel | ⬜ Forked | — | page shells |
+| ContentPage, CarouselPage, Carousel | ✅ M3 | — | Surface page hosts; forks deleted |
+| TabbedPage | ✅ M3 | — | M3 primary tabs: Primary indicator/label, OnSurfaceVariant unselected, surface state layers, 3dp rounded indicator; fork deleted |
+| NavigationPage | ✅ M3 | — | M3 top app bar: SurfaceContainer bar, OnSurface TitleLarge header, circular back-button state layers, Primary focus ring; fork deleted |
 | Calendar, CalendarButton, CalendarDayButton, CalendarItem, CalendarDatePicker, DatePicker, TimePicker, DateTimePickerShared | ⬜ Forked | — | date family — **deferred ("maybe later")** |
 
 ## How "done" is defined
