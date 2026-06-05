@@ -9,20 +9,7 @@
             <Border Classes="Card Outlined">
                 <StackPanel Spacing="16">
                     <TextBlock Classes="BodySmall" Foreground="{DynamicResource OnSurfaceVariant}"
-                               Text="Remaining gap (Tier 2–3): these fall back to FluentTheme + the accent remap. Judge each: brand vs. Fluent." />
-
-                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="BUTTON FAMILY (SplitButton / DropDownButton)" />
-                    <WrapPanel>
-                        <SplitButton Content="Connect" Margin="0,0,12,12" />
-                        <DropDownButton Content="Options" Margin="0,0,12,12">
-                            <DropDownButton.Flyout>
-                                <MenuFlyout>
-                                    <MenuItem Header="All devices" />
-                                    <MenuItem Header="Connected only" />
-                                </MenuFlyout>
-                            </DropDownButton.Flyout>
-                        </DropDownButton>
-                    </WrapPanel>
+                               Text="Remaining gap: controls not yet hand-rolled to M3 — they render via the interim forked-Simple base until promoted." />
 
                     <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="PICKERS (DatePicker / TimePicker / CalendarDatePicker)" />
                     <WrapPanel>

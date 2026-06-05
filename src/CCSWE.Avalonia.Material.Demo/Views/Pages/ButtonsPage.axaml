@@ -28,6 +28,19 @@
                         <ToggleButton Content="Toggle on" IsChecked="True" Margin="0,0,12,0" />
                         <ToggleButton Content="Disabled" IsChecked="True" IsEnabled="False" Margin="0,0,12,0" />
                     </WrapPanel>
+                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="MENU &amp; LINK (DropDownButton / SplitButton / HyperlinkButton)" />
+                    <WrapPanel>
+                        <DropDownButton Content="Options" Margin="0,0,12,12">
+                            <DropDownButton.Flyout>
+                                <MenuFlyout>
+                                    <MenuItem Header="All devices" />
+                                    <MenuItem Header="Connected only" />
+                                </MenuFlyout>
+                            </DropDownButton.Flyout>
+                        </DropDownButton>
+                        <SplitButton Content="Connect" Margin="0,0,12,12" />
+                        <HyperlinkButton Content="Learn more" Margin="0,0,12,12" />
+                    </WrapPanel>
                 </StackPanel>
             </Border>
         </StackPanel>
