@@ -42,11 +42,9 @@
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/DateTimePickerShared.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/DrawerPage.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/EmbeddableControlRoot.axaml" />
-        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/FlyoutPresenter.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/OverlayPopupHost.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/PathIcon.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/PopupRoot.axaml" />
-        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/RepeatButton.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/ScrollViewer.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/SplitView.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/TextSelectionHandle.axaml" />
@@ -92,6 +90,8 @@
   <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/CarouselPage.axaml" />
   <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/TabbedPage.axaml" />
   <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/NavigationPage.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/FlyoutPresenter.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/RepeatButton.axaml" />
   <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/Slider.axaml" />
   <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/ProgressBar.axaml" />
   <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/TabControl.axaml" />

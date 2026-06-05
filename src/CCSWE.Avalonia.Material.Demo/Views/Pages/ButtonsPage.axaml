@@ -40,6 +40,18 @@
                         </DropDownButton>
                         <SplitButton Content="Connect" Margin="0,0,12,12" />
                         <HyperlinkButton Content="Learn more" Margin="0,0,12,12" />
+                        <Button Classes="Outlined" Content="Flyout" Margin="0,0,12,12">
+                            <Button.Flyout>
+                                <Flyout>
+                                    <StackPanel Spacing="8" Width="220">
+                                        <TextBlock Classes="TitleSmall" Text="Quick settings" />
+                                        <TextBlock Classes="BodySmall" Foreground="{DynamicResource OnSurfaceVariant}"
+                                                   Text="A plain Flyout rendered by the M3 FlyoutPresenter surface." TextWrapping="Wrap" />
+                                        <CheckBox Content="Auto-connect" IsChecked="True" />
+                                    </StackPanel>
+                                </Flyout>
+                            </Button.Flyout>
+                        </Button>
                     </WrapPanel>
                     <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="COMMAND BAR (button / toggle / separator + overflow)" />
                     <CommandBar>

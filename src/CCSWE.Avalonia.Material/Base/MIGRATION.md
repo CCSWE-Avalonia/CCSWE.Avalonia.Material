@@ -22,8 +22,10 @@ interim forks, and which are verified in the Demo. Update this **per control** a
 | ScrollBar | ✅ M3 | ✓ 2026-06-05 | thin pill thumb, no arrows; `Base/ScrollBar` deleted |
 | AutoCompleteBox, CheckBox, ComboBox, Card, Expander, ListBox, Menu, NumericUpDown, ProgressBar, RadioButton, Slider, TabControl, TabStrip, ToggleButton, ToggleSwitch, TreeView | ✅ M3 | mostly ✓ | owned `{x:Type}` (Card via style classes); no `Base/` fork |
 | Window, WindowDrawnDecorations | 🏗 Infra | ✓ (boots) | `Base/Window` recolored to M3 tokens; chrome stays forked |
-| PopupRoot, OverlayPopupHost, EmbeddableControlRoot, AdornerLayer, ThemeVariantScope, TransitioningContentControl, PathIcon, RepeatButton, TextSelectionHandle, WindowNotificationManager | ⬜ Forked | runs | structural infra; recolor/keep as forks; M3 polish low priority |
-| ScrollViewer, FlyoutPresenter, DataValidationErrors | ⬜ Forked | runs | visible chrome — M3 polish wanted |
+| PopupRoot, OverlayPopupHost, EmbeddableControlRoot, AdornerLayer, ThemeVariantScope, TransitioningContentControl, PathIcon, TextSelectionHandle, WindowNotificationManager | ⬜ Forked | runs | structural infra; recolor/keep as forks; M3 polish low priority |
+| FlyoutPresenter | ✅ M3 | — | M3 flyout/menu surface (SurfaceContainer + OutlineVariant, extra-small corners); fork deleted |
+| RepeatButton | ✅ M3 | — | transparent w/ surface state-layer tints, OnSurfaceVariant, disabled 0.38; fork deleted |
+| ScrollViewer, DataValidationErrors | ⬜ Forked | runs | visible chrome — M3 polish wanted |
 | ToolTip | ✅ M3 | — | InverseSurface chip, ExtraSmall corners, fade-in on :open; `Base/ToolTip` deleted |
 | HyperlinkButton, DropDownButton, SplitButton | ✅ M3 | — | hand-rolled M3 (link; Tonal pill + dropdown chevron / split); forks deleted |
 | CommandBar (+ Button / ToggleButton / Separator) | ✅ M3 | — | SurfaceContainer toolbar, OnSurfaceVariant content, M3 state layers (8/12%), toggle→SecondaryContainer, overflow popup = M3 menu surface; `Base/CommandBar` deleted |
