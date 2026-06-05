@@ -3,10 +3,10 @@
         xmlns:vm="using:CCSWE.Avalonia.Theme.Demo.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="920" d:DesignHeight="900"
+        mc:Ignorable="d" d:DesignWidth="1100" d:DesignHeight="760"
         x:Class="CCSWE.Avalonia.Theme.Demo.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
-        Width="920" Height="720"
+        Width="1100" Height="760"
         Background="{DynamicResource Surface}"
         Icon="/Assets/avalonia-logo.ico"
         Title="CCSWE.Avalonia.Theme.Demo">
@@ -15,306 +15,419 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <!-- Section panels use the theme's Border.Card Outlined class so the page
-         (Surface) background reads through and the section just gets an outline. -->
+    <Window.Resources>
+        <!-- Nav destination glyphs: Phosphor Icons (regular weight), sourced as path data.
+             Phosphor uses a 256 viewBox; PathIcon wraps the Path in a Viewbox + Stretch=Uniform
+             so they scale to 24dp, and Path.Fill=Foreground lets M3NavigationDrawerItem recolor
+             them on :selected. Individual icons inlined (no runtime icon-set dependency). -->
+        <StreamGeometry x:Key="IconTypography">M87.24,52.59a8,8,0,0,0-14.48,0l-64,136a8,8,0,1,0,14.48,6.81L39.9,160h80.2l16.66,35.4a8,8,0,1,0,14.48-6.81ZM47.43,144,80,74.79,112.57,144ZM200,96c-12.76,0-22.73,3.47-29.63,10.32a8,8,0,0,0,11.26,11.36c3.8-3.77,10-5.68,18.37-5.68,13.23,0,24,9,24,20v3.22A42.76,42.76,0,0,0,200,128c-22.06,0-40,16.15-40,36s17.94,36,40,36a42.73,42.73,0,0,0,24-7.25,8,8,0,0,0,16-.75V132C240,112.15,222.06,96,200,96Zm0,88c-13.23,0-24-9-24-20s10.77-20,24-20,24,9,24,20S213.23,184,200,184Z</StreamGeometry>
+        <StreamGeometry x:Key="IconButtons">M88,24V16a8,8,0,0,1,16,0v8a8,8,0,0,1-16,0ZM16,104h8a8,8,0,0,0,0-16H16a8,8,0,0,0,0,16ZM124.42,39.16a8,8,0,0,0,10.74-3.58l8-16a8,8,0,0,0-14.31-7.16l-8,16A8,8,0,0,0,124.42,39.16Zm-96,81.69-16,8a8,8,0,0,0,7.16,14.31l16-8a8,8,0,1,0-7.16-14.31ZM219.31,184a16,16,0,0,1,0,22.63l-12.68,12.68a16,16,0,0,1-22.63,0L132.7,168,115,214.09c0,.1-.08.21-.13.32a15.83,15.83,0,0,1-14.6,9.59l-.79,0a15.83,15.83,0,0,1-14.41-11L32.8,52.92A16,16,0,0,1,52.92,32.8L213,85.07a16,16,0,0,1,1.41,29.8l-.32.13L168,132.69ZM208,195.31,156.69,144h0a16,16,0,0,1,4.93-26l.32-.14,45.95-17.64L48,48l52.2,159.86,17.65-46c0-.11.08-.22.13-.33a16,16,0,0,1,11.69-9.34,16.72,16.72,0,0,1,3-.28,16,16,0,0,1,11.3,4.69L195.31,208Z</StreamGeometry>
+        <StreamGeometry x:Key="IconInputs">M112,40a8,8,0,0,0-8,8V64H24A16,16,0,0,0,8,80v96a16,16,0,0,0,16,16h80v16a8,8,0,0,0,16,0V48A8,8,0,0,0,112,40ZM24,176V80h80v96ZM248,80v96a16,16,0,0,1-16,16H144a8,8,0,0,1,0-16h88V80H144a8,8,0,0,1,0-16h88A16,16,0,0,1,248,80ZM88,112a8,8,0,0,1-8,8H72v24a8,8,0,0,1-16,0V120H48a8,8,0,0,1,0-16H80A8,8,0,0,1,88,112Z</StreamGeometry>
+        <StreamGeometry x:Key="IconSelection">M173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34ZM224,48V208a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V48A16,16,0,0,1,48,32H208A16,16,0,0,1,224,48ZM208,208V48H48V208H208Z</StreamGeometry>
+        <StreamGeometry x:Key="IconCollections">M80,64a8,8,0,0,1,8-8H216a8,8,0,0,1,0,16H88A8,8,0,0,1,80,64Zm136,56H88a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Zm0,64H88a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16ZM44,52A12,12,0,1,0,56,64,12,12,0,0,0,44,52Zm0,64a12,12,0,1,0,12,12A12,12,0,0,0,44,116Zm0,64a12,12,0,1,0,12,12A12,12,0,0,0,44,180Z</StreamGeometry>
+        <StreamGeometry x:Key="IconFeedback">M40,88H73a32,32,0,0,0,62,0h81a8,8,0,0,0,0-16H135a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16Zm64-24A16,16,0,1,1,88,80,16,16,0,0,1,104,64ZM216,168H199a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16h97a32,32,0,0,0,62,0h17a8,8,0,0,0,0-16Zm-48,24a16,16,0,1,1,16-16A16,16,0,0,1,168,192Z</StreamGeometry>
+        <StreamGeometry x:Key="IconTabs">M216,40H72A16,16,0,0,0,56,56V72H40A16,16,0,0,0,24,88V200a16,16,0,0,0,16,16H184a16,16,0,0,0,16-16V184h16a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40ZM184,88v16H40V88Zm0,112H40V120H184v80Zm32-32H200V88a16,16,0,0,0-16-16H72V56H216Z</StreamGeometry>
+        <StreamGeometry x:Key="IconContainers">M223.68,66.15,135.68,18a15.88,15.88,0,0,0-15.36,0l-88,48.17a16,16,0,0,0-8.32,14v95.64a16,16,0,0,0,8.32,14l88,48.17a15.88,15.88,0,0,0,15.36,0l88-48.17a16,16,0,0,0,8.32-14V80.18A16,16,0,0,0,223.68,66.15ZM128,32l80.34,44-29.77,16.3-80.35-44ZM128,120,47.66,76l33.9-18.56,80.34,44ZM40,90l80,43.78v85.79L40,175.82Zm176,85.78h0l-80,43.79V133.82l32-17.51V152a8,8,0,0,0,16,0V107.55L216,90v85.77Z</StreamGeometry>
+        <StreamGeometry x:Key="IconCoverage">M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z</StreamGeometry>
+        <StreamGeometry x:Key="IconSettings">M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm88-29.84q.06-2.16,0-4.32l14.92-18.64a8,8,0,0,0,1.48-7.06,107.21,107.21,0,0,0-10.88-26.25,8,8,0,0,0-6-3.93l-23.72-2.64q-1.48-1.56-3-3L186,40.54a8,8,0,0,0-3.94-6,107.71,107.71,0,0,0-26.25-10.87,8,8,0,0,0-7.06,1.49L130.16,40Q128,40,125.84,40L107.2,25.11a8,8,0,0,0-7.06-1.48A107.6,107.6,0,0,0,73.89,34.51a8,8,0,0,0-3.93,6L67.32,64.27q-1.56,1.49-3,3L40.54,70a8,8,0,0,0-6,3.94,107.71,107.71,0,0,0-10.87,26.25,8,8,0,0,0,1.49,7.06L40,125.84Q40,128,40,130.16L25.11,148.8a8,8,0,0,0-1.48,7.06,107.21,107.21,0,0,0,10.88,26.25,8,8,0,0,0,6,3.93l23.72,2.64q1.49,1.56,3,3L70,215.46a8,8,0,0,0,3.94,6,107.71,107.71,0,0,0,26.25,10.87,8,8,0,0,0,7.06-1.49L125.84,216q2.16.06,4.32,0l18.64,14.92a8,8,0,0,0,7.06,1.48,107.21,107.21,0,0,0,26.25-10.88,8,8,0,0,0,3.93-6l2.64-23.72q1.56-1.48,3-3L215.46,186a8,8,0,0,0,6-3.94,107.71,107.71,0,0,0,10.87-26.25,8,8,0,0,0-1.49-7.06Zm-16.1-6.5a73.93,73.93,0,0,1,0,8.68,8,8,0,0,0,1.74,5.48l14.19,17.73a91.57,91.57,0,0,1-6.23,15L187,173.11a8,8,0,0,0-5.1,2.64,74.11,74.11,0,0,1-6.14,6.14,8,8,0,0,0-2.64,5.1l-2.51,22.58a91.32,91.32,0,0,1-15,6.23l-17.74-14.19a8,8,0,0,0-5-1.75h-.48a73.93,73.93,0,0,1-8.68,0,8,8,0,0,0-5.48,1.74L100.45,215.8a91.57,91.57,0,0,1-15-6.23L82.89,187a8,8,0,0,0-2.64-5.1,74.11,74.11,0,0,1-6.14-6.14,8,8,0,0,0-5.1-2.64L46.43,170.6a91.32,91.32,0,0,1-6.23-15l14.19-17.74a8,8,0,0,0,1.74-5.48,73.93,73.93,0,0,1,0-8.68,8,8,0,0,0-1.74-5.48L40.2,100.45a91.57,91.57,0,0,1,6.23-15L69,82.89a8,8,0,0,0,5.1-2.64,74.11,74.11,0,0,1,6.14-6.14A8,8,0,0,0,82.89,69L85.4,46.43a91.32,91.32,0,0,1,15-6.23l17.74,14.19a8,8,0,0,0,5.48,1.74,73.93,73.93,0,0,1,8.68,0,8,8,0,0,0,5.48-1.74L155.55,40.2a91.57,91.57,0,0,1,15,6.23L173.11,69a8,8,0,0,0,2.64,5.1,74.11,74.11,0,0,1,6.14,6.14,8,8,0,0,0,5.1,2.64l22.58,2.51a91.32,91.32,0,0,1,6.23,15l-14.19,17.74A8,8,0,0,0,199.87,123.66Z</StreamGeometry>
+    </Window.Resources>
 
-    <DockPanel>
+    <!-- The demo shell IS a DrawerPage: a locked (always-open, docked) navigation
+         drawer drives the gallery. DrawerHeader = brand, Drawer = destinations,
+         DrawerFooter = theme toggle, Content = a Carousel that swaps the selected
+         group. The Carousel index tracks the nav ListBox selection (XAML-only). -->
+    <DrawerPage DrawerBehavior="Locked" IsOpen="True">
 
-        <!-- Pinned header + theme toggle (stays put while the gallery scrolls). -->
-        <Border DockPanel.Dock="Top" Background="{DynamicResource Surface}"
-                BorderBrush="{DynamicResource OutlineVariant}" BorderThickness="0,0,0,1" Padding="32,24">
-            <Grid ColumnDefinitions="*,Auto" VerticalAlignment="Center"
-                  MaxWidth="840" HorizontalAlignment="Stretch">
-                <StackPanel Grid.Column="0" Spacing="2">
-                    <TextBlock Classes="HeadlineMedium" Text="CCSWE.Avalonia.Theme" />
-                    <TextBlock Classes="BodyMedium" Foreground="{DynamicResource OnSurfaceVariant}"
-                               Text="Material 3 control gallery" />
+        <!-- Brand header -->
+        <DrawerPage.DrawerHeader>
+            <StackPanel Orientation="Horizontal" Spacing="12" Margin="24,20,24,12">
+                <Border Width="28" Height="28" CornerRadius="14"
+                        Background="{DynamicResource Primary}" VerticalAlignment="Center" />
+                <TextBlock Classes="TitleLarge" Text="CCSWE Theme" VerticalAlignment="Center" />
+            </StackPanel>
+        </DrawerPage.DrawerHeader>
+
+        <!-- Navigation destinations -->
+        <DrawerPage.Drawer>
+            <ListBox x:Name="NavList" Classes="NavigationDrawer" SelectedIndex="0">
+                <ListBoxItem>
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <PathIcon Data="{StaticResource IconTypography}" Width="24" Height="24" />
+                        <TextBlock Classes="LabelLarge" Text="Typography" VerticalAlignment="Center" />
+                    </StackPanel>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <PathIcon Data="{StaticResource IconButtons}" Width="24" Height="24" />
+                        <TextBlock Classes="LabelLarge" Text="Buttons" VerticalAlignment="Center" />
+                    </StackPanel>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <PathIcon Data="{StaticResource IconInputs}" Width="24" Height="24" />
+                        <TextBlock Classes="LabelLarge" Text="Inputs" VerticalAlignment="Center" />
+                    </StackPanel>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <PathIcon Data="{StaticResource IconSelection}" Width="24" Height="24" />
+                        <TextBlock Classes="LabelLarge" Text="Selection" VerticalAlignment="Center" />
+                    </StackPanel>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <PathIcon Data="{StaticResource IconCollections}" Width="24" Height="24" />
+                        <TextBlock Classes="LabelLarge" Text="Collections" VerticalAlignment="Center" />
+                    </StackPanel>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <PathIcon Data="{StaticResource IconFeedback}" Width="24" Height="24" />
+                        <TextBlock Classes="LabelLarge" Text="Feedback" VerticalAlignment="Center" />
+                    </StackPanel>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <PathIcon Data="{StaticResource IconTabs}" Width="24" Height="24" />
+                        <TextBlock Classes="LabelLarge" Text="Tabs" VerticalAlignment="Center" />
+                    </StackPanel>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <PathIcon Data="{StaticResource IconContainers}" Width="24" Height="24" />
+                        <TextBlock Classes="LabelLarge" Text="Containers" VerticalAlignment="Center" />
+                    </StackPanel>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <PathIcon Data="{StaticResource IconCoverage}" Width="24" Height="24" />
+                        <TextBlock Classes="LabelLarge" Text="Coverage" VerticalAlignment="Center" />
+                    </StackPanel>
+                </ListBoxItem>
+            </ListBox>
+        </DrawerPage.Drawer>
+
+        <!-- Pinned footer: theme toggle (1.6.0 ToggleSwitch defaults On/Off content to
+             empty, so Content="Light mode" no longer trails an "Off"). -->
+        <DrawerPage.DrawerFooter>
+            <Border Padding="24,16" BorderBrush="{DynamicResource OutlineVariant}" BorderThickness="0,1,0,0">
+                <StackPanel Orientation="Horizontal" Spacing="12">
+                    <PathIcon Data="{StaticResource IconSettings}" Width="20" Height="20"
+                              Foreground="{DynamicResource OnSurfaceVariant}" VerticalAlignment="Center" />
+                    <ToggleSwitch x:Name="ThemeToggle" Content="Light mode"
+                                  IsCheckedChanged="OnThemeToggleChanged" />
                 </StackPanel>
-                <ToggleSwitch Grid.Column="1" x:Name="ThemeToggle"
-                              Content="Light mode" OnContent="" OffContent=""
-                              IsCheckedChanged="OnThemeToggleChanged" />
-            </Grid>
-        </Border>
+            </Border>
+        </DrawerPage.DrawerFooter>
 
-        <ScrollViewer>
-            <!-- Inset lives on the scrolled content (Margin), not ScrollViewer.Padding,
-                 so the bottom inset is part of the scrollable extent and the last
-                 card can be fully scrolled into view. -->
-            <StackPanel Spacing="24" MaxWidth="840" HorizontalAlignment="Stretch"
-                        Margin="32,8,32,48">
+        <!-- Main content: one page per destination, swapped by nav selection. -->
+        <Carousel SelectedIndex="{Binding #NavList.SelectedIndex, Mode=OneWay}">
+            <Carousel.PageTransition>
+                <CrossFade Duration="0:0:0.15" />
+            </Carousel.PageTransition>
 
             <!-- Typography -->
-            <Border Classes="Card Outlined">
-                <StackPanel Spacing="6">
-                    <TextBlock Classes="LabelLarge" Foreground="{DynamicResource Primary}" Text="TYPE SCALE" />
-                    <TextBlock Classes="DisplaySmall" Text="Display Small" />
-                    <TextBlock Classes="HeadlineSmall" Text="Headline Small" />
-                    <TextBlock Classes="TitleLarge" Text="Title Large" />
-                    <TextBlock Classes="BodyLarge" Text="Body Large — the quick brown fox jumps over the lazy dog." />
-                    <TextBlock Classes="BodyMedium" Text="Body Medium — the quick brown fox jumps over the lazy dog." />
-                    <TextBlock Classes="LabelMedium" Text="LABEL MEDIUM" />
+            <ScrollViewer x:DataType="vm:MainWindowViewModel" DataContext="{Binding $parent[Carousel].DataContext}">
+                <StackPanel Spacing="24" Margin="32,24,32,48">
+                    <TextBlock Classes="HeadlineSmall" Text="Typography" />
+                    <Border Classes="Card Outlined">
+                        <StackPanel Spacing="6">
+                            <TextBlock Classes="DisplaySmall" Text="Display Small" />
+                            <TextBlock Classes="HeadlineSmall" Text="Headline Small" />
+                            <TextBlock Classes="TitleLarge" Text="Title Large" />
+                            <TextBlock Classes="BodyLarge" Text="Body Large — the quick brown fox jumps over the lazy dog." />
+                            <TextBlock Classes="BodyMedium" Text="Body Medium — the quick brown fox jumps over the lazy dog." />
+                            <TextBlock Classes="LabelMedium" Text="LABEL MEDIUM" />
+                        </StackPanel>
+                    </Border>
                 </StackPanel>
-            </Border>
+            </ScrollViewer>
 
             <!-- Buttons -->
-            <Border Classes="Card Outlined">
-                <StackPanel Spacing="16">
-                    <TextBlock Classes="LabelLarge" Foreground="{DynamicResource Primary}" Text="BUTTONS" />
-                    <WrapPanel>
-                        <Button Classes="Filled" Content="Filled" Margin="0,0,12,12" />
-                        <Button Classes="FilledTonal" Content="Tonal" Margin="0,0,12,12" />
-                        <Button Classes="Elevated" Content="Elevated" Margin="0,0,12,12" />
-                        <Button Classes="Outlined" Content="Outlined" Margin="0,0,12,12" />
-                        <Button Classes="Text" Content="Text" Margin="0,0,12,12" />
-                        <Button Classes="Icon" Content="+" Margin="0,0,12,12" />
-                    </WrapPanel>
-                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="DISABLED" />
-                    <WrapPanel>
-                        <Button Classes="Filled" Content="Filled" IsEnabled="False" Margin="0,0,12,0" />
-                        <Button Classes="Outlined" Content="Outlined" IsEnabled="False" Margin="0,0,12,0" />
-                        <Button Classes="Text" Content="Text" IsEnabled="False" Margin="0,0,12,0" />
-                    </WrapPanel>
-                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="TOGGLE (off / on / disabled)" />
-                    <WrapPanel>
-                        <ToggleButton Content="Toggle off" Margin="0,0,12,0" />
-                        <ToggleButton Content="Toggle on" IsChecked="True" Margin="0,0,12,0" />
-                        <ToggleButton Content="Disabled" IsChecked="True" IsEnabled="False" Margin="0,0,12,0" />
-                    </WrapPanel>
+            <ScrollViewer x:DataType="vm:MainWindowViewModel" DataContext="{Binding $parent[Carousel].DataContext}">
+                <StackPanel Spacing="24" Margin="32,24,32,48">
+                    <TextBlock Classes="HeadlineSmall" Text="Buttons" />
+                    <Border Classes="Card Outlined">
+                        <StackPanel Spacing="16">
+                            <WrapPanel>
+                                <Button Classes="Filled" Content="Filled" Margin="0,0,12,12" />
+                                <Button Classes="FilledTonal" Content="Tonal" Margin="0,0,12,12" />
+                                <Button Classes="Elevated" Content="Elevated" Margin="0,0,12,12" />
+                                <Button Classes="Outlined" Content="Outlined" Margin="0,0,12,12" />
+                                <Button Classes="Text" Content="Text" Margin="0,0,12,12" />
+                                <Button Classes="Icon" Content="+" Margin="0,0,12,12" />
+                            </WrapPanel>
+                            <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="DISABLED" />
+                            <WrapPanel>
+                                <Button Classes="Filled" Content="Filled" IsEnabled="False" Margin="0,0,12,0" />
+                                <Button Classes="Outlined" Content="Outlined" IsEnabled="False" Margin="0,0,12,0" />
+                                <Button Classes="Text" Content="Text" IsEnabled="False" Margin="0,0,12,0" />
+                            </WrapPanel>
+                            <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="TOGGLE (off / on / disabled)" />
+                            <WrapPanel>
+                                <ToggleButton Content="Toggle off" Margin="0,0,12,0" />
+                                <ToggleButton Content="Toggle on" IsChecked="True" Margin="0,0,12,0" />
+                                <ToggleButton Content="Disabled" IsChecked="True" IsEnabled="False" Margin="0,0,12,0" />
+                            </WrapPanel>
+                        </StackPanel>
+                    </Border>
                 </StackPanel>
-            </Border>
+            </ScrollViewer>
 
-            <!-- Text fields -->
-            <Border Classes="Card Outlined">
-                <StackPanel Spacing="16">
-                    <TextBlock Classes="LabelLarge" Foreground="{DynamicResource Primary}" Text="TEXT FIELDS" />
-                    <Grid ColumnDefinitions="*,*" ColumnSpacing="24" RowDefinitions="Auto,Auto,Auto,Auto">
-                        <StackPanel Grid.Row="0" Grid.Column="0" Spacing="6">
-                            <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="OUTLINED — EMPTY" />
-                            <TextBox Classes="Outlined" PlaceholderText="IP address" />
+            <!-- Inputs -->
+            <ScrollViewer x:DataType="vm:MainWindowViewModel" DataContext="{Binding $parent[Carousel].DataContext}">
+                <StackPanel Spacing="24" Margin="32,24,32,48">
+                    <TextBlock Classes="HeadlineSmall" Text="Text fields &amp; input" />
+                    <Border Classes="Card Outlined">
+                        <StackPanel Spacing="16">
+                            <Grid ColumnDefinitions="*,*" ColumnSpacing="24" RowDefinitions="Auto,Auto,Auto,Auto">
+                                <StackPanel Grid.Row="0" Grid.Column="0" Spacing="6">
+                                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="OUTLINED — EMPTY" />
+                                    <TextBox Classes="Outlined" PlaceholderText="IP address" />
+                                </StackPanel>
+                                <StackPanel Grid.Row="0" Grid.Column="1" Spacing="6">
+                                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="OUTLINED — WITH VALUE" />
+                                    <TextBox Classes="Outlined" Text="192.168.1.42" />
+                                </StackPanel>
+                                <StackPanel Grid.Row="1" Grid.Column="0" Spacing="6" Margin="0,12,0,0">
+                                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="FILLED — EMPTY" />
+                                    <TextBox Classes="Filled" PlaceholderText="Device name" />
+                                </StackPanel>
+                                <StackPanel Grid.Row="1" Grid.Column="1" Spacing="6" Margin="0,12,0,0">
+                                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="FILLED — WITH VALUE" />
+                                    <TextBox Classes="Filled" Text="pixel-8-pro" />
+                                </StackPanel>
+                                <StackPanel Grid.Row="2" Grid.Column="0" Spacing="6" Margin="0,12,0,0">
+                                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="OUTLINED — ERROR" />
+                                    <TextBox Classes="Outlined" Text="{Binding Port}" />
+                                </StackPanel>
+                                <StackPanel Grid.Row="2" Grid.Column="1" Spacing="6" Margin="0,12,0,0">
+                                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="AUTOCOMPLETE (type &quot;pixel&quot; / &quot;galaxy&quot;)" />
+                                    <AutoCompleteBox PlaceholderText="Search devices"
+                                                     ItemsSource="{Binding DeviceNames}"
+                                                     FilterMode="Contains"
+                                                     MinimumPrefixLength="0"
+                                                     HorizontalAlignment="Stretch" />
+                                </StackPanel>
+                                <StackPanel Grid.Row="3" Grid.Column="0" Spacing="6" Margin="0,12,0,0">
+                                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="NUMERIC STEPPER" />
+                                    <NumericUpDown Value="5037" Minimum="0" Maximum="65535" HorizontalAlignment="Stretch" />
+                                </StackPanel>
+                                <StackPanel Grid.Row="3" Grid.Column="1" Spacing="6" Margin="0,12,0,0">
+                                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="NUMERIC STEPPER — ERROR" />
+                                    <NumericUpDown Value="{Binding PortNumber}" Minimum="0" Maximum="100000" HorizontalAlignment="Stretch" />
+                                </StackPanel>
+                            </Grid>
                         </StackPanel>
-                        <StackPanel Grid.Row="0" Grid.Column="1" Spacing="6">
-                            <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="OUTLINED — WITH VALUE" />
-                            <TextBox Classes="Outlined" Text="192.168.1.42" />
-                        </StackPanel>
-                        <StackPanel Grid.Row="1" Grid.Column="0" Spacing="6" Margin="0,12,0,0">
-                            <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="FILLED — EMPTY" />
-                            <TextBox Classes="Filled" PlaceholderText="Device name" />
-                        </StackPanel>
-                        <StackPanel Grid.Row="1" Grid.Column="1" Spacing="6" Margin="0,12,0,0">
-                            <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="FILLED — WITH VALUE" />
-                            <TextBox Classes="Filled" Text="pixel-8-pro" />
-                        </StackPanel>
-                        <StackPanel Grid.Row="2" Grid.Column="0" Spacing="6" Margin="0,12,0,0">
-                            <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="OUTLINED — ERROR" />
-                            <TextBox Classes="Outlined" Text="{Binding Port}" />
-                        </StackPanel>
-                        <StackPanel Grid.Row="2" Grid.Column="1" Spacing="6" Margin="0,12,0,0">
-                            <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="AUTOCOMPLETE (type &quot;pixel&quot; / &quot;galaxy&quot;)" />
-                            <AutoCompleteBox PlaceholderText="Search devices"
-                                             ItemsSource="{Binding DeviceNames}"
-                                             FilterMode="Contains"
-                                             MinimumPrefixLength="0"
-                                             HorizontalAlignment="Stretch" />
-                        </StackPanel>
-                        <StackPanel Grid.Row="3" Grid.Column="0" Spacing="6" Margin="0,12,0,0">
-                            <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="NUMERIC STEPPER" />
-                            <NumericUpDown Value="5037" Minimum="0" Maximum="65535" HorizontalAlignment="Stretch" />
-                        </StackPanel>
-                        <StackPanel Grid.Row="3" Grid.Column="1" Spacing="6" Margin="0,12,0,0">
-                            <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="NUMERIC STEPPER — ERROR" />
-                            <NumericUpDown Value="{Binding PortNumber}" Minimum="0" Maximum="100000" HorizontalAlignment="Stretch" />
-                        </StackPanel>
-                    </Grid>
+                    </Border>
                 </StackPanel>
-            </Border>
+            </ScrollViewer>
 
-            <!-- Selection controls -->
-            <Border Classes="Card Outlined">
-                <StackPanel Spacing="16">
-                    <TextBlock Classes="LabelLarge" Foreground="{DynamicResource Primary}" Text="SELECTION CONTROLS" />
-                    <StackPanel Orientation="Horizontal" Spacing="48">
-                        <StackPanel Spacing="8">
-                            <CheckBox Content="Unchecked" />
-                            <CheckBox Content="Checked" IsChecked="True" />
-                            <CheckBox Content="Indeterminate" IsThreeState="True" IsChecked="{x:Null}" />
-                            <CheckBox Content="Disabled" IsEnabled="False" IsChecked="True" />
+            <!-- Selection -->
+            <ScrollViewer x:DataType="vm:MainWindowViewModel" DataContext="{Binding $parent[Carousel].DataContext}">
+                <StackPanel Spacing="24" Margin="32,24,32,48">
+                    <TextBlock Classes="HeadlineSmall" Text="Selection controls" />
+                    <Border Classes="Card Outlined">
+                        <StackPanel Orientation="Horizontal" Spacing="48">
+                            <StackPanel Spacing="8">
+                                <CheckBox Content="Unchecked" />
+                                <CheckBox Content="Checked" IsChecked="True" />
+                                <CheckBox Content="Indeterminate" IsThreeState="True" IsChecked="{x:Null}" />
+                                <CheckBox Content="Disabled" IsEnabled="False" IsChecked="True" />
+                            </StackPanel>
+                            <StackPanel Spacing="8">
+                                <RadioButton GroupName="g" Content="Option one" IsChecked="True" />
+                                <RadioButton GroupName="g" Content="Option two" />
+                                <RadioButton GroupName="g" Content="Option three" />
+                            </StackPanel>
+                            <StackPanel Spacing="12">
+                                <ToggleSwitch Content="Wireless debugging" />
+                                <ToggleSwitch Content="Connect automatically" IsChecked="True" />
+                            </StackPanel>
                         </StackPanel>
-                        <StackPanel Spacing="8">
-                            <RadioButton GroupName="g" Content="Option one" IsChecked="True" />
-                            <RadioButton GroupName="g" Content="Option two" />
-                            <RadioButton GroupName="g" Content="Option three" />
-                        </StackPanel>
-                        <StackPanel Spacing="12">
-                            <ToggleSwitch Content="Wireless debugging" />
-                            <ToggleSwitch Content="Connect automatically" IsChecked="True" />
-                        </StackPanel>
-                    </StackPanel>
+                    </Border>
                 </StackPanel>
-            </Border>
+            </ScrollViewer>
 
-            <!-- Lists, dropdowns & menus -->
-            <Border Classes="Card Outlined">
-                <StackPanel Spacing="16">
-                    <TextBlock Classes="LabelLarge" Foreground="{DynamicResource Primary}" Text="LISTS, DROPDOWNS &amp; MENUS" />
-                    <Grid ColumnDefinitions="*,*" ColumnSpacing="24">
-                        <StackPanel Grid.Column="0" Spacing="8">
-                            <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="LISTBOX" />
-                            <ListBox SelectedIndex="1" Height="132">
-                                <ListBoxItem>Pixel 8 (emulator)</ListBoxItem>
-                                <ListBoxItem>Galaxy S23 (wifi)</ListBoxItem>
-                                <ListBoxItem>Nexus 5X (usb)</ListBoxItem>
-                            </ListBox>
+            <!-- Collections -->
+            <ScrollViewer x:DataType="vm:MainWindowViewModel" DataContext="{Binding $parent[Carousel].DataContext}">
+                <StackPanel Spacing="24" Margin="32,24,32,48">
+                    <TextBlock Classes="HeadlineSmall" Text="Lists, dropdowns &amp; menus" />
+                    <Border Classes="Card Outlined">
+                        <StackPanel Spacing="16">
+                            <Grid ColumnDefinitions="*,*" ColumnSpacing="24">
+                                <StackPanel Grid.Column="0" Spacing="8">
+                                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="LISTBOX" />
+                                    <ListBox SelectedIndex="1" Height="132">
+                                        <ListBoxItem>Pixel 8 (emulator)</ListBoxItem>
+                                        <ListBoxItem>Galaxy S23 (wifi)</ListBoxItem>
+                                        <ListBoxItem>Nexus 5X (usb)</ListBoxItem>
+                                    </ListBox>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" Spacing="8">
+                                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="COMBOBOX" />
+                                    <ComboBox SelectedIndex="0" HorizontalAlignment="Stretch">
+                                        <ComboBoxItem>Pixel 8 (emulator)</ComboBoxItem>
+                                        <ComboBoxItem>Galaxy S23 (wifi)</ComboBoxItem>
+                                        <ComboBoxItem>Nexus 5X (usb)</ComboBoxItem>
+                                    </ComboBox>
+
+                                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="COMBOBOX (TEMPLATED ITEM)" Margin="0,8,0,0" />
+                                    <ComboBox ItemsSource="{Binding DeviceNames}" SelectedIndex="0" HorizontalAlignment="Stretch">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                                    <Border Width="8" Height="8" CornerRadius="4" Background="{DynamicResource Primary}" VerticalAlignment="Center" />
+                                                    <TextBlock Text="{Binding}" VerticalAlignment="Center" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+
+                                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="MENU" Margin="0,8,0,0" />
+                                    <Menu>
+                                        <MenuItem Header="Device">
+                                            <MenuItem Header="Connect over Wi-Fi" />
+                                            <MenuItem Header="Pair new device" />
+                                            <Separator />
+                                            <MenuItem Header="Advanced">
+                                                <MenuItem Header="Restart adb server" />
+                                                <MenuItem Header="Kill adb server" />
+                                            </MenuItem>
+                                        </MenuItem>
+                                    </Menu>
+                                </StackPanel>
+                            </Grid>
+
+                            <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="TREEVIEW" />
+                            <TreeView Height="156">
+                                <TreeViewItem Header="Devices" IsExpanded="True">
+                                    <TreeViewItem Header="Pixel 8 (emulator)" />
+                                    <TreeViewItem Header="Galaxy S23 (wifi)" />
+                                </TreeViewItem>
+                                <TreeViewItem Header="Emulators">
+                                    <TreeViewItem Header="Pixel 8 API 34" />
+                                </TreeViewItem>
+                            </TreeView>
                         </StackPanel>
-                        <StackPanel Grid.Column="1" Spacing="8">
-                            <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="COMBOBOX" />
-                            <ComboBox SelectedIndex="0" HorizontalAlignment="Stretch">
-                                <ComboBoxItem>Pixel 8 (emulator)</ComboBoxItem>
-                                <ComboBoxItem>Galaxy S23 (wifi)</ComboBoxItem>
-                                <ComboBoxItem>Nexus 5X (usb)</ComboBoxItem>
-                            </ComboBox>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
 
-                            <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="COMBOBOX (TEMPLATED ITEM)" Margin="0,8,0,0" />
-                            <ComboBox ItemsSource="{Binding DeviceNames}" SelectedIndex="0" HorizontalAlignment="Stretch">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal" Spacing="8">
-                                            <Border Width="8" Height="8" CornerRadius="4" Background="{DynamicResource Primary}" VerticalAlignment="Center" />
-                                            <TextBlock Text="{Binding}" VerticalAlignment="Center" />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                            </ComboBox>
+            <!-- Feedback -->
+            <ScrollViewer x:DataType="vm:MainWindowViewModel" DataContext="{Binding $parent[Carousel].DataContext}">
+                <StackPanel Spacing="24" Margin="32,24,32,48">
+                    <TextBlock Classes="HeadlineSmall" Text="Sliders &amp; progress" />
+                    <Border Classes="Card Outlined">
+                        <StackPanel Spacing="16">
+                            <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="SLIDER" />
+                            <Slider Minimum="0" Maximum="100" Value="60" />
 
-                            <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="MENU" Margin="0,8,0,0" />
-                            <Menu>
-                                <MenuItem Header="Device">
-                                    <MenuItem Header="Connect over Wi-Fi" />
-                                    <MenuItem Header="Pair new device" />
-                                    <Separator />
-                                    <MenuItem Header="Advanced">
-                                        <MenuItem Header="Restart adb server" />
-                                        <MenuItem Header="Kill adb server" />
-                                    </MenuItem>
-                                </MenuItem>
-                            </Menu>
+                            <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="PROGRESSBAR" />
+                            <ProgressBar Minimum="0" Maximum="100" Value="60" Height="8" />
+                            <ProgressBar IsIndeterminate="True" Height="8" />
                         </StackPanel>
-                    </Grid>
-
-                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="TREEVIEW" />
-                    <TreeView Height="156">
-                        <TreeViewItem Header="Devices" IsExpanded="True">
-                            <TreeViewItem Header="Pixel 8 (emulator)" />
-                            <TreeViewItem Header="Galaxy S23 (wifi)" />
-                        </TreeViewItem>
-                        <TreeViewItem Header="Emulators">
-                            <TreeViewItem Header="Pixel 8 API 34" />
-                        </TreeViewItem>
-                    </TreeView>
+                    </Border>
                 </StackPanel>
-            </Border>
-
-            <!-- Sliders & progress -->
-            <Border Classes="Card Outlined">
-                <StackPanel Spacing="16">
-                    <TextBlock Classes="LabelLarge" Foreground="{DynamicResource Primary}" Text="SLIDERS &amp; PROGRESS" />
-
-                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="SLIDER" />
-                    <Slider Minimum="0" Maximum="100" Value="60" />
-
-                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="PROGRESSBAR" />
-                    <ProgressBar Minimum="0" Maximum="100" Value="60" Height="8" />
-                    <ProgressBar IsIndeterminate="True" Height="8" />
-                </StackPanel>
-            </Border>
+            </ScrollViewer>
 
             <!-- Tabs -->
-            <Border Classes="Card Outlined">
-                <StackPanel Spacing="16">
-                    <TextBlock Classes="LabelLarge" Foreground="{DynamicResource Primary}" Text="TABS" />
-                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="TABCONTROL" />
-                    <TabControl>
-                        <TabItem Header="Devices">
-                            <TextBlock Classes="BodyMedium" Margin="0,12,0,0" Text="Connected devices appear here." />
-                        </TabItem>
-                        <TabItem Header="Emulators">
-                            <TextBlock Classes="BodyMedium" Margin="0,12,0,0" Text="Start and manage Android emulators." />
-                        </TabItem>
-                        <TabItem Header="Settings">
-                            <TextBlock Classes="BodyMedium" Margin="0,12,0,0" Text="Theme and connection settings." />
-                        </TabItem>
-                    </TabControl>
+            <ScrollViewer x:DataType="vm:MainWindowViewModel" DataContext="{Binding $parent[Carousel].DataContext}">
+                <StackPanel Spacing="24" Margin="32,24,32,48">
+                    <TextBlock Classes="HeadlineSmall" Text="Tabs" />
+                    <Border Classes="Card Outlined">
+                        <StackPanel Spacing="16">
+                            <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="TABCONTROL" />
+                            <TabControl>
+                                <TabItem Header="Devices">
+                                    <TextBlock Classes="BodyMedium" Margin="0,12,0,0" Text="Connected devices appear here." />
+                                </TabItem>
+                                <TabItem Header="Emulators">
+                                    <TextBlock Classes="BodyMedium" Margin="0,12,0,0" Text="Start and manage Android emulators." />
+                                </TabItem>
+                                <TabItem Header="Settings">
+                                    <TextBlock Classes="BodyMedium" Margin="0,12,0,0" Text="Theme and connection settings." />
+                                </TabItem>
+                            </TabControl>
 
-                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="TABSTRIP" Margin="0,8,0,0" />
-                    <TabStrip>
-                        <TabStripItem>Devices</TabStripItem>
-                        <TabStripItem>Logs</TabStripItem>
-                        <TabStripItem>Settings</TabStripItem>
-                    </TabStrip>
+                            <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="TABSTRIP" Margin="0,8,0,0" />
+                            <TabStrip>
+                                <TabStripItem>Devices</TabStripItem>
+                                <TabStripItem>Logs</TabStripItem>
+                                <TabStripItem>Settings</TabStripItem>
+                            </TabStrip>
+                        </StackPanel>
+                    </Border>
                 </StackPanel>
-            </Border>
+            </ScrollViewer>
 
             <!-- Containers -->
-            <Border Classes="Card Outlined">
-                <StackPanel Spacing="16">
-                    <TextBlock Classes="LabelLarge" Foreground="{DynamicResource Primary}" Text="CONTAINERS" />
+            <ScrollViewer x:DataType="vm:MainWindowViewModel" DataContext="{Binding $parent[Carousel].DataContext}">
+                <StackPanel Spacing="24" Margin="32,24,32,48">
+                    <TextBlock Classes="HeadlineSmall" Text="Containers" />
+                    <Border Classes="Card Outlined">
+                        <StackPanel Spacing="16">
+                            <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="EXPANDER" />
+                            <Expander Header="Advanced options">
+                                <StackPanel Spacing="8">
+                                    <CheckBox Content="Connect automatically on launch" />
+                                    <CheckBox Content="Keep screen awake while connected" IsChecked="True" />
+                                </StackPanel>
+                            </Expander>
 
-                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="EXPANDER" />
-                    <Expander Header="Advanced options">
-                        <StackPanel Spacing="8">
-                            <CheckBox Content="Connect automatically on launch" />
-                            <CheckBox Content="Keep screen awake while connected" IsChecked="True" />
+                            <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="CARD VARIANTS" />
+                            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="16">
+                                <Border Grid.Column="0" Classes="Card Elevated">
+                                    <TextBlock Classes="TitleSmall" Text="Elevated" />
+                                </Border>
+                                <Border Grid.Column="1" Classes="Card Filled">
+                                    <TextBlock Classes="TitleSmall" Text="Filled" />
+                                </Border>
+                                <Border Grid.Column="2" Classes="Card Outlined">
+                                    <TextBlock Classes="TitleSmall" Text="Outlined" />
+                                </Border>
+                            </Grid>
                         </StackPanel>
-                    </Expander>
-
-                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="CARD VARIANTS" />
-                    <Grid ColumnDefinitions="*,*,*" ColumnSpacing="16">
-                        <Border Grid.Column="0" Classes="Card Elevated">
-                            <TextBlock Classes="TitleSmall" Text="Elevated" />
-                        </Border>
-                        <Border Grid.Column="1" Classes="Card Filled">
-                            <TextBlock Classes="TitleSmall" Text="Filled" />
-                        </Border>
-                        <Border Grid.Column="2" Classes="Card Outlined">
-                            <TextBlock Classes="TitleSmall" Text="Outlined" />
-                        </Border>
-                    </Grid>
+                    </Border>
                 </StackPanel>
-            </Border>
+            </ScrollViewer>
 
             <!-- Coverage audit: stock controls the theme does NOT explicitly theme.
-                 They render with FluentTheme + the brand accent remap. Eyeball each:
-                 does it read as CCSWE brand, or still Fluent? -->
-            <Border Classes="Card Outlined">
-                <StackPanel Spacing="16">
-                    <TextBlock Classes="LabelLarge" Foreground="{DynamicResource Primary}" Text="UNTHEMED STOCK CONTROLS — COVERAGE AUDIT" />
-                    <TextBlock Classes="BodySmall" Foreground="{DynamicResource OnSurfaceVariant}"
-                               Text="Remaining gap (Tier 2–3): these fall back to FluentTheme + the accent remap. Judge each: brand vs. Fluent." />
+                 They render with FluentTheme + the brand accent remap. -->
+            <ScrollViewer x:DataType="vm:MainWindowViewModel" DataContext="{Binding $parent[Carousel].DataContext}">
+                <StackPanel Spacing="24" Margin="32,24,32,48">
+                    <TextBlock Classes="HeadlineSmall" Text="Coverage audit" />
+                    <Border Classes="Card Outlined">
+                        <StackPanel Spacing="16">
+                            <TextBlock Classes="BodySmall" Foreground="{DynamicResource OnSurfaceVariant}"
+                                       Text="Remaining gap (Tier 2–3): these fall back to FluentTheme + the accent remap. Judge each: brand vs. Fluent." />
 
-                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="BUTTON FAMILY (SplitButton / DropDownButton)" />
-                    <WrapPanel>
-                        <SplitButton Content="Connect" Margin="0,0,12,12" />
-                        <DropDownButton Content="Options" Margin="0,0,12,12">
-                            <DropDownButton.Flyout>
-                                <MenuFlyout>
-                                    <MenuItem Header="All devices" />
-                                    <MenuItem Header="Connected only" />
-                                </MenuFlyout>
-                            </DropDownButton.Flyout>
-                        </DropDownButton>
-                    </WrapPanel>
+                            <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="BUTTON FAMILY (SplitButton / DropDownButton)" />
+                            <WrapPanel>
+                                <SplitButton Content="Connect" Margin="0,0,12,12" />
+                                <DropDownButton Content="Options" Margin="0,0,12,12">
+                                    <DropDownButton.Flyout>
+                                        <MenuFlyout>
+                                            <MenuItem Header="All devices" />
+                                            <MenuItem Header="Connected only" />
+                                        </MenuFlyout>
+                                    </DropDownButton.Flyout>
+                                </DropDownButton>
+                            </WrapPanel>
 
-                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="PICKERS (DatePicker / TimePicker / CalendarDatePicker)" />
-                    <WrapPanel>
-                        <DatePicker Margin="0,0,12,12" />
-                        <TimePicker Margin="0,0,12,12" />
-                        <CalendarDatePicker Margin="0,0,12,12" />
-                    </WrapPanel>
+                            <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="PICKERS (DatePicker / TimePicker / CalendarDatePicker)" />
+                            <WrapPanel>
+                                <DatePicker Margin="0,0,12,12" />
+                                <TimePicker Margin="0,0,12,12" />
+                                <CalendarDatePicker Margin="0,0,12,12" />
+                            </WrapPanel>
+                        </StackPanel>
+                    </Border>
                 </StackPanel>
-            </Border>
+            </ScrollViewer>
 
-        </StackPanel>
-        </ScrollViewer>
+        </Carousel>
 
-    </DockPanel>
+    </DrawerPage>
 
 </Window>
