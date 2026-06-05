@@ -1,6 +1,6 @@
 # FluentTheme override audit — CCSWE.Avalonia.Theme
 
-**Avalonia:** 12.0.4 · **Bundle:** 1.7.0 · **Fluent keys verified against:** `Avalonia.Themes.Fluent` 12.0.3 (consumer confirms keys stable through 12.0.4)
+**Avalonia:** 12.0.4 · **Bundle:** 1.7.3 · **Fluent keys verified against:** `Avalonia.Themes.Fluent` 12.0.3 (consumer confirms keys stable through 12.0.4)
 **Base theme:** `FluentTheme` (Avalonia's stock control templates)
 **Question:** with our token brushes loaded and our ControlThemes covering a few
 controls, *which stock Fluent controls still render with Fluent's default colors
@@ -132,6 +132,7 @@ token roles, keyed per `ThemeVariant`.
 | ToolTip border | `ToolTipBorderBrush` (brush) | `OutlineVariant` | **verified · LIVE** |
 | ScrollBar thumb (resting) | `ScrollBarThumbBackgroundColor` (**Color**) | `OutlineVariant` | **verified · LIVE** |
 | ScrollBar thumb (hover) | `ScrollBarThumbFillPointerOver` (brush) | `Outline` | **verified · LIVE** |
+| Page-shell content bg | `SystemControlPageBackgroundAltHighBrush` (brush) | `Surface` | **verified · LIVE (1.7.3)** |
 | Generic surface base | `SystemControlBackgroundAltHighBrush` (brush) | `Surface` | verified · **deferred** |
 | Generic on-surface base | `SystemControlForegroundBaseHighBrush` (brush) | `OnSurface` | verified · **deferred** |
 
@@ -140,6 +141,20 @@ token roles, keyed per `ThemeVariant`.
 resource — `ScrollBarThumbBackgroundColor` — while only the *state* thumbs are
 brushes: `ScrollBarThumbFillPointerOver` / `…Pressed` / `…Disabled`. Override the
 resting thumb with a `<Color>`, the hover thumb with a `<SolidColorBrush>`.
+
+**Page-shell content background — LIVE, and why it's not the deferred key (1.7.3).**
+`SystemControlPageBackgroundAltHighBrush` (note the **`Page`**) is what Fluent's four
+`*Page` shell ControlThemes — `ContentPage`, `CarouselPage`, `TabbedPage`, `DrawerPage` —
+hardcode as their own `Background` setter; on dark it resolves to `#FF000000`, so our
+themed `DrawerPage`'s content slot rendered opaque black (darker than `Surface` cards,
+inverting M3 elevation). It **cannot** be fixed from `Style Selector="DrawerPage"`: a
+ControlTheme `Setter` outranks an app `Style` setter, so the 1.7.2 `Style`-set
+`Background="{DynamicResource Surface}"` was a verified no-op. Remapping the **token** here
+wins (the content presenter resolves it via `DynamicResource`) and its blast radius is
+**narrow** — only those 4 `*Page` shells reference this key, and the bundle themes just
+DrawerPage. This is the look-alike trap to avoid: the **broad** `SystemControlBackgroundAltHighBrush`
+(no "Page") spans window chrome, focused `TextBox`/`ComboBox`, `Calendar`, popup surfaces —
+that one stays deferred (next row). LIVE in `FluentOverrides.axaml` bucket 2b (Dark+Light).
 
 **Two keys verified but deferred.** `SystemControlBackgroundAltHighBrush` and
 `SystemControlForegroundBaseHighBrush` exist, but they are *generic* base
@@ -156,6 +171,9 @@ keys are narrowly scoped and ship **live**.
 - **Runtime visual sign-off** of the now-live ToolTip + ScrollBar surfaces in
   Dark and Light (hover a tooltip; rest/hover a scrollbar thumb) — keys are
   verified present and the build is green; the on-screen check is the final step.
+  Add the **1.7.3 page-shell remap** to this pass: confirm the DrawerPage content slot
+  reads `Surface` (not black) in Dark + Light, and spot-check nothing else regressed
+  (only the 4 `*Page` shells ref the key).
 - **The two deferred `SystemControl*` keys** — a per-control pass to decide
   whether brand base surfaces help or regress Fluent popups/menus/flyouts.
 - **ComboBox & Menu** — now bucket 3 (themed, incl. their popup surfaces). The

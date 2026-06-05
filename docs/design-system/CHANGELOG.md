@@ -1,5 +1,78 @@
 # Changelog — CCSWE Avalonia Design System
 
+## 1.7.3 — 2026-06-05 — DrawerPage content slot: token remap (supersedes the no-op 1.7.2)
+
+**Design System (Avalonia):** 1.7.2 → 1.7.3
+**Tokens:** 1.1.0 (unchanged) · **Avalonia:** 12.0.4
+
+Corrects the **1.7.2 fix, which was a no-op**, per the consumer's precedence analysis in
+`drawerpage-content-background-b39a7a69.md`. The DrawerPage content slot now renders
+`Surface` for real. No token or control-count change.
+
+### Why 1.7.2 didn't work — Avalonia value precedence
+
+Fluent's `DrawerPage` **ControlTheme** already sets
+`Background = {DynamicResource SystemControlPageBackgroundAltHighBrush}` (`#FF000000` on
+dark). A **ControlTheme `Setter` outranks an app-level `Style` `Setter`** for the same
+property (only a *local*/per-instance value beats it — and a `Style` setter is not a local
+value). So `Style Selector="DrawerPage"` could win `DrawerBackground` (no Fluent setter for
+it) but **could not** win `Background`. Pixel-sampling with the 1.7.2 setter present confirmed
+the slot stayed `#000000`. The DrawerPage.axaml header's "instance/local values still win" is
+true for local values but does **not** cover `Style` setters — the source of the wrong call.
+
+### Fixed
+
+- **`Controls/DrawerPage.axaml`** — removed the dead `Style`-set `Background` setter; replaced
+  with a comment documenting the precedence trap and pointing at the token remap.
+- **`FluentOverrides.axaml`** (library-owned starter; **bucket 2b**, Dark+Light) — remap
+  `SystemControlPageBackgroundAltHighBrush` → `Surface` (dark `#FF020617`, light `#FFF8FAFC`).
+  The content presenter resolves this token via `DynamicResource`, so the remap wins
+  regardless of ControlTheme-vs-Style precedence. **Narrow blast radius:** only the 4 `*Page`
+  shells (`ContentPage`/`CarouselPage`/`TabbedPage`/`DrawerPage`) reference this *Page*-specific
+  key — explicitly **not** the broad `SystemControlBackgroundAltHighBrush` (no "Page"), which
+  stays deferred. Matches the consumer's applied fix; their hand-edit can stand or defer to this.
+
+### Docs
+
+- **CONVENTIONS.md** — new rule: a `Style` setter loses to the framework ControlTheme's setter
+  for the same property; check the Avalonia source before adding `Property=` to a `Style`-layered
+  control, and remap the underlying `DynamicResource` token (narrowest-blast-radius key) instead.
+- **FLUENT-AUDIT.md** — page-shell key promoted to a LIVE bucket-2b row; bundle line → 1.7.3.
+- All emitted `*.axaml` headers stamped **v1.7.3** (24 files); bundle rebuilt.
+- `tokens.preview.css` **not** regenerated — `Tokens.axaml` unchanged this cycle.
+
+---
+
+## 1.7.2 — 2026-06-05 — DrawerPage content slot: map `Background` to `Surface` ⚠️ SUPERSEDED (no-op)
+
+> **Superseded by 1.7.3.** This `Style`-set `Background` setter never took effect — a Fluent
+> ControlTheme setter outranks it. The working fix is the token remap in 1.7.3.
+
+**Design System (Avalonia):** 1.7.1 → 1.7.2
+**Tokens:** 1.1.0 (unchanged) · **Avalonia:** 12.0.4
+
+Patch resolving the content-slot black-fill reported in
+`drawerpage-content-background.md`. No token or control-count change.
+
+### Fixed — `Controls/DrawerPage.axaml`
+
+- **`Style Selector="DrawerPage"` now sets `Background` = `Surface`.** Avalonia 12's
+  Fluent `DrawerPage` template TemplateBinds `PART_ContentPresenter.Background` to the
+  control's own `Background`, which defaults to `SystemControlPageBackgroundAltHighBrush`
+  (`#FF000000` on dark). Unset, the main content slot rendered **opaque black** over
+  `Window.Background` — darker than `Surface` cards, inverting M3 elevation order so
+  `Card Outlined` appeared to float on a void. Mapping it to the M3 flat base
+  (`Surface`) fixes the order. Non-destructive — instance/local values still win.
+  (`SurfaceContainerLowest` is the alternative if content should sit a step below cards.)
+  Matches the consumer's interim hand-edit; their hand-edit can now be removed.
+
+### Docs
+
+- All emitted `*.axaml` headers stamped **v1.7.2** (24 files); bundle rebuilt.
+- `tokens.preview.css` **not** regenerated — `Tokens.axaml` unchanged this cycle.
+
+---
+
 ## 1.7.1 — 2026-06-04 — Nav Rail compile fix (`HorizontalContentAlignment` on `ListBox`)
 
 **Design System (Avalonia):** 1.7.0 → 1.7.1

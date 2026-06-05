@@ -461,3 +461,26 @@ Interim, document **one** consumer-side pattern (a 1dp `Border` between pane and
 docked modes only) in HANDOFF. **Rule:** if a `Style`-layered control lacks the property
 you need, the answer is an upstream property request + a single documented interim — not
 a `/template/` reach into framework internals. (1.7.0.)
+
+### A `Style` setter loses to the framework `ControlTheme`'s setter for the same property — remap the token instead
+
+The flip side of the rule above. Layering a `Style` over a template you don't own reaches
+only properties the control declares — but even for those, a `Style` setter takes effect
+**only if Fluent's own `ControlTheme` does not already set that property.** Avalonia value
+precedence puts a **ControlTheme `Setter` above an app-level `Style` `Setter`**; a local
+(per-instance) value beats both, but a `Style` setter is *not* a local value. So
+`Style Selector="DrawerPage"` wins `DrawerBackground` (Fluent's ControlTheme sets no such
+setter) yet **silently loses `Background`** (Fluent's `DrawerPage` ControlTheme sets it to
+`SystemControlPageBackgroundAltHighBrush`). The worked case (1.7.2→1.7.3): a
+`Style`-set `Background="{DynamicResource Surface}"` to fix DrawerPage's black content slot
+was a **no-op** — verified by pixel-sampling, the slot stayed `#000000`. Because the Fluent
+template binds the content presenter to its `Background` via `{DynamicResource …}`, the fix
+is to **remap the underlying token, not the property**:
+`SystemControlPageBackgroundAltHighBrush` → `Surface` in `FluentOverrides.axaml` (Dark+Light)
+resolves regardless of precedence. **Rule:** before adding a `Property=` setter to a
+`Style`-layered control, check whether Fluent's ControlTheme already sets that property
+(read the Avalonia source). If it does, a `Style` setter is dead code — remap the
+`DynamicResource` token the framework setter points at, in `FluentOverrides.axaml`, scoping
+to the narrowest-blast-radius key (here the *Page*-specific
+`SystemControlPageBackgroundAltHighBrush`, ref'd only by the 4 `*Page` shells — **not** the
+broad `SystemControlBackgroundAltHighBrush`). (1.7.3.)

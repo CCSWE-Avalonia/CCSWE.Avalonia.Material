@@ -14,6 +14,10 @@
       the RESTING thumb is a *Color* (ScrollBarThumbBackgroundColor), while the
       hover/pressed/disabled states are *brushes* (ScrollBarThumbFill*). There is
       no ScrollBarThumbFill brush.
+      Bucket 2b adds SystemControlPageBackgroundAltHighBrush (-> Surface): the *Page
+      shells (incl. our DrawerPage) hardcode it in their ControlTheme, which a Style
+      setter can't beat, so the content slot is fixed by remapping the token here
+      (narrow blast radius - the 4 *Page* shells only). -> LIVE
     - Bucket 3 (high-traffic controls): replaced by CCSWE ControlThemes. No
       override needed.
 
@@ -48,6 +52,16 @@
       <Color x:Key="ScrollBarThumbBackgroundColor">#FF374151</Color>              <!-- OutlineVariant (resting; Color, not brush) -->
       <SolidColorBrush x:Key="ScrollBarThumbFillPointerOver" Color="#FF4B5563" /> <!-- Outline -->
 
+      <!-- Bucket 2b: page-shell content background (verified Avalonia 12.0.4). Fluent's
+           *Page ControlThemes (ContentPage/CarouselPage/TabbedPage/DrawerPage) set their
+           own Background = SystemControlPageBackgroundAltHighBrush (dark #FF000000). A
+           ControlTheme setter beats an app Style setter, so this CANNOT be fixed by a
+           `Style Selector="DrawerPage"` Background setter (the dead 1.7.2 attempt) - the
+           token must be remapped here. NARROW blast radius: only the 4 *Page* shells ref
+           this key; of those the bundle themes only DrawerPage. Do NOT confuse with the
+           broad SystemControlBackgroundAltHighBrush (no "Page"), still deferred below. -->
+      <SolidColorBrush x:Key="SystemControlPageBackgroundAltHighBrush" Color="#FF020617" /> <!-- Surface -->
+
       <!-- Verified-but-DEFERRED (broad blast radius - base surface/text used by
            popups/flyouts/menus; needs a per-control visual pass before shipping):
       <SolidColorBrush x:Key="SystemControlBackgroundAltHighBrush" Color="#FF020617"/>  Surface
@@ -73,6 +87,10 @@
       <SolidColorBrush x:Key="ToolTipBorderBrush" Color="#FFD1D5DB" />             <!-- OutlineVariant -->
       <Color x:Key="ScrollBarThumbBackgroundColor">#FFD1D5DB</Color>              <!-- OutlineVariant (resting; Color, not brush) -->
       <SolidColorBrush x:Key="ScrollBarThumbFillPointerOver" Color="#FF6B7280" /> <!-- Outline -->
+
+      <!-- Bucket 2b: page-shell content background (see Dark block note). Narrow: only
+           the 4 *Page* shells; bundle themes only DrawerPage. -->
+      <SolidColorBrush x:Key="SystemControlPageBackgroundAltHighBrush" Color="#FFF8FAFC" /> <!-- Surface -->
 
       <!-- Verified-but-DEFERRED (see Dark block note):
       <SolidColorBrush x:Key="SystemControlBackgroundAltHighBrush" Color="#FFF8FAFC"/>  Surface
