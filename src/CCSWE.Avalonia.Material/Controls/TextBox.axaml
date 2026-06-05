@@ -238,6 +238,10 @@
       </Style>
     </ControlTheme>
 
+    <!-- Default {x:Type TextBox} (no class) = M3 Outlined. Classed text boxes
+         (.Outlined/.Filled) override via the selectors below. -->
+    <ControlTheme x:Key="{x:Type TextBox}" TargetType="TextBox" BasedOn="{StaticResource M3OutlinedTextBox}" />
+
   </Styles.Resources>
 
   <!-- Convenience class selectors -->

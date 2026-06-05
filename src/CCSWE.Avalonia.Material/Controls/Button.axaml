@@ -188,6 +188,10 @@
       </Style>
     </ControlTheme>
 
+    <!-- Default {x:Type Button} (no class) = M3 Filled (M3's high-emphasis default button).
+         Classed buttons (.Filled/.Outlined/.Text/…) override via the selectors below. -->
+    <ControlTheme x:Key="{x:Type Button}" TargetType="Button" BasedOn="{StaticResource M3FilledButton}" />
+
   </Styles.Resources>
 
   <!-- Convenience class selectors -->

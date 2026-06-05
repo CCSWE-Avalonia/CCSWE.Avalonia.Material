@@ -33,7 +33,6 @@
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/Strings.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/BaseAliases.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/AdornerLayer.axaml" />
-        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/Button.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/Calendar.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/CalendarButton.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/CalendarDatePicker.axaml" />
@@ -69,7 +68,6 @@
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/SplitButton.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/SplitView.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/TabbedPage.axaml" />
-        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/TextBox.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/TextSelectionHandle.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/ThemeVariantScope.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/TimePicker.axaml" />

@@ -12,6 +12,14 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+
+        // VERIFY-ONLY: jump to a page on startup when DEMO_PAGE is set, so headless
+        // screenshots can capture each gallery page (synthetic input doesn't reach the
+        // window under WSLg). No effect when the variable is unset.
+        if (int.TryParse(System.Environment.GetEnvironmentVariable("DEMO_PAGE"), out var page))
+        {
+            NavList.SelectedIndex = page;
+        }
     }
 
     private void OnThemeToggleChanged(object? sender, RoutedEventArgs e)

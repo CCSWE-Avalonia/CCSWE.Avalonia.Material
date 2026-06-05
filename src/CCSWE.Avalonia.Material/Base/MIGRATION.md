@@ -16,8 +16,8 @@ interim forks, and which are verified in the Demo. Update this **per control** a
 
 | Control | State | Verified | Notes |
 |---|---|---|---|
-| Button | 🔶 Partial | classed ✓ | keyed M3 (Filled/Tonal/Elevated/Outlined/Text/Icon); plain `{x:Type Button}` still `Base/Button` |
-| TextBox | 🔶 Partial | classed ✓ | keyed M3 (Outlined/Filled); plain `{x:Type TextBox}` still `Base/TextBox` |
+| Button | ✅ M3 | classed ✓ | keyed M3 variants + `{x:Type Button}` default = Filled; `Base/Button` deleted |
+| TextBox | ✅ M3 | classed ✓ | keyed M3 variants + `{x:Type TextBox}` default = Outlined; `Base/TextBox` deleted |
 | DrawerPage | 🔶 Partial | ✓ (demo shell) | `Controls/DrawerPage` Style-layer over forked `Base/DrawerPage` template; promote to full ControlTheme |
 | ScrollBar | ✅ M3 | ✓ 2026-06-05 | thin pill thumb, no arrows; `Base/ScrollBar` deleted |
 | AutoCompleteBox, CheckBox, ComboBox, Card, Expander, ListBox, Menu, NumericUpDown, ProgressBar, RadioButton, Slider, TabControl, TabStrip, ToggleButton, ToggleSwitch, TreeView | ✅ M3 | mostly ✓ | owned `{x:Type}` (Card via style classes); no `Base/` fork |
