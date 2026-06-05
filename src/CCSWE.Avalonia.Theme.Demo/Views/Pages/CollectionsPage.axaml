@@ -1,0 +1,69 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:CCSWE.Avalonia.Theme.Demo.ViewModels"
+             x:Class="CCSWE.Avalonia.Theme.Demo.Views.Pages.CollectionsPage"
+             x:DataType="vm:MainWindowViewModel">
+    <ScrollViewer x:DataType="vm:MainWindowViewModel">
+        <StackPanel Spacing="24" Margin="32,24,32,48">
+            <TextBlock Classes="HeadlineSmall" Text="Lists, dropdowns &amp; menus" />
+            <Border Classes="Card Outlined">
+                <StackPanel Spacing="16">
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="24">
+                        <StackPanel Grid.Column="0" Spacing="8">
+                            <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="LISTBOX" />
+                            <ListBox SelectedIndex="1" Height="132">
+                                <ListBoxItem>Pixel 8 (emulator)</ListBoxItem>
+                                <ListBoxItem>Galaxy S23 (wifi)</ListBoxItem>
+                                <ListBoxItem>Nexus 5X (usb)</ListBoxItem>
+                            </ListBox>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Spacing="8">
+                            <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="COMBOBOX" />
+                            <ComboBox SelectedIndex="0" HorizontalAlignment="Stretch">
+                                <ComboBoxItem>Pixel 8 (emulator)</ComboBoxItem>
+                                <ComboBoxItem>Galaxy S23 (wifi)</ComboBoxItem>
+                                <ComboBoxItem>Nexus 5X (usb)</ComboBoxItem>
+                            </ComboBox>
+
+                            <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="COMBOBOX (TEMPLATED ITEM)" Margin="0,8,0,0" />
+                            <ComboBox ItemsSource="{Binding DeviceNames}" SelectedIndex="0" HorizontalAlignment="Stretch">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate x:CompileBindings="False">
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <Border Width="8" Height="8" CornerRadius="4" Background="{DynamicResource Primary}" VerticalAlignment="Center" />
+                                            <TextBlock Text="{Binding}" VerticalAlignment="Center" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+
+                            <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="MENU" Margin="0,8,0,0" />
+                            <Menu>
+                                <MenuItem Header="Device">
+                                    <MenuItem Header="Connect over Wi-Fi" />
+                                    <MenuItem Header="Pair new device" />
+                                    <Separator />
+                                    <MenuItem Header="Advanced">
+                                        <MenuItem Header="Restart adb server" />
+                                        <MenuItem Header="Kill adb server" />
+                                    </MenuItem>
+                                </MenuItem>
+                            </Menu>
+                        </StackPanel>
+                    </Grid>
+
+                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="TREEVIEW" />
+                    <TreeView Height="156">
+                        <TreeViewItem Header="Devices" IsExpanded="True">
+                            <TreeViewItem Header="Pixel 8 (emulator)" />
+                            <TreeViewItem Header="Galaxy S23 (wifi)" />
+                        </TreeViewItem>
+                        <TreeViewItem Header="Emulators">
+                            <TreeViewItem Header="Pixel 8 API 34" />
+                        </TreeViewItem>
+                    </TreeView>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

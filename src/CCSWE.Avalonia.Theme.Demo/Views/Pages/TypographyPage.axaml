@@ -1,0 +1,21 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:CCSWE.Avalonia.Theme.Demo.ViewModels"
+             x:Class="CCSWE.Avalonia.Theme.Demo.Views.Pages.TypographyPage"
+             x:DataType="vm:MainWindowViewModel">
+    <ScrollViewer x:DataType="vm:MainWindowViewModel">
+        <StackPanel Spacing="24" Margin="32,24,32,48">
+            <TextBlock Classes="HeadlineSmall" Text="Typography" />
+            <Border Classes="Card Outlined">
+                <StackPanel Spacing="6">
+                    <TextBlock Classes="DisplaySmall" Text="Display Small" />
+                    <TextBlock Classes="HeadlineSmall" Text="Headline Small" />
+                    <TextBlock Classes="TitleLarge" Text="Title Large" />
+                    <TextBlock Classes="BodyLarge" Text="Body Large — the quick brown fox jumps over the lazy dog." />
+                    <TextBlock Classes="BodyMedium" Text="Body Medium — the quick brown fox jumps over the lazy dog." />
+                    <TextBlock Classes="LabelMedium" Text="LABEL MEDIUM" />
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
