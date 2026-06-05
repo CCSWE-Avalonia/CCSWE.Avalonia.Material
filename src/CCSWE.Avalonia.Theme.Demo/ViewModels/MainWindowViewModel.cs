@@ -26,6 +26,10 @@ public partial class MainWindowViewModel : ObservableValidator
     [Range(typeof(decimal), "0", "65535", ErrorMessage = "Port must be 0–65535")]
     private decimal _portNumber = 99999;
 
+    // Drawer (false) vs. compact rail (true) for the navigation shell.
+    [ObservableProperty]
+    private bool _isRail;
+
     public MainWindowViewModel()
     {
         ValidateAllProperties();
