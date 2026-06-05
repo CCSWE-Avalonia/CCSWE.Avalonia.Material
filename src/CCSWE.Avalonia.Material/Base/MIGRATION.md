@@ -26,7 +26,7 @@ interim forks, and which are verified in the Demo. Update this **per control** a
 | ScrollViewer, FlyoutPresenter, DataValidationErrors | ⬜ Forked | runs | visible chrome — M3 polish wanted |
 | ToolTip | ✅ M3 | — | InverseSurface chip, ExtraSmall corners, fade-in on :open; `Base/ToolTip` deleted |
 | HyperlinkButton, DropDownButton, SplitButton | ✅ M3 | — | hand-rolled M3 (link; Tonal pill + dropdown chevron / split); forks deleted |
-| CommandBar | ⬜ Forked | — | button-family (other three done); CommandBar remaining |
+| CommandBar (+ Button / ToggleButton / Separator) | ✅ M3 | — | SurfaceContainer toolbar, OnSurfaceVariant content, M3 state layers (8/12%), toggle→SecondaryContainer, overflow popup = M3 menu surface; `Base/CommandBar` deleted |
 | GroupBox | ✅ M3 | — | M3 outlined container, header LabelLarge OnSurfaceVariant, MediumCorner; `Base/GroupBox` deleted |
 | Label | ✅ M3 | — | OnSurface, BodyLarge, disabled 0.38; `Base/Label` deleted |
 | SelectableTextBlock | ✅ M3 | — | OnSurface, selection PrimaryContainer/OnPrimaryContainer; `Base/SelectableTextBlock` deleted |
