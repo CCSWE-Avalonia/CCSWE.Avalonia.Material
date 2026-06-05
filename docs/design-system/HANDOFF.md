@@ -1,63 +1,46 @@
-# Handoff — CCSWE.Avalonia.Material
+# Handoff — CCSWE.Avalonia.Material (token layer)
 
-> **v2 contract — no-base (read first).** CCSWE.Avalonia.Material is now a **standalone
-> Material 3 theme**: no `FluentTheme`/`SimpleTheme` base. The design system emits the
-> **token layer only** (`Tokens` / `Typography` / `Motion` / `Fonts`); the **library owns**
-> the `MaterialTheme` entry, all `Controls/*` M3 themes, and the interim `Base/*` infra
-> (forked from Avalonia.Themes.Simple 12.0.4, shrinking as controls are hand-rolled to M3).
-> Consumers wire one `<theme:MaterialTheme/>`. North star: **Material 3 / Android fidelity**.
-> The authoritative contract is the repo-root [`CLAUDE.md`](../../CLAUDE.md); anything below
-> that references `FluentTheme` / `FluentOverrides.axaml` / `Theme.axaml` is superseded.
-
-How a developer (or Claude Code) wires the emitted bundle into the
+How a developer (or Claude Code) wires the emitted **token bundle** into the
 **CCSWE.Avalonia.Material** library and a consuming desktop app.
+
+> **v2 — tokens only.** This bundle emits `Tokens.axaml` / `Typography.axaml` /
+> `Motion.axaml` / `Fonts.axaml` and the font assets, nothing else. The library is
+> a **standalone Material 3 theme** (no `FluentTheme`/`SimpleTheme` base): it
+> hand-authors every M3 control theme + an interim `Base/` infra layer (forked from
+> `Avalonia.Themes.Simple` 12.0.4) and exposes one entry — `<theme:MaterialTheme/>`.
+> The control themes, `MaterialTheme`, and `Base/` are **library-owned** and are
+> not in this bundle. North star: **Material 3 / Android fidelity**.
 
 ## Scope
 
-A **theme + tokens** library — color schemes, metrics, type scale, fonts,
-motion, and M3 control themes (button family & `ToggleButton`, text fields,
-`AutoCompleteBox`, `NumericUpDown`, selection controls, lists & `TreeView`,
-`ComboBox`, menus, `Expander`, `Slider`, `ProgressBar`, tabs `TabControl`/`TabStrip`,
-cards, navigation drawer + rail `DrawerPage`). It does
-**not** ship custom controls or app plumbing. Consumers style stock Avalonia
-controls with the emitted resources and classes and let the tokens drive the look.
+A **tokens** bundle — color schemes, metrics (shape + spacing + type sizes), the
+type-scale classes, motion values, and font references. It does **not** ship
+control themes, custom controls, a base theme, or app plumbing. The library
+consumes these resources to drive its own hand-authored M3 component themes.
 
 ## Library project layout
+
+The four emitted files drop in at the library root verbatim; everything else in
+the library is hand-authored.
 
 ```
 CCSWE.Avalonia.Material/            (Avalonia 12 class library; TFM-agnostic, net8.0+)
 ├── CCSWE.Avalonia.Material.csproj
-├── Tokens.axaml                 ← emitted bundle, drop in verbatim at the project root
+│
+│   ── emitted by the DS — drop in verbatim, never hand-edit ──
+├── Tokens.axaml                 ThemeDictionaries Dark/Light + metrics + FontSize scale
 ├── Fonts.axaml
 ├── Motion.axaml
 ├── Typography.axaml
-├── Theme.axaml                  (one-stop include)
-├── Controls/
-│   ├── Button.axaml
-│   ├── TextBox.axaml
-│   ├── CheckBox.axaml
-│   ├── RadioButton.axaml
-│   ├── ToggleSwitch.axaml
-│   ├── ListBox.axaml
-│   ├── ComboBox.axaml
-│   ├── Menu.axaml
-│   ├── Expander.axaml
-│   ├── Card.axaml
-│   ├── Slider.axaml
-│   ├── ProgressBar.axaml
-│   ├── TabControl.axaml
-│   ├── TabStrip.axaml          (1.5.0)
-│   ├── TreeView.axaml          (1.5.0)
-│   ├── AutoCompleteBox.axaml   (1.5.0)
-│   ├── ToggleButton.axaml      (1.5.0)
-│   ├── NumericUpDown.axaml     (1.5.0)
-│   └── DrawerPage.axaml        (1.6.0 drawer · 1.7.0 rail)
-├── FluentOverrides.axaml        ← hand-authored (see FLUENT-AUDIT.md)
-├── App.sample.axaml             ← hand-authored, non-compiled wiring snippet
-└── Assets/Fonts/                ← run fetch-fonts.{sh,ps1} (see FONTS.md)
-    ├── fetch-fonts.sh / .ps1
-    ├── PlusJakartaSans[wght].ttf  + PlusJakartaSans-OFL.txt
-    └── DMSans[opsz,wght].ttf      + DMSans-OFL.txt
+├── Assets/Fonts/                run fetch-fonts.{sh,ps1} (see FONTS.md)
+│   ├── fetch-fonts.sh / .ps1
+│   ├── PlusJakartaSans[wght].ttf  + PlusJakartaSans-OFL.txt
+│   └── DMSans[opsz,wght].ttf      + DMSans-OFL.txt
+│
+│   ── hand-authored by the library (NOT emitted) ──
+├── MaterialTheme.cs / .axaml    one-stop Styles entry — merges the 4 token files + the control themes
+├── Base/                        interim infra forked from Avalonia.Themes.Simple 12.0.4
+└── Controls/                    hand-authored M3 control themes (Button, TextBox, …)
 ```
 
 ### csproj — make the axaml + fonts into avares:// resources
@@ -83,26 +66,58 @@ CCSWE.Avalonia.Material/            (Avalonia 12 class library; TFM-agnostic, ne
 
 The `avares://CCSWE.Avalonia.Material/...` URIs in the emitted files assume the
 assembly name is `CCSWE.Avalonia.Material`. If you name the assembly differently,
-find-and-replace the authority segment in `Theme.axaml`, `Fonts.axaml`, and
-`FluentOverrides.axaml`.
+find-and-replace the authority segment in `Fonts.axaml` (the only emitted file
+that carries an `avares://` URI).
+
+## How the library consumes the emitted tokens
+
+`MaterialTheme` (library-owned `Styles` subclass) merges the four emitted files
+into its resources and layers the hand-authored control themes on top — roughly:
+
+```xml
+<!-- MaterialTheme.axaml (library-owned — illustrative) -->
+<Styles ...>
+  <Styles.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Fonts.axaml" />
+        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Tokens.axaml" />
+        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Motion.axaml" />
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </Styles.Resources>
+
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Typography.axaml" />
+  <!-- … plus the library's hand-authored Base/ + Controls/ includes … -->
+</Styles>
+```
+
+The control themes reference the **global M3 role brushes directly**
+(`{DynamicResource Primary}`, etc.) — they have **no base theme to `BasedOn`**, so
+every token reference is a `DynamicResource` that resolves against the merged
+application resources (and re-resolves on a `ThemeVariant` switch).
 
 ## Consuming-app wiring
 
-See `App.sample.axaml` for the full file. The moving parts:
+```xml
+<!-- App.axaml -->
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:theme="using:CCSWE.Avalonia.Material"
+             RequestedThemeVariant="Dark">
+  <Application.Styles>
+    <theme:MaterialTheme />
+  </Application.Styles>
+</Application>
+```
 
-1. **`RequestedThemeVariant="Dark"`** on `<Application>` — dark is the app
-   default (matches web + upstream intent). Bind it to a setting to make it
-   user-switchable; the emitted `ThemeDictionaries` respond automatically.
-2. **`<FluentTheme />` then `Theme.axaml`** in `Application.Styles` —
-   FluentTheme supplies the control templates the CCSWE bundle doesn't
-   override; `Theme.axaml` layers tokens + type + control themes on top.
-3. **`FluentOverrides.axaml` merged via `ResourceDictionary.MergedDictionaries`**
-   inside `Application.Resources` — a `ResourceInclude` cannot sit directly under
-   `Application.Resources` (it's an `IResourceDictionary`). It remaps FluentTheme's
-   accent onto brand so non-themed controls (e.g. `CalendarDatePicker`,
-   `ScrollBar`) still read as CCSWE. Merge *after* the styles. See the sample for the exact nesting.
+1. **`RequestedThemeVariant="Dark"`** — dark is the app default (matches web +
+   upstream intent). Bind it to a setting to make it user-switchable; the emitted
+   `ThemeDictionaries` respond automatically.
+2. **`<theme:MaterialTheme/>`** — the single entry. No `FluentTheme` line, no
+   `FluentOverrides` merge — there is no base theme to sit on or remap.
 
-## Theme variant switching (library-owned)
+## Theme variant switching
 
 ```csharp
 // Flip at runtime — ThemeDictionaries do the rest.
@@ -111,127 +126,49 @@ Application.Current!.RequestedThemeVariant =
 ```
 
 High-contrast: not emitted this cycle. When wired, the upstream
-`darkHighContrast` / `lightHighContrast` schemes would emit as custom
-`ThemeVariant` keys and the host would request them the same way.
+`darkHighContrast` / `lightHighContrast` schemes would emit as additional
+`ThemeDictionaries` keys and the host would request them the same way.
 
-## Navigation drawer & rail — consumer markup contract
+## The type-size tokens (`FontSize<Role>`)
 
-The bundle themes the **destinations**; the `DrawerPage` container, header, icons, and
-labels are consumer content. Two host classes, applied to a `ListBox` inside the
-`DrawerPage` pane:
-
-**Drawer** (full-width pill, `DrawerBehavior=Locked`/`Split` or overlay) — icon + label
-go in `Content`:
-
-```xml
-<ListBox Classes="NavigationDrawer" SelectedIndex="0">
-  <ListBoxItem>
-    <StackPanel Orientation="Horizontal" Spacing="12">
-      <PathIcon Data="{StaticResource DashboardGlyph}" Width="24" Height="24" />
-      <TextBlock Classes="LabelLarge" Text="Dashboard" VerticalAlignment="Center" />
-    </StackPanel>
-  </ListBoxItem>
-  <!-- … -->
-</ListBox>
-```
-
-**Rail** (compact 80dp, `DrawerLayoutBehavior=CompactInline`/`CompactOverlay`) — the
-indicator hugs the **icon only** and the label sits below, so the icon goes in `Content`
-and the label string in **`Tag`** (the no-C# split; `Tag` is stringly-typed — no
-`HeaderTemplate`):
-
-```xml
-<ListBox Classes="NavigationRail" SelectedIndex="0">
-  <ListBoxItem Tag="Dashboard">
-    <PathIcon Data="{StaticResource DashboardGlyph}" Width="24" Height="24" />
-  </ListBoxItem>
-  <!-- … -->
-</ListBox>
-```
-
-Icons are consumer-supplied (the bundle ships no icon set). The rail's active state
-colors icon and label **differently** (icon `OnSecondaryContainer`, label `OnSurface`)
-— that's M3-correct, not a bug.
-
-### Trailing-edge divider (docked) — interim until upstream property
-
-M3's docked drawer/rail carries a **1dp `OutlineVariant` divider on the pane's trailing
-edge**. `DrawerPage` exposes **no border property**, so the theme can't emit it (it's a
-`Style` layered over Fluent's template, and there's no `DrawerBorderBrush` to set — see
-CHANGELOG 1.7.0 / CONVENTIONS). A `DrawerBorderBrush`/`DrawerBorderThickness` request is
-filed upstream. **Until it lands, draw it consumer-side** in **docked** modes only
-(skip `Overlay`/`CompactOverlay` — the `Scrim32` backdrop already separates):
-
-```xml
-<!-- Between the DrawerPage pane and the main content, DrawerPlacement=Left.
-     Mirror to "1,0,0,0" for Right. -->
-<Border BorderBrush="{DynamicResource OutlineVariant}" BorderThickness="0,0,1,0" />
-```
-
-Use this one pattern (don't fork it per view) so the seam stays consistent until the
-emitted treatment replaces it.
-
-## Regenerating the preview (no-drift contract — DS-side dev artifact)
-
-> The HTML preview is a **design-system-side dev artifact** and is **not** shipped
-> in the delivered package. This section documents the DS's own regen step; it is
-> not something a library consumer needs to run.
-
-`preview/tokens.preview.css` is generated from `Tokens.axaml`, not
-hand-maintained. The generator:
-
-1. Parses the `Dark` and `Light` `ResourceDictionary` blocks under
-   `ResourceDictionary.ThemeDictionaries`, reading every `<Color x:Key="...">`.
-2. Emits `:root[data-theme="dark"]` / `:root[data-theme="light"]` blocks of
-   `--<kebab-role>` custom properties (e.g. `OnSurfaceVariantColor` →
-   `--on-surface-variant`).
-3. Parses the root `CornerRadius` + spacing `double` resources into
-   `--corner-radius-*` / `--spacing-*` vars.
-
-Re-run it after any `Tokens.axaml` edit so the showcase never diverges from
-what the library ships. The button visuals in `Preview.html` mirror the roles,
-radii, and state-layer opacities in `Controls/Button.axaml`.
+`Tokens.axaml` emits the 15-role M3 type-size scale as `x:Double` resources
+(`FontSizeDisplayLarge` … `FontSizeLabelSmall`). `Typography.axaml` references them
+for its `FontSize` setters, so type sizes have a single source of truth. The
+library (or a consumer) can also reference a size directly —
+`FontSize="{DynamicResource FontSizeTitleLarge}"` — when styling a control that
+isn't a plain `TextBlock`. (These tokens were hand-added in the library during the
+v1.x no-base migration; as of v2 the DS owns and emits them.)
 
 ## Verifying a fresh bundle
 
 - `Tokens.axaml` carries a `Dark` and a `Light` theme dictionary, each with the
-  full M3 role set as `Color` + matching `SolidColorBrush`.
-- Every value in `Controls/Button.axaml` is a `{StaticResource}` — grep for a
-  literal `#` hex inside it; there should be none except the elevation
-  `BoxShadow` (a shadow tint, not a token color).
-- `RequestedThemeVariant="Dark"` is the documented default everywhere.
-- Embedded fonts resolve at runtime — verify on a real run, not just the
-  designer preview.
+  full M3 role set as `Color` + matching `SolidColorBrush`, plus the disabled
+  alpha brushes (`OnSurface12` / `OnSurface38`) and `Scrim32`.
+- The root of `Tokens.axaml` carries the `CornerRadius*`, `Spacing*`
+  (`double` + `Thickness`), and `FontSize*` (all 15 roles) metrics.
+- `Typography.axaml`'s `FontSize` setters resolve to the `FontSize*` tokens (grep
+  for a literal numeric `FontSize` value — there should be none; all are
+  `{DynamicResource FontSize…}`).
+- `Fonts.axaml` is the only emitted file with an `avares://` URI, and it points at
+  `CCSWE.Avalonia.Material`.
+- Embedded fonts resolve at runtime — verify on a real run, not just the designer
+  preview.
+
+## Workflow (verification loop)
+
+This DS project can't compile axaml, so the **library is the verifier**. Each
+emit cycle owes a compile + runtime pass by the consumer, who returns an
+`uploads/avalonia-integration-*.md` note. Read the latest → apply changes → run the
+release checklist in `CLAUDE.md`.
 
 ## Testing checklist
 
-- [ ] App picks up the theme — visual diff against the consuming app's current build
-- [ ] Dark (default) and Light both render; runtime switch works
-- [ ] Filled / Tonal / Elevated / Outlined / Text / Icon buttons all show M3
-      shape (full pill), correct role colors, and hover/pressed state layers
-- [ ] Disabled buttons: container @ 0.12, label @ 0.38
-- [ ] TextBox Filled + Outlined: focus thickens the indicator/border to 2px
-      Primary; watermark shows while empty; `:error` turns it Error-red
-- [ ] CheckBox / RadioButton: unchecked = 2px Outline-variant; checked = Primary
-      fill / ring + glyph; hover/press show the circular state layer
-- [ ] ToggleSwitch: thumb grows 16→24 and slides; track flips to Primary on
-      check, with the emphasized-easing motion
-- [ ] ToggleButton: Outlined when off, Filled-Tonal (SecondaryContainer) on
-      `:checked`; pill shape + state layer; disabled label = neutral OnSurface38
-- [ ] AutoCompleteBox: inner field reads as the M3 Outlined TextBox; suggestion
-      popup uses the SurfaceContainer chrome and rows highlight like ListBoxItems
-- [ ] NumericUpDown: M3 Outlined field box, `:focus-within` → 2px Primary; the
-      up/down spinners step the value and show a circular state layer
-- [ ] TabStrip / TabStripItem: matches the TabControl indicator + state layer
-- [ ] TreeView / TreeViewItem: 48dp rows, OnSurface state layer, selected =
-      SecondaryContainer; chevron rotates on expand; nested rows indent 24dp/level
-- [ ] Navigation drawer: `ListBox Classes="NavigationDrawer"` shows 56dp full-pill
-      destinations; active = SecondaryContainer / OnSecondaryContainer (icon + label
-      recolor together); `DrawerPage` pane = SurfaceContainerLow, modal scrim = Scrim @ 32%
-- [ ] Navigation rail: `ListBox Classes="NavigationRail"` (in a CompactInline/CompactOverlay
-      `DrawerPage`) shows 80dp icon-over-label items; 56×32 indicator hugs the icon; active
-      recolors icon → OnSecondaryContainer **and** label → OnSurface; selection doesn't reflow
-- [ ] Theme switch repaints all of the above (DynamicResource — no frozen brushes)
-- [ ] Non-themed stock controls (e.g. CalendarDatePicker, ScrollBar) pick up the
-      brand accent via FluentOverrides, not Fluent blue (see FLUENT-AUDIT.md)
+- [ ] Library builds with the four emitted files dropped in verbatim (0 errors,
+      0 AVLN warnings)
+- [ ] Dark (default) and Light both render; runtime `ThemeVariant` switch repaints
+      every role brush (DynamicResource — no frozen brushes)
+- [ ] Type-scale classes apply the right `FontSize` (display 57 → label-small 11)
+      and resolve the `FontSize*` tokens, not inlined numbers
 - [ ] Embedded DM Sans / Plus Jakarta Sans load (not a system fallback)
+- [ ] Color roles, spacing, corner radii, and motion values match `Tokens.axaml` /
+      `Motion.axaml` exactly (the no-drift preview is the visual reference)
