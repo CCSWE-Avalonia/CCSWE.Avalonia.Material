@@ -62,6 +62,9 @@
                             <TreeViewItem Header="Pixel 8 API 34" />
                         </TreeViewItem>
                     </TreeView>
+
+                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="PIPSPAGER" />
+                    <PipsPager NumberOfPages="5" SelectedPageIndex="2" HorizontalAlignment="Left" />
                 </StackPanel>
             </Border>
         </StackPanel>

@@ -31,7 +31,10 @@ interim forks, and which are verified in the Demo. Update this **per control** a
 | Label | ✅ M3 | — | OnSurface, BodyLarge, disabled 0.38; `Base/Label` deleted |
 | SelectableTextBlock | ✅ M3 | — | OnSurface, selection PrimaryContainer/OnPrimaryContainer; `Base/SelectableTextBlock` deleted |
 | GridSplitter | ✅ M3 | — | OutlineVariant divider, Outline on hover, Primary preview; `Base/GridSplitter` deleted |
-| PipsPager, RefreshVisualizer, RefreshContainer, NotificationCard, ItemsControl, HeaderedContentControl | ⬜ Forked | — | styleable gaps |
+| PipsPager | ✅ M3 | — | OutlineVariant pips, Primary selected, M3 icon nav buttons; `Base/PipsPager` deleted |
+| ItemsControl, HeaderedContentControl | ✅ M3 | — | structural; OnSurface foreground default; forks deleted |
+| RefreshContainer, RefreshVisualizer | ✅ M3 | — | RefreshVisualizer spinner → Primary, transparent bg; forks deleted |
+| NotificationCard | ⬜ Forked | — | needs DS success/warning/info tokens (only Error exists) — see ds-feedback |
 | ContentPage, CarouselPage, TabbedPage, NavigationPage, Carousel | ⬜ Forked | — | page shells |
 | Calendar, CalendarButton, CalendarDayButton, CalendarItem, CalendarDatePicker, DatePicker, TimePicker, DateTimePickerShared | ⬜ Forked | — | date family — **deferred ("maybe later")** |
 
