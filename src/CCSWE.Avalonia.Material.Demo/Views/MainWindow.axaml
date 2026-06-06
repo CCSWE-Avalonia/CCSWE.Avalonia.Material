@@ -150,15 +150,15 @@
             <ListBox x:Name="RailList" Classes="NavigationRail" VerticalAlignment="Top"
                      IsVisible="{Binding IsRail}"
                      SelectedIndex="{Binding #NavList.SelectedIndex, Mode=TwoWay}">
-                <ListBoxItem Tag="Typography"><PathIcon Data="{StaticResource IconTypography}" Width="24" Height="24" /></ListBoxItem>
-                <ListBoxItem Tag="Buttons"><PathIcon Data="{StaticResource IconButtons}" Width="24" Height="24" /></ListBoxItem>
-                <ListBoxItem Tag="Inputs"><PathIcon Data="{StaticResource IconInputs}" Width="24" Height="24" /></ListBoxItem>
-                <ListBoxItem Tag="Selection"><PathIcon Data="{StaticResource IconSelection}" Width="24" Height="24" /></ListBoxItem>
-                <ListBoxItem Tag="Collections"><PathIcon Data="{StaticResource IconCollections}" Width="24" Height="24" /></ListBoxItem>
-                <ListBoxItem Tag="Feedback"><PathIcon Data="{StaticResource IconFeedback}" Width="24" Height="24" /></ListBoxItem>
-                <ListBoxItem Tag="Tabs"><PathIcon Data="{StaticResource IconTabs}" Width="24" Height="24" /></ListBoxItem>
-                <ListBoxItem Tag="Containers"><PathIcon Data="{StaticResource IconContainers}" Width="24" Height="24" /></ListBoxItem>
-                <ListBoxItem Tag="Coverage"><PathIcon Data="{StaticResource IconCoverage}" Width="24" Height="24" /></ListBoxItem>
+                <ListBoxItem ToolTip.Tip="Typography"><PathIcon Data="{StaticResource IconTypography}" Width="24" Height="24" /></ListBoxItem>
+                <ListBoxItem ToolTip.Tip="Buttons"><PathIcon Data="{StaticResource IconButtons}" Width="24" Height="24" /></ListBoxItem>
+                <ListBoxItem ToolTip.Tip="Inputs"><PathIcon Data="{StaticResource IconInputs}" Width="24" Height="24" /></ListBoxItem>
+                <ListBoxItem ToolTip.Tip="Selection"><PathIcon Data="{StaticResource IconSelection}" Width="24" Height="24" /></ListBoxItem>
+                <ListBoxItem ToolTip.Tip="Collections"><PathIcon Data="{StaticResource IconCollections}" Width="24" Height="24" /></ListBoxItem>
+                <ListBoxItem ToolTip.Tip="Feedback"><PathIcon Data="{StaticResource IconFeedback}" Width="24" Height="24" /></ListBoxItem>
+                <ListBoxItem ToolTip.Tip="Tabs"><PathIcon Data="{StaticResource IconTabs}" Width="24" Height="24" /></ListBoxItem>
+                <ListBoxItem ToolTip.Tip="Containers"><PathIcon Data="{StaticResource IconContainers}" Width="24" Height="24" /></ListBoxItem>
+                <ListBoxItem ToolTip.Tip="Coverage"><PathIcon Data="{StaticResource IconCoverage}" Width="24" Height="24" /></ListBoxItem>
             </ListBox>
             </Panel>
         </DrawerPage.Drawer>
