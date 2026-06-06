@@ -29,9 +29,9 @@ Everything we implement should match **Material 3 / Android** as closely as poss
 The shared artifact across the CCSWE web/Android/desktop design systems is the **tokens**, not components — each platform themes its own framework-native components (Android themes Google's M3 library; this library *is* the Avalonia M3 component theme). So:
 
 - **The design system emits ONLY the token layer** — `Tokens.axaml`, `Typography.axaml`, `Motion.axaml`, `Fonts.axaml`. **Treat these as consume-verbatim: regenerate from `tokens/` rather than hand-editing.**
-- **The library owns everything else** — all control themes (`Controls/*.axaml`), the `MaterialTheme` entry, the `Base/*` infrastructure layer, the embedded font bytes, and packaging.
+- **The library owns everything else** — all control themes (`Controls/*.axaml`), the `MaterialTheme` entry, the `Base/*` infrastructure layer, the embedded font bytes, packaging, and the small number of **custom control types** (e.g. `Card.cs`) added only where Avalonia ships no stock control.
 
-Litmus test: a pure function of the shared tokens → the DS emits it; an Avalonia control template or framework wiring → the library owns it.
+Litmus test: a pure function of the shared tokens → the DS emits it; an Avalonia control template, framework wiring, or a custom control type → the library owns it.
 
 ### The `Base/` interim layer + hybrid migration
 
@@ -72,7 +72,7 @@ Keep the Avalonia package versions (`Avalonia`, `Avalonia.Desktop`, etc.) in loc
 
 The library publishes to **NuGet.org** as `CCSWE.Avalonia.Material`. Versioning is **Nerdbank.GitVersioning** (root `version.json`, base `12.0` → `12.0.x`). **The major version tracks the supported Avalonia major** (12.x → Avalonia 12.x; bump to 13.x when retargeting Avalonia 13) — this mirrors the Semi.Avalonia convention and reflects the library's tight coupling to Avalonia's control templates. Minor/patch are the library's own (features/fixes), **not** Avalonia's minor/patch. Shared package metadata lives in `src/Directory.Build.props`; per-package metadata (description, tags, README) in the library csproj. The Demo sets `IsPackable=false`. SourceLink + `snupkg` symbols are enabled.
 
-CI (`.github/workflows/dotnet-build-publish-library.yml`): pushes to **`master`** build + test + pack + **publish to NuGet.org** (via the `NUGET_API_KEY` secret); PRs build + test only. NuGet versions are immutable, so every `master` push is an immutable public release. There is no committed `nuget.config` with credentials.
+CI (`.github/workflows/dotnet-build-publish-library.yml`, "Build, test, and publish"): pushes to **`master`** build + test + pack + **publish to NuGet.org** (via the `NUGET_API_KEY` secret); PRs build + test only. NuGet versions are immutable, so every `master` push is an immutable public release. There is no committed `nuget.config` with credentials. Two more GitHub-native checks run (both free on this public repo): **CodeQL** code scanning (`.github/workflows/codeql.yml`, buildless C#, on push/PR + weekly) and **Dependabot** version updates (`.github/dependabot.yml`, NuGet via CPM with Avalonia grouped + GitHub Actions, weekly — active once on `master`, since Dependabot reads config from the default branch).
 
 The package embeds a self-contained NuGet README (`src/CCSWE.Avalonia.Material/README.md`, distinct from the repo root `README.md`, which uses repo-relative links) and the fonts' `OFL.txt` under `THIRD-PARTY-NOTICES/`.
 
@@ -80,8 +80,9 @@ The package embeds a self-contained NuGet README (`src/CCSWE.Avalonia.Material/R
 
 Projects in `src/CCSWE.Avalonia.Material.slnx`:
 
-- **`CCSWE.Avalonia.Material`** — the theme class library (NuGet package). Pure library, depends only on Avalonia core. The axaml live **flat at the project root**, grouped by the `Controls/` (M3 control themes) and `Base/` (interim infra forks) subfolders:
+- **`CCSWE.Avalonia.Material`** — the theme class library (NuGet package). Depends only on Avalonia core. The axaml live **flat at the project root**, grouped by the `Controls/` (M3 control themes) and `Base/` (interim infra forks) subfolders, alongside a small number of custom control `*.cs` types at the root:
   - `MaterialTheme.axaml` (+ `MaterialTheme.axaml.cs`) — the `Styles` subclass consumers instantiate as `<theme:MaterialTheme/>`; merges tokens + `Base/*` + `Controls/*` (layer order documented in the file header).
+  - `Card.cs` — the library's first **custom control type**: `Card` (an M3 card surface; `Card : ContentControl` with hand-rolled `Command`/`CommandParameter`/`Click`, a nullable `IsClickable` that derives from `Command`, and `:clickable`-gated hover/press state layers). Its `ControlTheme` lives in `Controls/Card.axaml` (which also keeps the `Border.Card` class convention for static surfaces). The library themes stock Avalonia controls by default; a custom type is added only where Avalonia ships no equivalent. *[library-owned]*
   - `Tokens.axaml` — Dark/Light color roles (as `ResourceDictionary.ThemeDictionaries`) + theme-invariant metrics (`CornerRadius*`, `Spacing*`, the M3 `FontSize*` scale). *[DS-emitted]*
   - `Fonts.axaml`, `Motion.axaml`, `Typography.axaml` *[DS-emitted]*; `Controls/*.axaml` — the hand-authored M3 control themes (~48; all styleable + page-shell controls now live here). *[library-owned]*
   - `Base/*.axaml` — the interim structural-infra forks (Window/popups/SplitView/overlay hosts + the date-time spinner pickers, all M3-recolored) + the `BaseAliases`/`SimplePalette`/`Strings` shims. *[library-owned; shrinking — see `Base/README.md`]*
@@ -93,6 +94,7 @@ Conventions when working on the theme (full detail in `docs/design-system/CONVEN
 - **Resource naming:** each color role emits a paired `SolidColorBrush` (bare PascalCase, e.g. `Primary`) and `Color` (role + `Color` suffix, e.g. `PrimaryColor`). Reach for the bare brush name in markup. Reference global M3 roles directly in control themes — no per-control key vocabulary.
 - **`DynamicResource` inside `ControlTheme`s — always**, for color/metric/motion refs. `StaticResource` freezes a brush at parse time so the control won't repaint on a `ThemeVariant` flip (a real bug). `StaticResource` is only for same-file structural refs (`BasedOn=`, `Theme=` assignments).
 - **Control themes** are full templates (no base theme to `BasedOn`), honoring required Avalonia part names (`PART_*`) and the standard pseudo-classes (`:checked`, `:error`, `:focus-within`, …). `ControlTheme`s must be declared inside `<Styles.Resources>`.
+- **Custom control types** (only where Avalonia ships no stock control, e.g. `Card`) derive from the closest semantic base — `ContentControl` for containers, **not** `Button` — and hand-roll any interactivity (`Command`/`Click`, `:clickable`/`:pressed` pseudo-classes) faithfully ported from the matching Avalonia control. Set `ClipToBounds="False"` when a template-root `Border` paints a `BoxShadow` (otherwise the shadow is clipped to bounds). In Dark mode shadows are near-invisible, so convey elevation/hover-raise with a surface-tone step too.
 - Files are `AvaloniaResource` (auto-globbed for axaml; fonts included explicitly in the csproj) and resolve via `avares://CCSWE.Avalonia.Material/...` URIs.
 - **Include ordering in `MaterialTheme.axaml`:** group by folder (root token files → `Base/*` → Typography → `Controls/*`) and alphabetize within each group, **except** where order is load-bearing — keep such exceptions together with a comment. Current exceptions: the `Base/` shims `SimplePalette` → `Strings` → `BaseAliases` (BaseAliases overrides SimplePalette keys via last-wins, so it stays last) and the whole `Controls/*` group applying after `Base/*`. (This mirrors the alphabetize-within-group rule in Coding Standards.)
 

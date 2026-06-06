@@ -50,7 +50,7 @@ depends only on Avalonia core. **No `<FluentTheme/>` (or other base theme) is re
 
 - **Buttons:** `Filled`, `FilledTonal`, `Elevated`, `Outlined`, `Text`, `Icon`.
 - **Text fields:** `Outlined`, `Filled`.
-- **Cards:** `Border` with `Card` + `Elevated` / `Filled` / `Outlined`.
+- **Cards:** the `<theme:Card>` control for interactive cards (`Elevated` / `Filled` / `Outlined`, M3 hover/press state layers, `Command` / `Click`; clickable when a `Command` is set or `IsClickable="True"`), or a plain `Border` with `Card` + `Elevated` / `Filled` / `Outlined` for static surfaces.
 - **Default-themed (no class):** `ToggleButton`, `AutoCompleteBox`, `NumericUpDown`,
   `CheckBox`, `RadioButton`, `ToggleSwitch`, `ListBox`, `TreeView`, `ComboBox`,
   `Menu`, `Expander`, `Slider`, `ProgressBar`, `TabControl`, `TabStrip`.

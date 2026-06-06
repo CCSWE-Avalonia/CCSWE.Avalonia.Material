@@ -66,7 +66,7 @@ depends only on Avalonia core. **No `<FluentTheme/>` or other base theme is requ
 
 - **Buttons:** `Filled`, `FilledTonal`, `Elevated`, `Outlined`, `Text`, `Icon`.
 - **Text fields:** `Outlined`, `Filled`.
-- **Cards:** a `Border` with `Card` + `Elevated` / `Filled` / `Outlined`.
+- **Cards:** the `<theme:Card>` control for interactive cards — `Elevated` / `Filled` / `Outlined` classes, M3 hover/press state layers, and `Command` / `Click` (clickable when a `Command` is set, or `IsClickable="True"`). For a static surface, a plain `Border` with `Card` + `Elevated` / `Filled` / `Outlined` still works.
 - **Navigation:** a `DrawerPage` shell with a `ListBox Classes="NavigationDrawer"` of destinations, or `Classes="NavigationRail"` for the compact 80dp rail (the active destination gets the M3 indicator pill).
 - **Default-themed (no class needed):** `ToggleButton`, `AutoCompleteBox`,
   `NumericUpDown`, `CheckBox`, `RadioButton`, `ToggleSwitch`, `ListBox`, `TreeView`,
@@ -97,6 +97,7 @@ src/
     Motion.axaml               durations + easings
     Typography.axaml           M3 type-scale TextBlock classes
     Controls/*.axaml           M3 control themes (hand-authored)
+    Card.cs                    custom control type (Card; most controls theme stock Avalonia)
     Base/*.axaml               interim control base (forked from Simple 12.0.4)
     Assets/Fonts/              embedded OFL TTFs (DM Sans, Plus Jakarta Sans)
   CCSWE.Avalonia.Material.Demo/   gallery app — visual verification harness
@@ -109,7 +110,7 @@ The token files (`Tokens.axaml` / `Typography.axaml` / `Motion.axaml` / `Fonts.a
 are **emitted from the shared cross-platform tokens** — treat them as consume-verbatim
 and regenerate from `tokens/` rather than hand-editing. The library **owns** everything
 else: the `MaterialTheme` entry, all `Controls/*` M3 themes, the `Base/*` infrastructure,
-the font bytes, and packaging. See [`CLAUDE.md`](CLAUDE.md) and
+the font bytes, the custom control types (e.g. `Card`), and packaging. See [`CLAUDE.md`](CLAUDE.md) and
 [`docs/design-system/`](docs/design-system/) for the full contract.
 
 ## Build & run
