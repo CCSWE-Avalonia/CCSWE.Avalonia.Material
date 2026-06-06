@@ -110,14 +110,14 @@ Tests use **NUnit 4**. (No test project exists yet; follow these conventions whe
 
 ## Class organization
 
-- Outer class name: `<ClassUnderTest>Tests`, decorated with `[SuppressMessage("ReSharper", "InconsistentNaming")]`
-- Nested classes group tests by method or scenario: `When_<MethodName>_Is_Called`
+- Outer class name: `<ClassUnderTest>Tests`, decorated with `[SuppressMessage("ReSharper", "InconsistentNaming")]`. The outer class is **not** `sealed` (nested classes inherit from it).
+- Nested classes group tests by method or scenario: `When_<MethodName>_Is_Called`, **inheriting the outer class**.
 - Test methods describe expected behavior: `It_<expected_behavior>` (e.g., `It_Adds_UserAgent_Header`)
 
 ```csharp
 public class SomeServiceTests
 {
-    public class When_GetAsync_Is_Called
+    public class When_GetAsync_Is_Called : SomeServiceTests
     {
         [Test]
         public async Task It_returns_expected_result() { ... }
@@ -140,15 +140,29 @@ Follow the AAA pattern. Use blank lines to separate sections — do **not** use 
 Follow standard C# conventions ([source](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions)).
 
 **Naming**
-- PascalCase: classes, methods, properties, constants, namespaces, record primary constructor parameters
+- PascalCase: classes, methods, properties, constants, namespaces, public fields, record primary constructor parameters
 - camelCase: local variables, parameters
 - `_camelCase`: private fields (underscore prefix)
+- `I` prefix for interfaces (e.g. `IThemeProvider`)
+- Two-character acronyms are uppercase (`IO`, `UI`); longer acronyms use PascalCase (`Http`, `Json`)
 
 **Formatting**
 - 4-space indentation (no tabs)
 - Allman brace style — opening and closing braces on their own lines
 - Always use curly braces for control flow (`if`, `for`, `foreach`, `while`, etc.) — never omit them for single-line bodies
 - One statement per line; one declaration per line
+- One blank line between members; no consecutive blank lines
+- Space after flow-control keywords (`if (`, `for (`); no space after method names (`Method(`)
+
+**File organization**
+- One type per file, named `{TypeName}.cs`; partial classes use `{ClassName}.{Part}.cs`
+- File-scoped namespaces (`namespace Foo;`), aligned with folder structure
+- `using` directives outside namespace declarations; order `System` first, then third-party, then project namespaces
+
+**Access modifiers**
+- Always explicit (no implicit `private`/`internal`)
+- `[PublicAPI]` (JetBrains.Annotations, referenced from `Directory.Build.props`) on intentional public API surface; `internal` for implementation details
+- `[ExcludeFromCodeCoverage]` on composition-only types (bootstrappers and similar)
 
 **Language style**
 - Use `var` for all local variables where the type can be inferred
@@ -156,5 +170,19 @@ Follow standard C# conventions ([source](https://learn.microsoft.com/en-us/dotne
 - Prefer string interpolation (`$"..."`) over concatenation
 - Use `&&`/`||`, not `&`/`|`, for logical comparisons
 - Use `async`/`await` for async code; avoid `.Result` or `.Wait()`
-- File-scoped namespaces (`namespace Foo;`)
-- `using` directives outside namespace declarations
+- Prefer expression-bodied members for single-line getters/methods
+- Nullable reference types are enabled solution-wide (`Directory.Build.props`); respect nullability annotations
+- Use `nameof()` instead of string literals for member/property names
+
+**Class member order**
+
+Group members in this order, alphabetized by name within each group **regardless of access modifier** (`CreateFoo()` before `GetFoo()` whether public or private); nested types go at the bottom of the file:
+
+1. Constants / `static readonly` fields
+2. Instance fields
+3. Constructors
+4. Properties
+5. Methods
+
+**Frozen collections for static lookups**
+- Any `static readonly` `HashSet<T>` / `Dictionary<TKey,TValue>` never mutated after construction should be a `FrozenSet<T>` / `FrozenDictionary<TKey,TValue>` (`System.Collections.Frozen`), built via `.ToFrozenSet(comparer)` / `.ToFrozenDictionary()` — faster lookups, and the type signals "immutable lookup".
