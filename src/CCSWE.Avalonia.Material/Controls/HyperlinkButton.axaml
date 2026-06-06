@@ -1,13 +1,5 @@
-<!--
-  =============================================================================
-  HAND-AUTHORED M3 control theme (library-owned). Replaces the interim
-  Base/HyperlinkButton.axaml fork.
-  =============================================================================
-
-  M3 link: Primary-coloured, underlined text with an M3 state layer (Primary @
-  8% hover / 10% pressed) over a transparent container. Hand cursor; visited
-  shifts to Secondary; disabled uses OnSurface 38%. References M3 tokens directly.
--->
+<!-- M3 link: Primary underlined text, state layer (Primary 8% hover / 10% pressed),
+     Hand cursor; visited -> Secondary; disabled -> OnSurface 38%. -->
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 

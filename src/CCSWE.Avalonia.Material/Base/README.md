@@ -1,41 +1,48 @@
-# `Base/` — library-owned infrastructure layer (NOT design-system output)
+# `Base/` — interim infrastructure layer (library-owned)
 
-These files are the **no-base theme's infrastructure layer**. They are **hand-authored /
-library-owned**, the same ownership class as the old `FluentOverrides.axaml` — **not**
-emitted by the CCSWE design system. Do **not** add this folder to the DS regenerate
-pipeline, and do not treat these as consume-verbatim.
+These files are the no-base theme's **interim infrastructure layer**, forked once from
+**`Avalonia.Themes.Simple` @ tag `12.0.4`** and recolored to the M3 token system. They are
+**hand-authored / library-owned** — **not** emitted by the CCSWE design system (the DS emits
+only the token layer: `Tokens` / `Typography` / `Motion` / `Fonts`). Do **not** add this
+folder to the DS regenerate pipeline.
 
-## What's here
+## The folder rule (`Controls/` vs `Base/`)
 
-- **`BaseAliases.axaml`** — hand-authored glue. Defines the `Theme*`/metric/font keys the
-  forked templates reference and aliases them onto the M3 token system (`Tokens.axaml`).
-  The no-base analog of `FluentOverrides.axaml`, but additive (defines keys) rather than
-  corrective (patches a vendor).
+- **`Controls/*.axaml`** — a control with a **from-scratch M3 `ControlTheme`** (M3 anatomy,
+  state layers, shape, motion; references the M3 tokens directly). Library-owned, hand-authored.
+- **`Base/*.axaml`** — the **`Avalonia.Themes.Simple`-derived layer**: verbatim/near-verbatim
+  structural forks AND recolored-but-still-Simple-skeleton infra (e.g. `Window`, `SplitView`,
+  popup/overlay hosts, the date-time spinner pickers).
 
-- **`*.axaml` control templates** — **forked once from `Avalonia.Themes.Simple` @ tag
-  `12.0.4`** (`src/Avalonia.Themes.Simple/Controls/*.xaml`). These are the structural
-  controls a base theme must supply that are *not* a pure function of tokens: window /
-  popup / overlay hosting, scrollbars, flyout presenter, tooltip, adorner layer, icon
-  primitive, validation, etc.
+A control **leaves `Base/` → `Controls/` only when it is given a from-scratch M3 theme.**
+Merely recoloring a Simple fork to M3 tokens keeps it in `Base/` (it's still the Simple
+skeleton). This is why, e.g., `DatePicker`/`TimePicker` are M3-recolored but remain in `Base/`,
+while the from-scratch `Calendar` grid moved to `Controls/`.
+
+## What's here now
+
+- **Shims** — `BaseAliases.axaml` / `SimplePalette.axaml` / `Strings.axaml`. Glue that defines
+  the non-token keys the remaining forks reference (layout metrics, `FontSizeNormal`,
+  `ContentControlThemeFontFamily`, `ScrollBar*`/`CaptionButton*` sizes, invariant strings) and —
+  historically — aliased the Simple `Theme*` palette onto the M3 tokens. **No control theme
+  references the `Theme*` color/opacity palette anymore;** the shims persist only for the
+  layout/metric/string keys the kept infra forks still consume.
+- **Recolored infra forks** — `Window`, `WindowDrawnDecorations`, `WindowNotificationManager`,
+  `PopupRoot`, `OverlayPopupHost`, `EmbeddableControlRoot`, `AdornerLayer`, `ThemeVariantScope`,
+  `TransitioningContentControl`, `PathIcon`, `TextSelectionHandle`, `SplitView`. Structural
+  plumbing recolored to M3 roles; kept as forks (pure-plumbing may stay near-verbatim).
+- **Recolored date-time spinner pickers** — `DatePicker`, `TimePicker`, `DateTimePickerShared`.
+  Simple spinner skeleton recolored to M3 (Surface field, `SurfaceContainerHigh` popup,
+  `SecondaryContainer` selection band).
+
+See `MIGRATION.md` for the per-control status table.
 
 ## Ownership & maintenance
 
-- We **own and may hand-edit** these (M3 polish on the visible chrome; reconciliation on
+- We **own and may hand-edit** these (M3 recolor on the visible chrome; reconciliation on
   Avalonia upgrades).
-- **Strategy: keep them byte-close to upstream Simple.** Recolor via `BaseAliases.axaml`,
-  not by editing each fork. This keeps `diff <fork> vs Avalonia.Themes.Simple/<file>` clean,
-  so reconciling on each Avalonia version bump stays cheap. Edit a fork directly only when
-  real M3 restyling requires it.
-- **On every Avalonia upgrade:** diff each fork against the same file in the matching
+- **On every Avalonia upgrade:** diff each remaining fork against the same file in the matching
   Avalonia tag and reconcile contract changes (`PART_*` names, new controls). This is the
-  permanent cost of owning the base — it replaces FluentTheme's free upkeep.
-
-## vs. `Controls/`
-
-`Controls/*.axaml` are **DS-emitted** M3 ControlThemes (regenerate, don't edit). `Base/*`
-are **library-owned** structural forks. New DS-emitted styled controls (Calendar,
-DropDownButton, page shells, …) belong in `Controls/`, never here.
-
-> Note: during the no-base spike, `Base/DrawerPage.axaml` (forked template) coexists with
-> `Controls/DrawerPage.axaml` (the DS-emitted M3 Style-layer on top). When DrawerPage is
-> later promoted to a full DS-emitted ControlTheme, `Base/DrawerPage.axaml` is dropped.
+  permanent cost of owning the base; it shrinks as forks are hand-rolled to `Controls/`.
+- **End state:** no forks, no shims — a pure M3 component theme on Avalonia core, fed brand
+  tokens by the DS.

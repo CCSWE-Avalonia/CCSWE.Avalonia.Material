@@ -1,14 +1,5 @@
-<!--
-  =============================================================================
-  HAND-AUTHORED M3 control theme (library-owned). Replaces the interim
-  Base/ScrollBar.axaml fork.
-  =============================================================================
-
-  M3-style thin scrollbar: a rounded "pill" thumb on a transparent track, no
-  arrow buttons (Material has none). Thumb color = OutlineVariant at rest ->
-  Outline on hover -> OnSurfaceVariant when dragged, with a short colour
-  transition. References M3 tokens directly.
--->
+<!-- M3 thin scrollbar: rounded pill thumb (OutlineVariant -> Outline hover ->
+     OnSurfaceVariant dragging) on a transparent track, no arrow buttons. -->
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
