@@ -6,10 +6,12 @@
 
 A standalone **Material 3** theme for [Avalonia](https://avaloniaui.net) 12 — a
 Dark/Light color system, the M3 type scale, motion, embedded brand fonts, and M3
-control themes for buttons (incl. toggle buttons), text fields, autocomplete,
-numeric steppers, selection controls, lists, tree views, dropdowns, menus,
-expander, cards, sliders, progress, tabs (tab control + tab strip), and a
-navigation drawer (`DrawerPage`). It depends only on **Avalonia core** — no
+control themes across the full surface: buttons (toggle/split/dropdown/hyperlink +
+command bar), text fields, autocomplete, numeric steppers, selection controls,
+lists, tree views, dropdowns, menus, expander, cards, group boxes, sliders,
+progress, tabs (tab control + tab strip), pips pager, tooltips, notifications, the
+date family (calendar, date/time pickers), page shells, and a navigation drawer +
+rail (`DrawerPage`). It depends only on **Avalonia core** — no
 `FluentTheme`/`SimpleTheme` base required; it supplies the whole control surface itself.
 
 It is the desktop sibling of the CCSWE **web** and **Android** bundles — all three

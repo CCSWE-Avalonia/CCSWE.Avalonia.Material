@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 # Project
 
-A branded **Material 3** theme library for **Avalonia** 12. It gives stock Avalonia controls the CCSWE look — a Dark/Light color system, M3 type scale, motion, embedded brand fonts, and M3 control themes for buttons (incl. toggle buttons), text fields, autocomplete, numeric steppers, selection controls, lists, tree views, dropdowns, menus, expander, cards, sliders, progress, tabs (tab control + tab strip), and a navigation drawer (`DrawerPage`) — so consuming apps get consistent branding by referencing the package.
+A branded **Material 3** theme library for **Avalonia** 12. It gives stock Avalonia controls the CCSWE look — a Dark/Light color system, M3 type scale, motion, embedded brand fonts, and M3 control themes across the full surface: buttons (incl. toggle/split/dropdown/hyperlink + command bar), text fields, autocomplete, numeric steppers, selection controls, lists, tree views, dropdowns, menus, expander, cards, group boxes, sliders, progress, tabs (tab control + tab strip), pips pager, tooltips, notifications, the date family (calendar, date/time pickers), page shells (content/tabbed/carousel/navigation), and a navigation drawer + rail (`DrawerPage`) — so consuming apps get consistent branding by referencing the package.
 
 The library is .NET 10 / C# targeting `net10.0`, built against **Avalonia 12**, distributed as a NuGet package (`CCSWE.Avalonia.Material`). It is the desktop sibling of the CCSWE web and Android bundles: all three consume the same shared cross-platform design tokens.
 
@@ -35,7 +35,7 @@ Litmus test: a pure function of the shared tokens → the DS emits it; an Avalon
 
 ### The `Base/` interim layer + hybrid migration
 
-`Base/*` is the control base **forked once from `Avalonia.Themes.Simple` 12.0.4** — the structural infra (Window, popups, ScrollBar, SplitView, FlyoutPresenter, …) plus interim forks of styleable controls — recolored through `Base/BaseAliases.axaml` / `SimplePalette.axaml` / `Strings.axaml`. These are **interim scaffolding**: each control is hand-rolled to real M3 (referencing our tokens directly) over time, and the alias shims shrink to deletion (see `src/CCSWE.Avalonia.Material/Base/README.md`). `MaterialTheme.axaml` merges everything via **`ResourceInclude`** (nested, last-wins) — never `MergeResourceInclude` (it flattens and throws on duplicate keys).
+`Base/*` is the control base **forked once from `Avalonia.Themes.Simple` 12.0.4** — the structural infra (Window, popups, SplitView, overlay/adorner hosts, the date-time spinner pickers, …) recolored to M3, plus the `Base/BaseAliases.axaml` / `SimplePalette.axaml` / `Strings.axaml` shims. These are **interim scaffolding**: each control is hand-rolled to real M3 (referencing our tokens directly) over time and moved to `Controls/`; the shims shrink as forks fall away. **Status:** all styleable + page-shell controls are now hand-rolled M3 in `Controls/`; what remains in `Base/` is the recolored structural infra + shims, and no control theme references the Simple `Theme*` palette anymore. Folder rule: a from-scratch M3 `ControlTheme` lives in `Controls/`; a recolored-but-still-Simple-skeleton fork stays in `Base/` (see `src/CCSWE.Avalonia.Material/Base/README.md`). `MaterialTheme.axaml` merges everything via **`ResourceInclude`** (nested, last-wins) — never `MergeResourceInclude` (it flattens and throws on duplicate keys).
 
 The token JSON source-of-truth lives in `tokens/`; the design-system handoff docs live in `docs/design-system/`. Consumer→DS feedback (round-trip notes) lives in `eng/ds-feedback/`, which is **gitignored** — internal, not published.
 
@@ -83,8 +83,8 @@ Projects in `src/CCSWE.Avalonia.Material.slnx`:
 - **`CCSWE.Avalonia.Material`** — the theme class library (NuGet package). Pure library, depends only on Avalonia core. The axaml live **flat at the project root**, grouped by the `Controls/` (M3 control themes) and `Base/` (interim infra forks) subfolders:
   - `MaterialTheme.axaml` (+ `MaterialTheme.axaml.cs`) — the `Styles` subclass consumers instantiate as `<theme:MaterialTheme/>`; merges tokens + `Base/*` + `Controls/*` (layer order documented in the file header).
   - `Tokens.axaml` — Dark/Light color roles (as `ResourceDictionary.ThemeDictionaries`) + theme-invariant metrics (`CornerRadius*`, `Spacing*`, the M3 `FontSize*` scale). *[DS-emitted]*
-  - `Fonts.axaml`, `Motion.axaml`, `Typography.axaml` *[DS-emitted]*; `Controls/*.axaml` — the hand-authored M3 control themes (~19 today, growing as `Base/` forks are hand-rolled). *[library-owned]*
-  - `Base/*.axaml` — the interim control base forked from Avalonia.Themes.Simple 12.0.4 + the `BaseAliases`/`SimplePalette`/`Strings` shims. *[library-owned; shrinking — see `Base/README.md`]*
+  - `Fonts.axaml`, `Motion.axaml`, `Typography.axaml` *[DS-emitted]*; `Controls/*.axaml` — the hand-authored M3 control themes (~48; all styleable + page-shell controls now live here). *[library-owned]*
+  - `Base/*.axaml` — the interim structural-infra forks (Window/popups/SplitView/overlay hosts + the date-time spinner pickers, all M3-recolored) + the `BaseAliases`/`SimplePalette`/`Strings` shims. *[library-owned; shrinking — see `Base/README.md`]*
   - `Assets/Fonts/` — embedded OFL variable TTFs (DM Sans, Plus Jakarta Sans), referenced by family name from `Fonts.axaml`.
 - **`CCSWE.Avalonia.Material.Demo`** — an Avalonia desktop app that wires the theme (`<theme:MaterialTheme/>`) and renders a control gallery with a Dark/Light toggle. It is the **visual verification harness**; keep it in sync when adding controls.
 
