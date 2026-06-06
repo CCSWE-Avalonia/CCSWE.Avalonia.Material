@@ -142,7 +142,8 @@ v1.x no-base migration; as of v2 the DS owns and emits them.)
 ## Verifying a fresh bundle
 
 - `Tokens.axaml` carries a `Dark` and a `Light` theme dictionary, each with the
-  full M3 role set as `Color` + matching `SolidColorBrush`, plus the disabled
+  full M3 role set as `Color` + matching `SolidColorBrush`, the **status roles**
+  (`Success` / `Warning` / `Info`, each a four-resource quad), plus the disabled
   alpha brushes (`OnSurface12` / `OnSurface38`) and `Scrim32`.
 - The root of `Tokens.axaml` carries the `CornerRadius*`, `Spacing*`
   (`double` + `Thickness`), and `FontSize*` (all 15 roles) metrics.

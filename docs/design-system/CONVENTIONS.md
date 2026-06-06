@@ -40,6 +40,24 @@ outline @ 12%), **`OnSurface38`** (disabled content @ 38%), and **`Scrim32`** (m
 backdrop @ 32%). These are the M3 state primitives the library's control themes consume
 — emitted as tokens so the library never inlines an alpha.
 
+### Status roles — `Success` / `Warning` / `Info`
+
+Beyond the canonical M3 ColorScheme, three **status** roles ship in each
+`ThemeDictionary`, each a four-resource quad on the `Error*` pattern: the bare role
+(`Success`), `On<Role>` (`OnSuccess`), `<Role>Container` (`SuccessContainer`), and
+`On<Role>Container` (`OnSuccessContainer`) — paired `Color` + `SolidColorBrush` like
+every other role. They cover the M3 "custom color roles" the library's notification /
+banner / validation / badge surfaces need (it had only `Error*` before).
+
+These are a **desktop decision**, not (yet) part of the upstream semantic layer, which
+carries only `error`. Sourcing is recorded in `tokens.local.json` (`statusRoles`) and
+flagged upstream to canonicalize: **Success** ← the Android green variant accent,
+**Warning** ← the yellow variant accent (both `primary→Role` quad mappings), and **Info**
+← the Primary family (brand blue) **deliberately** — there is no blue variant and the
+brand primary is already blue, so `Info == Primary` on purpose. When upstream adopts the
+roles, the emitter consumes them verbatim like the rest and the desktop-side sourcing
+retires.
+
 ### Metrics
 
 | Type | Key pattern | Examples |
@@ -115,7 +133,9 @@ per-role and stay inline in `Typography.axaml` (not tokenized).
 | **type sizes** | Emit the 15-role M3 scale as `FontSize<Role>` `x:Double` tokens (single source of truth); `Typography.axaml` references them. |
 | **resource naming** | `Color` + `Brush` pair, bare-PascalCase brush / `…Color` color. Pinned. |
 | **fonts** | Embed DM Sans + Plus Jakarta Sans as OFL variable (or static) TTFs, referenced via `avares://` `FontFamily`. See `FONTS.md`. |
-| **HC schemes / variant accents** | Encoded upstream, **not emitted** — no desktop consumer yet. |
+| **HC schemes** | Encoded upstream, **not emitted** — no desktop HC toggle yet. |
+| **variant accents** (red/yellow/green) | Not consumed wholesale. The green + yellow accents are re-keyed into the **status roles** (Success/Warning/Info) — see below; full per-screen variant theming stays a per-platform (Android) concern. |
+| **status roles** (Success/Warning/Info) | A desktop decision this cycle: emitted into `Tokens.axaml` on the `Error*` quad pattern (Success←green accent, Warning←yellow accent, Info=Primary family), **flagged upstream** to canonicalize. Values + sourcing in `tokens.local.json` `statusRoles`. |
 
 ---
 

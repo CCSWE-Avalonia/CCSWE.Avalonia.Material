@@ -1,6 +1,6 @@
 # CCSWE Avalonia Design System
 
-**Design System (Avalonia):** 2.0.0
+**Design System (Avalonia):** 2.1.0
 **Tokens:** 1.1.0 · **Avalonia:** 12
 **Sources of truth:** `tokens/tokens.upstream-1.1.0.json` (the master CCSWE cross-platform tokens — primitive ramps + four-scheme M3 semantic layer + 15-role type scale + shape + motion, consumed **verbatim**) and `tokens/tokens.local.json` (the Avalonia/.NET desktop translation layer — spacing scale, letterSpacing resolution, resource-naming convention, font delivery, which schemes to wire).
 
@@ -18,7 +18,7 @@ So the emit-vs-own line moved. **There is no shared component model across platf
 
 | File | Holds |
 |---|---|
-| **`Tokens.axaml`** | Dark/Light color roles (`ResourceDictionary.ThemeDictionaries`, paired `Color` + `SolidColorBrush`) + theme-invariant metrics: `CornerRadius*`, the 4px spacing scale (`double` + `Thickness`), and the **M3 type-size scale** `FontSize<Role>` (all 15 roles). |
+| **`Tokens.axaml`** | Dark/Light color roles (`ResourceDictionary.ThemeDictionaries`, paired `Color` + `SolidColorBrush`) — the full M3 ColorScheme + `OnSurfaceStrong` + the **Success / Warning / Info** status roles (each a `Role` / `On<Role>` / `<Role>Container` / `On<Role>Container` quad) — plus theme-invariant metrics: `CornerRadius*`, the 4px spacing scale (`double` + `Thickness`), and the **M3 type-size scale** `FontSize<Role>` (all 15 roles). |
 | **`Typography.axaml`** | the 15-role M3 type scale as `TextBlock` style classes — sizes reference the `FontSize*` tokens as the single source of truth. |
 | **`Motion.axaml`** | the M3 motion scale: 10 durations (`sys:TimeSpan`) + 6 easings (`SplineEasing`). |
 | **`Fonts.axaml`** | `avares://` `FontFamily` resources for the two embedded families. |

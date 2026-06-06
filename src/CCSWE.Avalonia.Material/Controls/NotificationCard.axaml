@@ -86,19 +86,19 @@
         </Style.Animations>
       </Style>
 
-      <!-- M3 status mapping. Only Error has a real role today; success proxies to Tertiary,
-           information/warning fall back to the neutral snackbar look. See ds-feedback. -->
+      <!-- M3 status mapping (DS 2.1.0 status roles). Each severity uses its container +
+           on-container pair; the default/no-severity card keeps the neutral snackbar look. -->
       <Style Selector="^:information">
-        <Setter Property="Background" Value="{DynamicResource InverseSurface}" />
-        <Setter Property="Foreground" Value="{DynamicResource InverseOnSurface}" />
+        <Setter Property="Background" Value="{DynamicResource InfoContainer}" />
+        <Setter Property="Foreground" Value="{DynamicResource OnInfoContainer}" />
       </Style>
       <Style Selector="^:success">
-        <Setter Property="Background" Value="{DynamicResource TertiaryContainer}" />
-        <Setter Property="Foreground" Value="{DynamicResource OnTertiaryContainer}" />
+        <Setter Property="Background" Value="{DynamicResource SuccessContainer}" />
+        <Setter Property="Foreground" Value="{DynamicResource OnSuccessContainer}" />
       </Style>
       <Style Selector="^:warning">
-        <Setter Property="Background" Value="{DynamicResource InverseSurface}" />
-        <Setter Property="Foreground" Value="{DynamicResource InverseOnSurface}" />
+        <Setter Property="Background" Value="{DynamicResource WarningContainer}" />
+        <Setter Property="Foreground" Value="{DynamicResource OnWarningContainer}" />
       </Style>
       <Style Selector="^:error">
         <Setter Property="Background" Value="{DynamicResource ErrorContainer}" />

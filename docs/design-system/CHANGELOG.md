@@ -1,5 +1,82 @@
 # Changelog — CCSWE Avalonia Design System
 
+## 2.1.0 — 2026-06-05 — semantic status roles: Success / Warning / Info
+
+**Design System (Avalonia):** 2.0.0 → 2.1.0
+**Tokens:** 1.1.0 (unchanged upstream) · **Avalonia:** 12.0.4
+
+Acts on `ds-feedback/semantic-status-tokens.md` — the one open round-trip note against the
+v2 baseline. The consumer is hand-rolling `NotificationCard` to M3 (severities
+`:information` / `:success` / `:warning` / `:error`) and has only `Error*` to work with;
+`warning` and `information` fall back to a neutral surface. This cycle adds the three missing
+status families. **Tokens-only, additive — no existing role/key/value changes.**
+
+### Added — status color roles (Tokens.axaml, both ThemeDictionaries)
+
+Three M3 "custom color role" quads, each emitted exactly like the existing `Error*` set
+(paired `Color` + `SolidColorBrush`, Dark + Light):
+
+- `Success` / `OnSuccess` / `SuccessContainer` / `OnSuccessContainer`
+- `Warning` / `OnWarning` / `WarningContainer` / `OnWarningContainer`
+- `Info` / `OnInfo` / `InfoContainer` / `OnInfoContainer`
+
+`NotificationCard` can now map `:success` → `SuccessContainer`/`OnSuccessContainer`,
+`:warning` → `WarningContainer`/`OnWarningContainer`, `:information` →
+`InfoContainer`/`OnInfoContainer` — retiring the interim `TertiaryContainer` (success) and
+neutral-`InverseSurface` (warning/info) proxies.
+
+### Sourcing (a desktop decision — recorded in `tokens.local.json` `statusRoles`)
+
+The upstream semantic layer carries **only** `error`. Rather than invent palettes, the new
+roles reuse the curated, contrast-tuned colors already in the system:
+
+- **Success** ← the Android **green** stoplight variant accent (`variants.json`):
+  `primary→Success`, `onPrimary→OnSuccess`, `primaryContainer→SuccessContainer`,
+  `onPrimaryContainer→OnSuccessContainer`. (Dark `#FF4B8349` / Light `#FF3B863D`.)
+- **Warning** ← the Android **yellow** variant accent, same quad mapping.
+  (Dark `#FF936F04` / Light `#FFFABD00`; light `OnWarning` is the dark ink `#FF02101C`.)
+- **Info** ← **deliberately the Primary family** (brand blue). No blue variant exists and the
+  brand primary is already blue, so `Info == Primary` on purpose (Dark `#FF659EC7` / Light
+  `#FF336699` + the matching `primaryContainer` pair). Documented as intentional in
+  `statusRoles.sourcing.info` so a future reader doesn't "fix" it; revisit only if a distinct
+  info-blue is wanted.
+
+### Canonicalization — flagged upstream
+
+These are emitted at the desktop emit boundary (this DS consumes `tokens.upstream-1.1.0.json`
+verbatim and does not hand-edit it). `tokens.local.json` records the values + an
+`upstreamRequest`: **add Success/Warning/Info (container + on-container pairs) to the shared
+semantic layer** per M3 custom color roles, so web + Android + desktop converge. When upstream
+adopts them, `statusRoles` becomes a verbatim consumer and the sourcing notes retire.
+
+### Schemes
+
+- **Dark + Light only** — matches the emitted surface. The variant accents carry
+  `darkHighContrast`/`lightHighContrast` too, but desktop emits no HC schemes yet (same status
+  as the upstream HC schemes); HC status values get captured when an HC toggle lands.
+
+### Docs / preview / bundle
+
+- All emitted `*.axaml` headers stamped **v2.1.0** (4 files); `Tokens.axaml` header gains a
+  status-roles note.
+- **README / HANDOFF / CONVENTIONS** note the status roles in the emitted surface +
+  fresh-bundle verification.
+- **Preview.html** — the color-roles showcase gains a **Status** group (Success/Warning/Info
+  quads), chip → `DS 2.1.0`.
+- `tokens.preview.css` **regenerated** from `Tokens.axaml` (the status roles now appear as
+  `--success` / `--warning` / `--info` + container vars).
+- `ccswe-avalonia-bundle.zip` rebuilt.
+
+### Compile / runtime-verification owed (consumer)
+
+- Drop the updated `Tokens.axaml` in verbatim; confirm `MaterialTheme` resolves the 12 new
+  brushes/colors with no missing-resource errors, and that Dark/Light variant switch repaints
+  the new role brushes alongside the rest.
+- Re-point `NotificationCard` severities at the real roles (drop the `TertiaryContainer` /
+  `InverseSurface` proxies) and run the Dark + Light visual pass on all four severities.
+
+---
+
 ## 2.0.0 — 2026-06-05 — v2 restructure: tokens-only emit + rename to CCSWE.Avalonia.Material
 
 **Design System (Avalonia):** 1.7.3 → 2.0.0 (**breaking**)
