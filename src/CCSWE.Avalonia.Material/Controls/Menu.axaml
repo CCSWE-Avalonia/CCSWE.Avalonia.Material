@@ -1,0 +1,154 @@
+<!--
+  Material 3 menus: Menu (bar), MenuItem (bar + submenu rows), ContextMenu and
+  MenuFlyoutPresenter (the popup surface), and Separator. The popup surface is
+  themed here in-control (SurfaceContainer, 4px radius, elevation, 4px vertical
+  pad) - the bundle's resolution for popup chrome instead of remapping Fluent's
+  broad SystemControl* base brushes (see FLUENT-AUDIT). MenuItem rows carry the
+  M3 state layer; the submenu opens from PART_Popup. Default themes (no class).
+-->
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <Styles.Resources>
+
+    <!-- Shared popup surface look, applied by ContextMenu + MenuFlyoutPresenter +
+         the MenuItem submenu border. -->
+    <x:Double x:Key="MenuPopupMinWidth">180</x:Double>
+
+    <!-- Menu bar -->
+    <ControlTheme x:Key="{x:Type Menu}" TargetType="Menu">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="Padding" Value="0" />
+      <Setter Property="Template">
+        <ControlTemplate TargetType="Menu">
+          <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+            <ItemsPresenter x:Name="PART_ItemsPresenter" ItemsPanel="{TemplateBinding ItemsPanel}" />
+          </Border>
+        </ControlTemplate>
+      </Setter>
+    </ControlTheme>
+
+    <!-- ContextMenu popup surface -->
+    <ControlTheme x:Key="{x:Type ContextMenu}" TargetType="ContextMenu">
+      <Setter Property="Background" Value="{DynamicResource SurfaceContainer}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource OutlineVariant}" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusExtraSmall}" />
+      <Setter Property="Padding" Value="0,4" />
+      <Setter Property="MinWidth" Value="{DynamicResource MenuPopupMinWidth}" />
+      <Setter Property="Template">
+        <ControlTemplate TargetType="ContextMenu">
+          <Border Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}"
+                  Padding="{TemplateBinding Padding}"
+                  MinWidth="{TemplateBinding MinWidth}"
+                  BoxShadow="0 4 8 0 #33000000, 0 2 4 0 #1F000000">
+            <ItemsPresenter x:Name="PART_ItemsPresenter" ItemsPanel="{TemplateBinding ItemsPanel}" />
+          </Border>
+        </ControlTemplate>
+      </Setter>
+    </ControlTheme>
+
+    <!-- MenuFlyout popup surface -->
+    <ControlTheme x:Key="{x:Type MenuFlyoutPresenter}" TargetType="MenuFlyoutPresenter">
+      <Setter Property="Background" Value="{DynamicResource SurfaceContainer}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource OutlineVariant}" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusExtraSmall}" />
+      <Setter Property="Padding" Value="0,4" />
+      <Setter Property="MinWidth" Value="{DynamicResource MenuPopupMinWidth}" />
+      <Setter Property="Template">
+        <ControlTemplate TargetType="MenuFlyoutPresenter">
+          <Border Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}"
+                  Padding="{TemplateBinding Padding}"
+                  MinWidth="{TemplateBinding MinWidth}"
+                  BoxShadow="0 4 8 0 #33000000, 0 2 4 0 #1F000000">
+            <ItemsPresenter x:Name="PART_ItemsPresenter" ItemsPanel="{TemplateBinding ItemsPanel}" />
+          </Border>
+        </ControlTemplate>
+      </Setter>
+    </ControlTheme>
+
+    <!-- MenuItem (bar item + submenu row) -->
+    <ControlTheme x:Key="{x:Type MenuItem}" TargetType="MenuItem">
+      <Setter Property="Foreground" Value="{DynamicResource OnSurface}" />
+      <Setter Property="FontFamily" Value="{DynamicResource BodyFontFamily}" />
+      <Setter Property="FontSize" Value="14" />
+      <Setter Property="Padding" Value="12,8" />
+      <Setter Property="Template">
+        <ControlTemplate TargetType="MenuItem">
+          <Panel>
+            <Border x:Name="StateLayer" Background="{DynamicResource OnSurface}" Opacity="0"
+                    CornerRadius="{DynamicResource CornerRadiusExtraSmall}">
+              <Border.Transitions>
+                <Transitions><DoubleTransition Property="Opacity" Duration="{DynamicResource MotionDurationShort2}" /></Transitions>
+              </Border.Transitions>
+            </Border>
+            <Grid ColumnDefinitions="Auto,*,Auto,Auto" Margin="{TemplateBinding Padding}">
+              <ContentControl x:Name="PART_IconPresenter" Grid.Column="0"
+                              Content="{TemplateBinding Icon}" Width="20" Height="20"
+                              Margin="0,0,12,0" VerticalAlignment="Center" />
+              <ContentPresenter x:Name="PART_HeaderPresenter" Grid.Column="1"
+                                Content="{TemplateBinding Header}"
+                                VerticalAlignment="Center" />
+              <TextBlock Grid.Column="2" Foreground="{DynamicResource OnSurfaceVariant}" Margin="24,0,0,0"
+                         VerticalAlignment="Center" IsVisible="False" />
+              <Path x:Name="PART_ChevronPath" Grid.Column="3" Width="6" Height="10"
+                    Stretch="Uniform" Fill="{DynamicResource OnSurfaceVariant}"
+                    Data="M0,0 L6,5 L0,10 Z" Margin="16,0,0,0" VerticalAlignment="Center" />
+            </Grid>
+            <Popup x:Name="PART_Popup" Placement="Right" IsLightDismissEnabled="False"
+                   IsOpen="{TemplateBinding IsSubMenuOpen, Mode=TwoWay}">
+              <Border Background="{DynamicResource SurfaceContainer}"
+                      BorderBrush="{DynamicResource OutlineVariant}" BorderThickness="1"
+                      CornerRadius="{DynamicResource CornerRadiusExtraSmall}" Padding="0,4"
+                      MinWidth="{DynamicResource MenuPopupMinWidth}"
+                      BoxShadow="0 4 8 0 #33000000, 0 2 4 0 #1F000000">
+                <ItemsPresenter x:Name="PART_ItemsPresenter" ItemsPanel="{TemplateBinding ItemsPanel}" />
+              </Border>
+            </Popup>
+          </Panel>
+        </ControlTemplate>
+      </Setter>
+
+      <!-- hide the submenu chevron when the item has no children -->
+      <Style Selector="^:empty /template/ Path#PART_ChevronPath">
+        <Setter Property="IsVisible" Value="False" />
+      </Style>
+      <Style Selector="^:selected /template/ Border#StateLayer">
+        <Setter Property="Opacity" Value="0.08" />
+      </Style>
+      <Style Selector="^:pressed /template/ Border#StateLayer">
+        <Setter Property="Opacity" Value="0.10" />
+      </Style>
+      <!-- Disabled: recolor (header + icon + chevron OnSurface38), not an opacity dim. -->
+      <Style Selector="^:disabled /template/ ContentPresenter#PART_HeaderPresenter">
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource OnSurface38}" />
+      </Style>
+      <Style Selector="^:disabled /template/ ContentControl#PART_IconPresenter">
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource OnSurface38}" />
+      </Style>
+      <Style Selector="^:disabled /template/ Path#PART_ChevronPath">
+        <Setter Property="Fill" Value="{DynamicResource OnSurface38}" />
+      </Style>
+    </ControlTheme>
+
+    <!-- Separator (menu divider + general use) -->
+    <ControlTheme x:Key="{x:Type Separator}" TargetType="Separator">
+      <Setter Property="Background" Value="{DynamicResource OutlineVariant}" />
+      <Setter Property="Height" Value="1" />
+      <Setter Property="Margin" Value="0,4" />
+      <Setter Property="Template">
+        <ControlTemplate TargetType="Separator">
+          <Border Background="{TemplateBinding Background}" Height="{TemplateBinding Height}" />
+        </ControlTemplate>
+      </Setter>
+    </ControlTheme>
+
+  </Styles.Resources>
+</Styles>

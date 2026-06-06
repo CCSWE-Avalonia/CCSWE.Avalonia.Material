@@ -1,0 +1,110 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <Styles.Resources>
+    <ControlTheme x:Key="{x:Type NotificationCard}" TargetType="NotificationCard">
+      <Setter Property="Background" Value="{DynamicResource InverseSurface}" />
+      <Setter Property="Foreground" Value="{DynamicResource InverseOnSurface}" />
+      <Setter Property="UseLayoutRounding" Value="True" />
+      <Setter Property="Width" Value="350" />
+      <Setter Property="FontFamily" Value="{DynamicResource BodyFontFamily}" />
+      <Setter Property="FontSize" Value="{DynamicResource FontSizeBodyMedium}" />
+      <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusMedium}" />
+      <Setter Property="RenderTransformOrigin" Value="50%,75%" />
+      <Setter Property="Template">
+        <ControlTemplate>
+          <LayoutTransformControl Name="PART_LayoutTransformControl"
+                                  UseRenderTransform="True">
+            <ContentPresenter Name="PART_ContentPresenter"
+                              MinHeight="64"
+                              Padding="16,12"
+                              Background="{TemplateBinding Background}"
+                              BorderBrush="{TemplateBinding BorderBrush}"
+                              BorderThickness="{TemplateBinding BorderThickness}"
+                              CornerRadius="{TemplateBinding CornerRadius}"
+                              TextElement.Foreground="{TemplateBinding Foreground}"
+                              Content="{TemplateBinding Content}" />
+          </LayoutTransformControl>
+        </ControlTemplate>
+      </Setter>
+
+      <Style Selector="^">
+        <Style.Animations>
+          <Animation Easing="QuadraticEaseIn"
+                     FillMode="Forward"
+                     Duration="0:0:0.45">
+            <KeyFrame Cue="0%">
+              <Setter Property="Opacity" Value="0" />
+              <Setter Property="TranslateTransform.Y" Value="20" />
+              <Setter Property="ScaleTransform.ScaleX" Value="0.85" />
+              <Setter Property="ScaleTransform.ScaleY" Value="0.85" />
+            </KeyFrame>
+            <KeyFrame Cue="30%">
+              <Setter Property="TranslateTransform.Y" Value="-20" />
+            </KeyFrame>
+            <KeyFrame Cue="100%">
+              <Setter Property="Opacity" Value="1" />
+              <Setter Property="TranslateTransform.Y" Value="0" />
+              <Setter Property="ScaleTransform.ScaleX" Value="1" />
+              <Setter Property="ScaleTransform.ScaleY" Value="1" />
+            </KeyFrame>
+          </Animation>
+        </Style.Animations>
+      </Style>
+
+      <Style Selector="^[IsClosing=true] /template/ LayoutTransformControl#PART_LayoutTransformControl">
+        <Setter Property="RenderTransformOrigin" Value="50%,0%" />
+        <Style.Animations>
+          <Animation Easing="QuadraticEaseOut"
+                     FillMode="Forward"
+                     Duration="0:0:0.75">
+            <KeyFrame Cue="0%">
+              <Setter Property="TranslateTransform.X" Value="0" />
+              <Setter Property="ScaleTransform.ScaleY" Value="1" />
+            </KeyFrame>
+            <KeyFrame Cue="70%">
+              <Setter Property="TranslateTransform.X" Value="800" />
+              <Setter Property="ScaleTransform.ScaleY" Value="1" />
+            </KeyFrame>
+            <KeyFrame Cue="100%">
+              <Setter Property="ScaleTransform.ScaleY" Value="0" />
+              <Setter Property="TranslateTransform.X" Value="800" />
+            </KeyFrame>
+          </Animation>
+        </Style.Animations>
+      </Style>
+
+      <Style Selector="^[IsClosing=true]">
+        <Style.Animations>
+          <Animation Easing="QuadraticEaseOut"
+                     FillMode="Forward"
+                     Duration="0:0:1.25">
+            <KeyFrame Cue="100%">
+              <Setter Property="IsClosed" Value="True" />
+            </KeyFrame>
+          </Animation>
+        </Style.Animations>
+      </Style>
+
+      <!-- M3 status mapping (DS 2.1.0 status roles). Each severity uses its container +
+           on-container pair; the default/no-severity card keeps the neutral snackbar look. -->
+      <Style Selector="^:information">
+        <Setter Property="Background" Value="{DynamicResource InfoContainer}" />
+        <Setter Property="Foreground" Value="{DynamicResource OnInfoContainer}" />
+      </Style>
+      <Style Selector="^:success">
+        <Setter Property="Background" Value="{DynamicResource SuccessContainer}" />
+        <Setter Property="Foreground" Value="{DynamicResource OnSuccessContainer}" />
+      </Style>
+      <Style Selector="^:warning">
+        <Setter Property="Background" Value="{DynamicResource WarningContainer}" />
+        <Setter Property="Foreground" Value="{DynamicResource OnWarningContainer}" />
+      </Style>
+      <Style Selector="^:error">
+        <Setter Property="Background" Value="{DynamicResource ErrorContainer}" />
+        <Setter Property="Foreground" Value="{DynamicResource OnErrorContainer}" />
+      </Style>
+    </ControlTheme>
+  </Styles.Resources>
+
+</Styles>

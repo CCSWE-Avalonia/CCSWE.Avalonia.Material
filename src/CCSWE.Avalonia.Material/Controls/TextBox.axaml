@@ -1,0 +1,249 @@
+<!--
+  Material 3 text fields as Avalonia TextBox ControlThemes.
+
+    <TextBox Classes="Outlined" Watermark="IP address" />
+    <TextBox Classes="Filled"   Watermark="Port" />
+
+  Outlined: transparent fill, 1px Outline box (CornerRadiusExtraSmall),
+            thickens to 2px Primary on focus, Error on validation error.
+  Filled:   SurfaceContainerHighest fill, top corners rounded, 1px bottom
+            activeIndicator (OnSurfaceVariant) thickening to 2px Primary on focus.
+
+  Validation (1.4.2): both templates wrap content in <DataValidationErrors>;
+  the DataValidationErrors ControlTheme below renders the supporting/error
+  message text in the M3 Error color (bodySmall) below the field, so the
+  message matches the red :error border/indicator instead of falling back to
+  Fluent's default (yellow) error brush.
+
+  Note: M3's animated floating label needs behavior code and is intentionally
+  not emitted - these use PlaceholderText (the watermark/placeholder) shown while empty. The
+  parts (PART_BorderElement / PART_ScrollViewer / PART_TextPresenter /
+  PART_Watermark) match what Avalonia's TextBox looks up.
+-->
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <Styles.Resources>
+
+    <!-- ===================================================================
+         DataValidationErrors - renders the validation message in the M3 Error
+         color (bodySmall) below the field. Without this, the message presenter
+         falls back to Fluent's default error brush (yellow), mismatching the
+         red :error border. Applies to every TextBox (and any control wrapping
+         its content in DataValidationErrors).
+         =================================================================== -->
+    <ControlTheme x:Key="{x:Type DataValidationErrors}" TargetType="DataValidationErrors">
+      <Setter Property="Template">
+        <ControlTemplate TargetType="DataValidationErrors">
+          <DockPanel LastChildFill="True">
+            <ContentControl DockPanel.Dock="Bottom"
+                            ContentTemplate="{TemplateBinding ErrorTemplate}"
+                            DataContext="{TemplateBinding Owner}"
+                            Content="{Binding (DataValidationErrors.Errors)}"
+                            IsVisible="{Binding (DataValidationErrors.HasErrors)}" />
+            <ContentPresenter Name="PART_ContentPresenter"
+                              Background="{TemplateBinding Background}"
+                              BorderBrush="{TemplateBinding BorderBrush}"
+                              BorderThickness="{TemplateBinding BorderThickness}"
+                              CornerRadius="{TemplateBinding CornerRadius}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              Content="{TemplateBinding Content}"
+                              Padding="{TemplateBinding Padding}" />
+          </DockPanel>
+        </ControlTemplate>
+      </Setter>
+      <Setter Property="ErrorTemplate">
+        <DataTemplate>
+          <ItemsControl ItemsSource="{Binding}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <TextBlock Text="{Binding}"
+                           Foreground="{DynamicResource Error}"
+                           FontFamily="{DynamicResource BodyFontFamily}"
+                           FontSize="12" LineHeight="16" LetterSpacing="0.4"
+                           TextWrapping="Wrap"
+                           Margin="16,4,16,0" />
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </DataTemplate>
+      </Setter>
+    </ControlTheme>
+
+    <!-- Shared field setters -->
+    <ControlTheme x:Key="M3TextBoxBase" TargetType="TextBox">
+      <Setter Property="Foreground" Value="{DynamicResource OnSurface}" />
+      <Setter Property="FontFamily" Value="{DynamicResource BodyFontFamily}" />
+      <Setter Property="FontSize" Value="16" />
+      <Setter Property="MinHeight" Value="56" />
+      <Setter Property="Padding" Value="16,0" />
+      <Setter Property="VerticalContentAlignment" Value="Center" />
+      <Setter Property="CaretBrush" Value="{DynamicResource Primary}" />
+      <Setter Property="SelectionBrush" Value="{DynamicResource PrimaryContainer}" />
+      <Setter Property="SelectionForegroundBrush" Value="{DynamicResource OnPrimaryContainer}" />
+    </ControlTheme>
+
+    <!-- ===================================================================
+         Outlined
+         =================================================================== -->
+    <ControlTheme x:Key="M3OutlinedTextBox" TargetType="TextBox" BasedOn="{StaticResource M3TextBoxBase}">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderBrush" Value="{DynamicResource Outline}" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusExtraSmall}" />
+      <Setter Property="Template">
+        <ControlTemplate TargetType="TextBox">
+          <DataValidationErrors>
+            <Panel>
+              <Border x:Name="PART_BorderElement"
+                      Background="{TemplateBinding Background}"
+                      BorderBrush="{TemplateBinding BorderBrush}"
+                      BorderThickness="{TemplateBinding BorderThickness}"
+                      CornerRadius="{TemplateBinding CornerRadius}"
+                      MinHeight="{TemplateBinding MinHeight}" />
+              <Grid ColumnDefinitions="Auto,*,Auto" Margin="{TemplateBinding Padding}">
+                <ContentPresenter Grid.Column="0" Content="{TemplateBinding InnerLeftContent}" VerticalAlignment="Center" />
+                <ScrollViewer Grid.Column="1" x:Name="PART_ScrollViewer"
+                              HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
+                              VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
+                  <Panel>
+                    <TextBlock x:Name="PART_Watermark"
+                               Text="{TemplateBinding PlaceholderText}"
+                               Foreground="{DynamicResource OnSurfaceVariant}"
+                               IsVisible="False"
+                               VerticalAlignment="Center" />
+                    <TextPresenter x:Name="PART_TextPresenter"
+                                   Text="{TemplateBinding Text, Mode=TwoWay}"
+                                   CaretBrush="{TemplateBinding CaretBrush}"
+                                   SelectionBrush="{TemplateBinding SelectionBrush}"
+                                   SelectionForegroundBrush="{TemplateBinding SelectionForegroundBrush}"
+                                   PasswordChar="{TemplateBinding PasswordChar}"
+                                   RevealPassword="{TemplateBinding RevealPassword}"
+                                   TextAlignment="{TemplateBinding TextAlignment}"
+                                   TextWrapping="{TemplateBinding TextWrapping}"
+                                   VerticalAlignment="Center" />
+                  </Panel>
+                </ScrollViewer>
+                <ContentPresenter Grid.Column="2" Content="{TemplateBinding InnerRightContent}" VerticalAlignment="Center" />
+              </Grid>
+            </Panel>
+          </DataValidationErrors>
+        </ControlTemplate>
+      </Setter>
+
+      <Style Selector="^:empty /template/ TextBlock#PART_Watermark">
+        <Setter Property="IsVisible" Value="True" />
+      </Style>
+      <Style Selector="^:pointerover /template/ Border#PART_BorderElement">
+        <Setter Property="BorderBrush" Value="{DynamicResource OnSurface}" />
+      </Style>
+      <Style Selector="^:focus-within /template/ Border#PART_BorderElement">
+        <Setter Property="BorderBrush" Value="{DynamicResource Primary}" />
+        <Setter Property="BorderThickness" Value="2" />
+      </Style>
+      <Style Selector="^:error /template/ Border#PART_BorderElement">
+        <Setter Property="BorderBrush" Value="{DynamicResource Error}" />
+      </Style>
+      <!-- Disabled: neutral recolor (outline OnSurface12, text + watermark OnSurface38),
+           not a whole-element opacity dim. -->
+      <Style Selector="^:disabled /template/ Border#PART_BorderElement">
+        <Setter Property="BorderBrush" Value="{DynamicResource OnSurface12}" />
+      </Style>
+      <Style Selector="^:disabled /template/ TextPresenter#PART_TextPresenter">
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource OnSurface38}" />
+      </Style>
+      <Style Selector="^:disabled /template/ TextBlock#PART_Watermark">
+        <Setter Property="Foreground" Value="{DynamicResource OnSurface38}" />
+      </Style>
+    </ControlTheme>
+
+    <!-- ===================================================================
+         Filled
+         =================================================================== -->
+    <ControlTheme x:Key="M3FilledTextBox" TargetType="TextBox" BasedOn="{StaticResource M3TextBoxBase}">
+      <Setter Property="Background" Value="{DynamicResource SurfaceContainerHighest}" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="CornerRadius" Value="4,4,0,0" />
+      <Setter Property="Template">
+        <ControlTemplate TargetType="TextBox">
+          <DataValidationErrors>
+            <Panel>
+              <Border x:Name="PART_BorderElement"
+                      Background="{TemplateBinding Background}"
+                      CornerRadius="{TemplateBinding CornerRadius}"
+                      MinHeight="{TemplateBinding MinHeight}" />
+              <!-- active indicator (bottom) -->
+              <Border x:Name="PART_Indicator"
+                      Height="1" VerticalAlignment="Bottom"
+                      Background="{DynamicResource OnSurfaceVariant}" />
+              <Grid ColumnDefinitions="Auto,*,Auto" Margin="{TemplateBinding Padding}">
+                <ContentPresenter Grid.Column="0" Content="{TemplateBinding InnerLeftContent}" VerticalAlignment="Center" />
+                <ScrollViewer Grid.Column="1" x:Name="PART_ScrollViewer"
+                              HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
+                              VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
+                  <Panel>
+                    <TextBlock x:Name="PART_Watermark"
+                               Text="{TemplateBinding PlaceholderText}"
+                               Foreground="{DynamicResource OnSurfaceVariant}"
+                               IsVisible="False"
+                               VerticalAlignment="Center" />
+                    <TextPresenter x:Name="PART_TextPresenter"
+                                   Text="{TemplateBinding Text, Mode=TwoWay}"
+                                   CaretBrush="{TemplateBinding CaretBrush}"
+                                   SelectionBrush="{TemplateBinding SelectionBrush}"
+                                   SelectionForegroundBrush="{TemplateBinding SelectionForegroundBrush}"
+                                   PasswordChar="{TemplateBinding PasswordChar}"
+                                   RevealPassword="{TemplateBinding RevealPassword}"
+                                   TextAlignment="{TemplateBinding TextAlignment}"
+                                   TextWrapping="{TemplateBinding TextWrapping}"
+                                   VerticalAlignment="Center" />
+                  </Panel>
+                </ScrollViewer>
+                <ContentPresenter Grid.Column="2" Content="{TemplateBinding InnerRightContent}" VerticalAlignment="Center" />
+              </Grid>
+            </Panel>
+          </DataValidationErrors>
+        </ControlTemplate>
+      </Setter>
+
+      <Style Selector="^:empty /template/ TextBlock#PART_Watermark">
+        <Setter Property="IsVisible" Value="True" />
+      </Style>
+      <Style Selector="^:focus-within /template/ Border#PART_Indicator">
+        <Setter Property="Height" Value="2" />
+        <Setter Property="Background" Value="{DynamicResource Primary}" />
+      </Style>
+      <Style Selector="^:error /template/ Border#PART_Indicator">
+        <Setter Property="Background" Value="{DynamicResource Error}" />
+      </Style>
+      <!-- Disabled: neutral recolor (fill OnSurface12, indicator + text + watermark
+           OnSurface38), not a whole-element opacity dim. -->
+      <Style Selector="^:disabled /template/ Border#PART_BorderElement">
+        <Setter Property="Background" Value="{DynamicResource OnSurface12}" />
+      </Style>
+      <Style Selector="^:disabled /template/ Border#PART_Indicator">
+        <Setter Property="Background" Value="{DynamicResource OnSurface38}" />
+      </Style>
+      <Style Selector="^:disabled /template/ TextPresenter#PART_TextPresenter">
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource OnSurface38}" />
+      </Style>
+      <Style Selector="^:disabled /template/ TextBlock#PART_Watermark">
+        <Setter Property="Foreground" Value="{DynamicResource OnSurface38}" />
+      </Style>
+    </ControlTheme>
+
+    <!-- Default {x:Type TextBox} (no class) = M3 Outlined. Classed text boxes
+         (.Outlined/.Filled) override via the selectors below. -->
+    <ControlTheme x:Key="{x:Type TextBox}" TargetType="TextBox" BasedOn="{StaticResource M3OutlinedTextBox}" />
+
+  </Styles.Resources>
+
+  <!-- Convenience class selectors -->
+  <Style Selector="TextBox.Outlined">
+    <Setter Property="Theme" Value="{StaticResource M3OutlinedTextBox}" />
+  </Style>
+  <Style Selector="TextBox.Filled">
+    <Setter Property="Theme" Value="{StaticResource M3FilledTextBox}" />
+  </Style>
+
+</Styles>

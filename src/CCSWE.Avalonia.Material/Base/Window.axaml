@@ -1,0 +1,40 @@
+<!--
+  HAND-AUTHORED (library-owned). Window infrastructure theme.
+  Template structure seeded from Avalonia.Themes.Simple 12.0.4, but the property
+  defaults now map directly to M3 tokens (Fluent's Window mapping as the reference):
+    Background/fallback -> Surface, Foreground -> OnSurface,
+    FontFamily -> BodyFontFamily (DM Sans), FontSize -> FontSizeBodyMedium (14, M3 "Body Normal").
+  This sets the window-wide inherited defaults that un-styled control text falls back to.
+-->
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:ClassModifier="internal">
+  <ControlTheme x:Key="{x:Type Window}"
+                TargetType="Window">
+    <Setter Property="Background" Value="{DynamicResource Surface}" />
+    <Setter Property="TransparencyBackgroundFallback" Value="{DynamicResource Surface}" />
+    <Setter Property="Foreground" Value="{DynamicResource OnSurface}" />
+    <Setter Property="FontFamily" Value="{DynamicResource BodyFontFamily}" />
+    <Setter Property="FontSize" Value="{DynamicResource FontSizeBodyMedium}" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Panel>
+          <Border Name="PART_TransparencyFallback"
+                  IsHitTestVisible="False" />
+          <Border Background="{TemplateBinding Background}"
+                  IsHitTestVisible="False" />
+          <Panel Margin="{TemplateBinding WindowDecorationMargin}"
+                 Background="Transparent" />
+          <VisualLayerManager Name="PART_VisualLayerManager">
+            <ContentPresenter Name="PART_ContentPresenter"
+                              Margin="{TemplateBinding Padding}"
+                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                              Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}" />
+          </VisualLayerManager>
+        </Panel>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+</ResourceDictionary>

@@ -1,0 +1,14 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:theme="using:CCSWE.Avalonia.Material"
+             x:Class="CCSWE.Avalonia.Material.Demo.App"
+             RequestedThemeVariant="Dark">
+             <!-- Dark is the CCSWE app default (matches web + upstream intent).
+                  The Demo flips this at runtime via the header toggle. -->
+
+    <Application.Styles>
+        <!-- One-stop CCSWE Material 3 theme: supplies the whole control surface itself
+             (no base theme such as Fluent/Simple). Dark default; flip via RequestedThemeVariant. -->
+        <theme:MaterialTheme />
+    </Application.Styles>
+</Application>

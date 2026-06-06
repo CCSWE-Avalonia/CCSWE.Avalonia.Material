@@ -1,0 +1,105 @@
+<!--
+  MaterialTheme - the one-stop CCSWE Material 3 theme entry point.
+  HAND-AUTHORED (library-owned). Paired with MaterialTheme.axaml.cs.
+
+  Stands on NO base theme (no Fluent/Simple): the library supplies the whole control
+  surface itself. Include order is grouped (root token files -> Base/* -> Typography ->
+  Controls/*) and alphabetized within each group, with two load-bearing exceptions:
+
+    - The Base/ SHIMS (SimplePalette -> Strings -> BaseAliases) are listed first, in
+      dependency order: BaseAliases overrides ~25 SimplePalette keys (HighlightBrush,
+      ScrollBar*, CaptionButton*, ContentControlThemeFontFamily, ...) via last-wins, so
+      it MUST stay after SimplePalette. Do not alphabetize these three.
+    - Controls/* override the Base/* forks (last-wins), so the whole Controls group is
+      applied after Base/*.
+
+  Tokens/Typography/Motion/Fonts are DS-emitted (regenerate from tokens/); everything
+  else is library-owned. Base/* + the shims shrink as controls are hand-rolled to M3
+  (see Base/README.md). No control theme references the Simple Theme* palette anymore.
+-->
+<Styles x:Class="CCSWE.Avalonia.Material.MaterialTheme"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Styles.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <!-- DS-emitted token layer -->
+        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Fonts.axaml" />
+        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Motion.axaml" />
+        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Tokens.axaml" />
+        <!-- Interim shims - ORDER IS LOAD-BEARING (BaseAliases overrides SimplePalette; keep last) -->
+        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/SimplePalette.axaml" />
+        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/Strings.axaml" />
+        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/BaseAliases.axaml" />
+        <!-- Base/* structural infra forks (alphabetical) -->
+        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/AdornerLayer.axaml" />
+        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/DatePicker.axaml" />
+        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/DateTimePickerShared.axaml" />
+        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/EmbeddableControlRoot.axaml" />
+        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/OverlayPopupHost.axaml" />
+        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/PathIcon.axaml" />
+        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/PopupRoot.axaml" />
+        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/SplitView.axaml" />
+        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/TextSelectionHandle.axaml" />
+        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/ThemeVariantScope.axaml" />
+        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/TimePicker.axaml" />
+        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/TransitioningContentControl.axaml" />
+        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/Window.axaml" />
+        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/WindowDrawnDecorations.axaml" />
+        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/WindowNotificationManager.axaml" />
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </Styles.Resources>
+
+  <!-- DS-emitted type scale -->
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Typography.axaml" />
+  <!-- Controls/* hand-authored M3 ControlThemes (alphabetical; applied after Base/*) -->
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/AutoCompleteBox.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/Button.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/Calendar.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/CalendarButton.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/CalendarDatePicker.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/CalendarDayButton.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/CalendarItem.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/Card.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/Carousel.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/CarouselPage.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/CheckBox.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/ComboBox.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/CommandBar.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/ContentPage.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/DrawerPage.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/DropDownButton.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/Expander.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/FlyoutPresenter.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/GridSplitter.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/GroupBox.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/HeaderedContentControl.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/HyperlinkButton.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/ItemsControl.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/Label.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/ListBox.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/Menu.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/NavigationPage.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/NotificationCard.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/NumericUpDown.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/PipsPager.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/ProgressBar.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/RadioButton.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/RefreshContainer.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/RefreshVisualizer.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/RepeatButton.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/ScrollBar.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/ScrollViewer.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/SelectableTextBlock.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/Slider.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/SplitButton.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/TabbedPage.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/TabControl.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/TabStrip.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/TextBox.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/ToggleButton.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/ToggleSwitch.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/ToolTip.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/TreeView.axaml" />
+</Styles>

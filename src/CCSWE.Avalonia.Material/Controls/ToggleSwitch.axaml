@@ -1,0 +1,116 @@
+<!--
+  Material 3 Switch (ToggleSwitch). 52x32 pill track, thumb grows 16dp -> 24dp
+  and slides as it checks; colors flip to Primary / OnPrimary. Thumb motion uses
+  the emphasized easing + short4 duration from Motion.axaml. Default ToggleSwitch
+  theme (no class needed).
+
+  Avalonia 12 marks PART_SwitchKnob / PART_MovingKnobs as required template parts
+  ([TemplatePart(IsRequired)]). The M3 visuals are driven by our own Track/Thumb
+  elements via :checked; the two required parts are present as inert placeholders
+  (IsVisible=False) purely to satisfy the control's part contract at build time.
+-->
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <Styles.Resources>
+  <ControlTheme x:Key="{x:Type ToggleSwitch}" TargetType="ToggleSwitch">
+    <Setter Property="Foreground" Value="{DynamicResource OnSurface}" />
+    <Setter Property="FontFamily" Value="{DynamicResource BodyFontFamily}" />
+    <Setter Property="FontSize" Value="14" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <!-- Neutralize Avalonia's framework defaults of OnContent="On" / OffContent="Off":
+         M3 switches carry no on/off labels, and the presenters below would otherwise
+         surface that text unbidden (e.g. Content="Light mode" rendering "Light modeOff").
+         Empty here renders nothing unless a consumer explicitly sets On/Off content. -->
+    <Setter Property="OnContent" Value="" />
+    <Setter Property="OffContent" Value="" />
+    <Setter Property="Template">
+      <ControlTemplate TargetType="ToggleSwitch">
+        <Grid ColumnDefinitions="Auto,*">
+          <Panel Grid.Column="0" Width="52" Height="32">
+            <Border x:Name="Track" CornerRadius="16"
+                    Background="{DynamicResource SurfaceContainerHighest}"
+                    BorderBrush="{DynamicResource Outline}" BorderThickness="2">
+              <Border.Transitions>
+                <Transitions>
+                  <BrushTransition Property="Background" Duration="{DynamicResource MotionDurationShort4}" />
+                  <BrushTransition Property="BorderBrush" Duration="{DynamicResource MotionDurationShort4}" />
+                </Transitions>
+              </Border.Transitions>
+            </Border>
+            <Border x:Name="Thumb" Width="16" Height="16" CornerRadius="12"
+                    Background="{DynamicResource OnSurfaceVariant}"
+                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                    Margin="8,0,0,0">
+              <Border.Transitions>
+                <Transitions>
+                  <ThicknessTransition Property="Margin" Duration="{DynamicResource MotionDurationShort4}" Easing="{DynamicResource MotionEasingEmphasized}" />
+                  <DoubleTransition Property="Width" Duration="{DynamicResource MotionDurationShort4}" Easing="{DynamicResource MotionEasingEmphasized}" />
+                  <DoubleTransition Property="Height" Duration="{DynamicResource MotionDurationShort4}" Easing="{DynamicResource MotionEasingEmphasized}" />
+                  <BrushTransition Property="Background" Duration="{DynamicResource MotionDurationShort4}" />
+                </Transitions>
+              </Border.Transitions>
+            </Border>
+            <!-- Required Avalonia 12 parts (inert) - see header note. -->
+            <Panel x:Name="PART_SwitchKnob" IsVisible="False" />
+            <Panel x:Name="PART_MovingKnobs" IsVisible="False" />
+          </Panel>
+          <StackPanel Grid.Column="1" Orientation="Horizontal"
+                      VerticalAlignment="Center" Margin="8,0,0,0">
+            <ContentPresenter x:Name="PART_ContentPresenter"
+                              Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              VerticalAlignment="Center" />
+            <!-- Required Avalonia 12 On/Off label slots. Off shows at rest, On when
+                 :checked. The ControlTheme defaults both to empty (neutralizing
+                 Avalonia's "On"/"Off" defaults) so they render nothing unless a
+                 consumer explicitly sets On/Off content - common M3 usage sets only
+                 Content and these stay invisible. -->
+            <ContentPresenter x:Name="PART_OffContentPresenter"
+                              Content="{TemplateBinding OffContent}"
+                              ContentTemplate="{TemplateBinding OffContentTemplate}"
+                              VerticalAlignment="Center" />
+            <ContentPresenter x:Name="PART_OnContentPresenter"
+                              Content="{TemplateBinding OnContent}"
+                              ContentTemplate="{TemplateBinding OnContentTemplate}"
+                              VerticalAlignment="Center" IsVisible="False" />
+          </StackPanel>
+        </Grid>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^:checked /template/ Border#Track">
+      <Setter Property="Background" Value="{DynamicResource Primary}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource Primary}" />
+    </Style>
+    <Style Selector="^:checked /template/ Border#Thumb">
+      <Setter Property="Width" Value="24" />
+      <Setter Property="Height" Value="24" />
+      <Setter Property="Margin" Value="20,0,0,0" />
+      <Setter Property="Background" Value="{DynamicResource OnPrimary}" />
+    </Style>
+
+    <Style Selector="^:checked /template/ ContentPresenter#PART_OnContentPresenter">
+      <Setter Property="IsVisible" Value="True" />
+    </Style>
+    <Style Selector="^:checked /template/ ContentPresenter#PART_OffContentPresenter">
+      <Setter Property="IsVisible" Value="False" />
+    </Style>
+
+    <!-- Disabled: neutral recolor (NOT a whole-element opacity dim), placed AFTER the
+         :checked rules so a disabled CHECKED switch reads M3 gray, not faded Primary.
+         Track -> OnSurface12, thumb + label -> OnSurface38. -->
+    <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="TextElement.Foreground" Value="{DynamicResource OnSurface38}" />
+    </Style>
+    <Style Selector="^:disabled /template/ Border#Track">
+      <Setter Property="Background" Value="{DynamicResource OnSurface12}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource OnSurface12}" />
+    </Style>
+    <Style Selector="^:disabled /template/ Border#Thumb">
+      <Setter Property="Background" Value="{DynamicResource OnSurface38}" />
+    </Style>
+  </ControlTheme>
+  </Styles.Resources>
+
+</Styles>

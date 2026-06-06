@@ -1,58 +1,54 @@
-# CCSWE.Avalonia.Theme
+# CCSWE.Avalonia.Material
 
-[![Build](https://github.com/CoryCharlton/CCSWE.Avalonia.Theme/actions/workflows/dotnet-build-publish-library.yml/badge.svg)](https://github.com/CoryCharlton/CCSWE.Avalonia.Theme/actions/workflows/dotnet-build-publish-library.yml)
-[![NuGet](https://img.shields.io/nuget/v/CCSWE.Avalonia.Theme.svg)](https://www.nuget.org/packages/CCSWE.Avalonia.Theme)
+[![Build](https://github.com/CoryCharlton/CCSWE.Avalonia.Material/actions/workflows/dotnet-build-publish-library.yml/badge.svg)](https://github.com/CoryCharlton/CCSWE.Avalonia.Material/actions/workflows/dotnet-build-publish-library.yml)
+[![NuGet](https://img.shields.io/nuget/v/CCSWE.Avalonia.Material.svg)](https://www.nuget.org/packages/CCSWE.Avalonia.Material)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.md)
 
-A branded **Material 3** theme for [Avalonia](https://avaloniaui.net) 12. It gives
-stock Avalonia controls the CCSWE look: a Dark/Light color system, the M3 type
-scale, motion, embedded brand fonts, and M3 control themes for buttons (incl.
-toggle buttons), text fields, autocomplete, numeric steppers, selection controls,
-lists, tree views, dropdowns, menus, expander, cards, sliders, progress, tabs
-(tab control + tab strip), and a navigation drawer (`DrawerPage`).
+A standalone **Material 3** theme for [Avalonia](https://avaloniaui.net) 12 — a
+Dark/Light color system, the M3 type scale, motion, embedded brand fonts, and M3
+control themes across the full surface: buttons (toggle/split/dropdown/hyperlink +
+command bar), text fields, autocomplete, numeric steppers, selection controls,
+lists, tree views, dropdowns, menus, expander, cards, group boxes, sliders,
+progress, tabs (tab control + tab strip), pips pager, tooltips, notifications, the
+date family (calendar, date/time pickers), page shells, and a navigation drawer +
+rail (`DrawerPage`). It depends only on **Avalonia core** — no
+`FluentTheme`/`SimpleTheme` base required; it supplies the whole control surface itself.
 
 It is the desktop sibling of the CCSWE **web** and **Android** bundles — all three
 consume the same shared cross-platform design tokens. This library turns those
 tokens into Avalonia `ResourceDictionary` + `Styles` and ships them as a NuGet
 package.
 
-![CCSWE.Avalonia.Theme demo gallery — Material 3 controls with a Dark/Light toggle](docs/images/demo.gif)
+![CCSWE.Avalonia.Material demo gallery — Material 3 controls with a Dark/Light toggle](docs/images/demo.gif)
 
 ## Install & wire up
 
 ```sh
-dotnet add package CCSWE.Avalonia.Theme
+dotnet add package CCSWE.Avalonia.Material
 ```
 
-Then add three things to your `App.axaml` (full sample in
+> **Versioning:** the **major version tracks the supported Avalonia major** — `12.x`
+> targets **Avalonia 12.x**. Pick the major that matches your Avalonia version; minor/patch
+> are this library's own features and fixes.
+
+Then add one element to your `App.axaml` (full sample in
 [`docs/samples/App.sample.axaml`](docs/samples/App.sample.axaml)):
 
 ```xml
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:theme="using:CCSWE.Avalonia.Material"
              x:Class="YourApp.App"
              RequestedThemeVariant="Dark"> <!-- Dark is the CCSWE default -->
 
   <Application.Styles>
-    <FluentTheme />
-    <StyleInclude Source="avares://CCSWE.Avalonia.Theme/Theme.axaml" />
+    <theme:MaterialTheme />
   </Application.Styles>
-
-  <Application.Resources>
-    <ResourceDictionary>
-      <ResourceDictionary.MergedDictionaries>
-        <ResourceInclude Source="avares://CCSWE.Avalonia.Theme/FluentOverrides.axaml" />
-      </ResourceDictionary.MergedDictionaries>
-    </ResourceDictionary>
-  </Application.Resources>
 </Application>
 ```
 
-1. **`<FluentTheme />`** supplies the control templates this theme doesn't override.
-2. **`Theme.axaml`** layers the tokens, type scale, motion, and M3 control themes on top.
-3. **`FluentOverrides.axaml`** (merged *after* the styles) remaps Fluent's accent
-   onto the brand so stock controls (Slider, ProgressBar, selection highlights)
-   read as CCSWE too.
+`MaterialTheme` is standalone — it supplies the whole control surface itself and
+depends only on Avalonia core. **No `<FluentTheme/>` or other base theme is required.**
 
 ## Use it
 
@@ -94,39 +90,39 @@ Application.Current!.RequestedThemeVariant =
 
 ```
 src/
-  CCSWE.Avalonia.Theme/        the theme library (NuGet package)
-    Theme.axaml                one-stop include (add this to App.axaml)
-    Tokens.axaml               Dark/Light color roles + metrics
+  CCSWE.Avalonia.Material/        the theme library (NuGet package)
+    MaterialTheme.axaml(.cs)   the <theme:MaterialTheme/> entry (add this to App.axaml)
+    Tokens.axaml               Dark/Light color roles + metrics + M3 font sizes
     Fonts.axaml                embedded FontFamily resources
     Motion.axaml               durations + easings
     Typography.axaml           M3 type-scale TextBlock classes
-    Controls/*.axaml           M3 control themes
-    FluentOverrides.axaml      FluentTheme accent remap (hand-authored)
+    Controls/*.axaml           M3 control themes (hand-authored)
+    Base/*.axaml               interim control base (forked from Simple 12.0.4)
     Assets/Fonts/              embedded OFL TTFs (DM Sans, Plus Jakarta Sans)
-  CCSWE.Avalonia.Theme.Demo/   gallery app — visual verification harness
+  CCSWE.Avalonia.Material.Demo/   gallery app — visual verification harness
 tokens/                        shared token JSON (source of truth)
 docs/design-system/            the design-system handoff bundle (conventions, fonts, audit)
 docs/samples/                  App.axaml wiring sample
 ```
 
-The `Theme.axaml` / `Tokens.axaml` / `Controls/*` files are **emitted from the
-shared tokens** — treat them as consume-verbatim and regenerate from `tokens/`
-rather than hand-editing. The library hand-authors only the *glue* the tokens
-can't express (`FluentOverrides.axaml`, the font bytes, packaging). See
-[`CLAUDE.md`](CLAUDE.md) and [`docs/design-system/`](docs/design-system/) for the
-full contract.
+The token files (`Tokens.axaml` / `Typography.axaml` / `Motion.axaml` / `Fonts.axaml`)
+are **emitted from the shared cross-platform tokens** — treat them as consume-verbatim
+and regenerate from `tokens/` rather than hand-editing. The library **owns** everything
+else: the `MaterialTheme` entry, all `Controls/*` M3 themes, the `Base/*` infrastructure,
+the font bytes, and packaging. See [`CLAUDE.md`](CLAUDE.md) and
+[`docs/design-system/`](docs/design-system/) for the full contract.
 
 ## Build & run
 
 ```bash
 # Build everything
-dotnet build src/CCSWE.Avalonia.Theme.slnx -c Release
+dotnet build src/CCSWE.Avalonia.Material.slnx -c Release
 
 # Run the gallery (Dark/Light toggle + every themed control)
-dotnet run --project src/CCSWE.Avalonia.Theme.Demo
+dotnet run --project src/CCSWE.Avalonia.Material.Demo
 
 # Pack the library
-dotnet pack src/CCSWE.Avalonia.Theme/CCSWE.Avalonia.Theme.csproj -c Release
+dotnet pack src/CCSWE.Avalonia.Material/CCSWE.Avalonia.Material.csproj -c Release
 ```
 
 Requires the .NET 10 SDK (pinned via `global.json`).
@@ -135,4 +131,4 @@ Requires the .NET 10 SDK (pinned via `global.json`).
 
 The library is under [`LICENSE.md`](LICENSE.md). The embedded fonts (DM Sans, Plus
 Jakarta Sans) are under the SIL Open Font License 1.1 — their `OFL.txt` files ship
-alongside the TTFs in `src/CCSWE.Avalonia.Theme/Assets/Fonts/`.
+alongside the TTFs in `src/CCSWE.Avalonia.Material/Assets/Fonts/`.

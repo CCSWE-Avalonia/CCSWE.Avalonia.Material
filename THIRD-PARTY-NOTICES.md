@@ -1,8 +1,8 @@
 # Third-party notices
 
-`CCSWE.Avalonia.Theme` embeds the following third-party fonts. Their license
+`CCSWE.Avalonia.Material` embeds the following third-party fonts. Their license
 texts ship in the NuGet package under `THIRD-PARTY-NOTICES/` and in the repo at
-`src/CCSWE.Avalonia.Theme/Assets/Fonts/`.
+`src/CCSWE.Avalonia.Material/Assets/Fonts/`.
 
 ## Fonts
 

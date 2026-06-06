@@ -1,0 +1,203 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:CCSWE.Avalonia.Material.Demo.ViewModels"
+        xmlns:conv="using:CCSWE.Avalonia.Material.Demo.Converters"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="1100" d:DesignHeight="760"
+        x:Class="CCSWE.Avalonia.Material.Demo.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Width="1100" Height="760"
+        Background="{DynamicResource Surface}"
+        Icon="/Assets/ccswe-logo.ico"
+        Title="CCSWE.Avalonia.Material.Demo">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <Window.Resources>
+        <!-- Nav destination glyphs: Phosphor Icons (regular weight), sourced as path data.
+             Phosphor uses a 256 viewBox; PathIcon wraps the Path in a Viewbox + Stretch=Uniform
+             so they scale to 24dp, and Path.Fill=Foreground lets M3NavigationDrawerItem recolor
+             them on :selected. Individual icons inlined (no runtime icon-set dependency). -->
+        <StreamGeometry x:Key="IconTypography">M87.24,52.59a8,8,0,0,0-14.48,0l-64,136a8,8,0,1,0,14.48,6.81L39.9,160h80.2l16.66,35.4a8,8,0,1,0,14.48-6.81ZM47.43,144,80,74.79,112.57,144ZM200,96c-12.76,0-22.73,3.47-29.63,10.32a8,8,0,0,0,11.26,11.36c3.8-3.77,10-5.68,18.37-5.68,13.23,0,24,9,24,20v3.22A42.76,42.76,0,0,0,200,128c-22.06,0-40,16.15-40,36s17.94,36,40,36a42.73,42.73,0,0,0,24-7.25,8,8,0,0,0,16-.75V132C240,112.15,222.06,96,200,96Zm0,88c-13.23,0-24-9-24-20s10.77-20,24-20,24,9,24,20S213.23,184,200,184Z</StreamGeometry>
+        <StreamGeometry x:Key="IconButtons">M88,24V16a8,8,0,0,1,16,0v8a8,8,0,0,1-16,0ZM16,104h8a8,8,0,0,0,0-16H16a8,8,0,0,0,0,16ZM124.42,39.16a8,8,0,0,0,10.74-3.58l8-16a8,8,0,0,0-14.31-7.16l-8,16A8,8,0,0,0,124.42,39.16Zm-96,81.69-16,8a8,8,0,0,0,7.16,14.31l16-8a8,8,0,1,0-7.16-14.31ZM219.31,184a16,16,0,0,1,0,22.63l-12.68,12.68a16,16,0,0,1-22.63,0L132.7,168,115,214.09c0,.1-.08.21-.13.32a15.83,15.83,0,0,1-14.6,9.59l-.79,0a15.83,15.83,0,0,1-14.41-11L32.8,52.92A16,16,0,0,1,52.92,32.8L213,85.07a16,16,0,0,1,1.41,29.8l-.32.13L168,132.69ZM208,195.31,156.69,144h0a16,16,0,0,1,4.93-26l.32-.14,45.95-17.64L48,48l52.2,159.86,17.65-46c0-.11.08-.22.13-.33a16,16,0,0,1,11.69-9.34,16.72,16.72,0,0,1,3-.28,16,16,0,0,1,11.3,4.69L195.31,208Z</StreamGeometry>
+        <StreamGeometry x:Key="IconInputs">M112,40a8,8,0,0,0-8,8V64H24A16,16,0,0,0,8,80v96a16,16,0,0,0,16,16h80v16a8,8,0,0,0,16,0V48A8,8,0,0,0,112,40ZM24,176V80h80v96ZM248,80v96a16,16,0,0,1-16,16H144a8,8,0,0,1,0-16h88V80H144a8,8,0,0,1,0-16h88A16,16,0,0,1,248,80ZM88,112a8,8,0,0,1-8,8H72v24a8,8,0,0,1-16,0V120H48a8,8,0,0,1,0-16H80A8,8,0,0,1,88,112Z</StreamGeometry>
+        <StreamGeometry x:Key="IconSelection">M173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34ZM224,48V208a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V48A16,16,0,0,1,48,32H208A16,16,0,0,1,224,48ZM208,208V48H48V208H208Z</StreamGeometry>
+        <StreamGeometry x:Key="IconCollections">M80,64a8,8,0,0,1,8-8H216a8,8,0,0,1,0,16H88A8,8,0,0,1,80,64Zm136,56H88a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Zm0,64H88a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16ZM44,52A12,12,0,1,0,56,64,12,12,0,0,0,44,52Zm0,64a12,12,0,1,0,12,12A12,12,0,0,0,44,116Zm0,64a12,12,0,1,0,12,12A12,12,0,0,0,44,180Z</StreamGeometry>
+        <StreamGeometry x:Key="IconFeedback">M40,88H73a32,32,0,0,0,62,0h81a8,8,0,0,0,0-16H135a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16Zm64-24A16,16,0,1,1,88,80,16,16,0,0,1,104,64ZM216,168H199a32,32,0,0,0-62,0H40a8,8,0,0,0,0,16h97a32,32,0,0,0,62,0h17a8,8,0,0,0,0-16Zm-48,24a16,16,0,1,1,16-16A16,16,0,0,1,168,192Z</StreamGeometry>
+        <StreamGeometry x:Key="IconTabs">M216,40H72A16,16,0,0,0,56,56V72H40A16,16,0,0,0,24,88V200a16,16,0,0,0,16,16H184a16,16,0,0,0,16-16V184h16a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40ZM184,88v16H40V88Zm0,112H40V120H184v80Zm32-32H200V88a16,16,0,0,0-16-16H72V56H216Z</StreamGeometry>
+        <StreamGeometry x:Key="IconContainers">M223.68,66.15,135.68,18a15.88,15.88,0,0,0-15.36,0l-88,48.17a16,16,0,0,0-8.32,14v95.64a16,16,0,0,0,8.32,14l88,48.17a15.88,15.88,0,0,0,15.36,0l88-48.17a16,16,0,0,0,8.32-14V80.18A16,16,0,0,0,223.68,66.15ZM128,32l80.34,44-29.77,16.3-80.35-44ZM128,120,47.66,76l33.9-18.56,80.34,44ZM40,90l80,43.78v85.79L40,175.82Zm176,85.78h0l-80,43.79V133.82l32-17.51V152a8,8,0,0,0,16,0V107.55L216,90v85.77Z</StreamGeometry>
+        <StreamGeometry x:Key="IconCoverage">M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z</StreamGeometry>
+        <StreamGeometry x:Key="IconSettings">M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm88-29.84q.06-2.16,0-4.32l14.92-18.64a8,8,0,0,0,1.48-7.06,107.21,107.21,0,0,0-10.88-26.25,8,8,0,0,0-6-3.93l-23.72-2.64q-1.48-1.56-3-3L186,40.54a8,8,0,0,0-3.94-6,107.71,107.71,0,0,0-26.25-10.87,8,8,0,0,0-7.06,1.49L130.16,40Q128,40,125.84,40L107.2,25.11a8,8,0,0,0-7.06-1.48A107.6,107.6,0,0,0,73.89,34.51a8,8,0,0,0-3.93,6L67.32,64.27q-1.56,1.49-3,3L40.54,70a8,8,0,0,0-6,3.94,107.71,107.71,0,0,0-10.87,26.25,8,8,0,0,0,1.49,7.06L40,125.84Q40,128,40,130.16L25.11,148.8a8,8,0,0,0-1.48,7.06,107.21,107.21,0,0,0,10.88,26.25,8,8,0,0,0,6,3.93l23.72,2.64q1.49,1.56,3,3L70,215.46a8,8,0,0,0,3.94,6,107.71,107.71,0,0,0,26.25,10.87,8,8,0,0,0,7.06-1.49L125.84,216q2.16.06,4.32,0l18.64,14.92a8,8,0,0,0,7.06,1.48,107.21,107.21,0,0,0,26.25-10.88,8,8,0,0,0,3.93-6l2.64-23.72q1.56-1.48,3-3L215.46,186a8,8,0,0,0,6-3.94,107.71,107.71,0,0,0,10.87-26.25,8,8,0,0,0-1.49-7.06Zm-16.1-6.5a73.93,73.93,0,0,1,0,8.68,8,8,0,0,0,1.74,5.48l14.19,17.73a91.57,91.57,0,0,1-6.23,15L187,173.11a8,8,0,0,0-5.1,2.64,74.11,74.11,0,0,1-6.14,6.14,8,8,0,0,0-2.64,5.1l-2.51,22.58a91.32,91.32,0,0,1-15,6.23l-17.74-14.19a8,8,0,0,0-5-1.75h-.48a73.93,73.93,0,0,1-8.68,0,8,8,0,0,0-5.48,1.74L100.45,215.8a91.57,91.57,0,0,1-15-6.23L82.89,187a8,8,0,0,0-2.64-5.1,74.11,74.11,0,0,1-6.14-6.14,8,8,0,0,0-5.1-2.64L46.43,170.6a91.32,91.32,0,0,1-6.23-15l14.19-17.74a8,8,0,0,0,1.74-5.48,73.93,73.93,0,0,1,0-8.68,8,8,0,0,0-1.74-5.48L40.2,100.45a91.57,91.57,0,0,1,6.23-15L69,82.89a8,8,0,0,0,5.1-2.64,74.11,74.11,0,0,1,6.14-6.14A8,8,0,0,0,82.89,69L85.4,46.43a91.32,91.32,0,0,1,15-6.23l17.74,14.19a8,8,0,0,0,5.48,1.74,73.93,73.93,0,0,1,8.68,0,8,8,0,0,0,5.48-1.74L155.55,40.2a91.57,91.57,0,0,1,15,6.23L173.11,69a8,8,0,0,0,2.64,5.1,74.11,74.11,0,0,1,6.14,6.14,8,8,0,0,0,5.1,2.64l22.58,2.51a91.32,91.32,0,0,1,6.23,15l-14.19,17.74A8,8,0,0,0,199.87,123.66Z</StreamGeometry>
+        <StreamGeometry x:Key="IconCaretLeft">M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z</StreamGeometry>
+        <StreamGeometry x:Key="IconSun">M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm72,88a64,64,0,1,1-64-64A64.07,64.07,0,0,1,192,128Zm-16,0a48,48,0,1,0-48,48A48.05,48.05,0,0,0,176,128ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z</StreamGeometry>
+        <StreamGeometry x:Key="IconMoon">M233.54,142.23a8,8,0,0,0-8-2,88.08,88.08,0,0,1-109.8-109.8,8,8,0,0,0-10-10,104.84,104.84,0,0,0-52.91,37A104,104,0,0,0,136,224a103.09,103.09,0,0,0,62.52-20.88,104.84,104.84,0,0,0,37-52.91A8,8,0,0,0,233.54,142.23ZM188.9,190.34A88,88,0,0,1,65.66,67.11a89,89,0,0,1,31.4-26A106,106,0,0,0,96,56,104.11,104.11,0,0,0,200,160a106,106,0,0,0,14.92-1.06A89,89,0,0,1,188.9,190.34Z</StreamGeometry>
+        <conv:NavIndexToPageConverter x:Key="NavIndexToPage" />
+    </Window.Resources>
+
+    <!-- The demo shell IS a DrawerPage: a locked (always-open, docked) navigation
+         drawer drives the gallery. DrawerHeader = brand, Drawer = destinations,
+         DrawerFooter = theme toggle, Content = a TransitioningContentControl (PageHost)
+         that shows one page per nav index (NavIndexToPageConverter). XAML-only. -->
+    <DrawerPage x:Name="Shell" DrawerBehavior="Locked" IsOpen="True">
+
+        <!-- Brand header -->
+        <DrawerPage.DrawerHeader>
+            <StackPanel Orientation="Horizontal" Spacing="12" Margin="24,20,24,12">
+                <!-- CCSWE brand mark (ccswe-logo.svg converted to Avalonia paths: two
+                     gradient "C" shapes over a dark underlay; PathIcon can't do the
+                     gradient/multi-path, so a Viewbox of Paths is used). -->
+                <Viewbox Width="28" Height="28" VerticalAlignment="Center">
+                    <Canvas Width="100" Height="100">
+                        <Canvas.Resources>
+                            <LinearGradientBrush x:Key="LogoGradient" StartPoint="0%,0%" EndPoint="100%,100%">
+                                <GradientStop Offset="0" Color="#336699" />
+                                <GradientStop Offset="0.5" Color="#659EC7" />
+                                <GradientStop Offset="1" Color="#A0C8DF" />
+                            </LinearGradientBrush>
+                        </Canvas.Resources>
+                        <Path Data="M 47.5,15 A 35,35 0 1,0 47.5,85 L 47.5,67 A 17,17 0 1,1 47.5,33 Z" Fill="#0F172A" />
+                        <Path Fill="#0F172A">
+                            <Path.Data>
+                                <PathGeometry Figures="M 52.5,15 A 35,35 0 1,0 52.5,85 L 52.5,67 A 17,17 0 1,1 52.5,33 Z">
+                                    <PathGeometry.Transform>
+                                        <RotateTransform Angle="180" CenterX="52.5" CenterY="50" />
+                                    </PathGeometry.Transform>
+                                </PathGeometry>
+                            </Path.Data>
+                        </Path>
+                        <Path Data="M 47.5,15 A 35,35 0 1,0 47.5,85 L 47.5,67 A 17,17 0 1,1 47.5,33 Z" Fill="{StaticResource LogoGradient}" />
+                        <Path Fill="{StaticResource LogoGradient}" Opacity="0.6">
+                            <Path.Data>
+                                <PathGeometry Figures="M 52.5,15 A 35,35 0 1,0 52.5,85 L 52.5,67 A 17,17 0 1,1 52.5,33 Z">
+                                    <PathGeometry.Transform>
+                                        <RotateTransform Angle="180" CenterX="52.5" CenterY="50" />
+                                    </PathGeometry.Transform>
+                                </PathGeometry>
+                            </Path.Data>
+                        </Path>
+                    </Canvas>
+                </Viewbox>
+                <TextBlock Classes="TitleLarge" Text="MaterialTheme" VerticalAlignment="Center"
+                           IsVisible="{Binding !IsRail}" />
+            </StackPanel>
+        </DrawerPage.DrawerHeader>
+
+        <!-- Navigation destinations. Two lists share one selection: the labeled drawer
+             (expanded) and the icon rail (collapsed). The footer chevron toggles IsRail,
+             swapping visibility + DrawerLength 360<->80 — DrawerPage's compact mode. -->
+        <DrawerPage.Drawer>
+            <Panel>
+            <ListBox x:Name="NavList" Classes="NavigationDrawer" SelectedIndex="0"
+                     IsVisible="{Binding !IsRail}">
+                <ListBoxItem>
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <PathIcon Data="{StaticResource IconTypography}" Width="24" Height="24" />
+                        <TextBlock Classes="LabelLarge" Text="Typography" VerticalAlignment="Center" />
+                    </StackPanel>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <PathIcon Data="{StaticResource IconButtons}" Width="24" Height="24" />
+                        <TextBlock Classes="LabelLarge" Text="Buttons" VerticalAlignment="Center" />
+                    </StackPanel>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <PathIcon Data="{StaticResource IconInputs}" Width="24" Height="24" />
+                        <TextBlock Classes="LabelLarge" Text="Inputs" VerticalAlignment="Center" />
+                    </StackPanel>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <PathIcon Data="{StaticResource IconSelection}" Width="24" Height="24" />
+                        <TextBlock Classes="LabelLarge" Text="Selection" VerticalAlignment="Center" />
+                    </StackPanel>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <PathIcon Data="{StaticResource IconCollections}" Width="24" Height="24" />
+                        <TextBlock Classes="LabelLarge" Text="Collections" VerticalAlignment="Center" />
+                    </StackPanel>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <PathIcon Data="{StaticResource IconFeedback}" Width="24" Height="24" />
+                        <TextBlock Classes="LabelLarge" Text="Feedback" VerticalAlignment="Center" />
+                    </StackPanel>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <PathIcon Data="{StaticResource IconTabs}" Width="24" Height="24" />
+                        <TextBlock Classes="LabelLarge" Text="Tabs" VerticalAlignment="Center" />
+                    </StackPanel>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <PathIcon Data="{StaticResource IconContainers}" Width="24" Height="24" />
+                        <TextBlock Classes="LabelLarge" Text="Containers" VerticalAlignment="Center" />
+                    </StackPanel>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <PathIcon Data="{StaticResource IconCoverage}" Width="24" Height="24" />
+                        <TextBlock Classes="LabelLarge" Text="Coverage" VerticalAlignment="Center" />
+                    </StackPanel>
+                </ListBoxItem>
+            </ListBox>
+            <ListBox x:Name="RailList" Classes="NavigationRail" VerticalAlignment="Top"
+                     IsVisible="{Binding IsRail}"
+                     SelectedIndex="{Binding #NavList.SelectedIndex, Mode=TwoWay}">
+                <ListBoxItem ToolTip.Tip="Typography"><PathIcon Data="{StaticResource IconTypography}" Width="24" Height="24" /></ListBoxItem>
+                <ListBoxItem ToolTip.Tip="Buttons"><PathIcon Data="{StaticResource IconButtons}" Width="24" Height="24" /></ListBoxItem>
+                <ListBoxItem ToolTip.Tip="Inputs"><PathIcon Data="{StaticResource IconInputs}" Width="24" Height="24" /></ListBoxItem>
+                <ListBoxItem ToolTip.Tip="Selection"><PathIcon Data="{StaticResource IconSelection}" Width="24" Height="24" /></ListBoxItem>
+                <ListBoxItem ToolTip.Tip="Collections"><PathIcon Data="{StaticResource IconCollections}" Width="24" Height="24" /></ListBoxItem>
+                <ListBoxItem ToolTip.Tip="Feedback"><PathIcon Data="{StaticResource IconFeedback}" Width="24" Height="24" /></ListBoxItem>
+                <ListBoxItem ToolTip.Tip="Tabs"><PathIcon Data="{StaticResource IconTabs}" Width="24" Height="24" /></ListBoxItem>
+                <ListBoxItem ToolTip.Tip="Containers"><PathIcon Data="{StaticResource IconContainers}" Width="24" Height="24" /></ListBoxItem>
+                <ListBoxItem ToolTip.Tip="Coverage"><PathIcon Data="{StaticResource IconCoverage}" Width="24" Height="24" /></ListBoxItem>
+            </ListBox>
+            </Panel>
+        </DrawerPage.Drawer>
+
+        <!-- Pinned footer: one row — sun/moon theme toggle (left, hidden in the 80dp rail)
+             and the collapse/expand chevron (right; centers when collapsed to the rail).
+             Both are M3 icon buttons (40dp container / 24dp glyph). -->
+        <DrawerPage.DrawerFooter>
+            <Border Padding="12,12" BorderBrush="{DynamicResource OutlineVariant}" BorderThickness="0,1,0,0">
+                <Panel>
+                    <Button x:Name="ThemeToggleBtn" Classes="Icon" HorizontalAlignment="Left"
+                            IsVisible="{Binding !IsRail}"
+                            Click="OnThemeToggleClick" ToolTip.Tip="Toggle light / dark theme">
+                        <PathIcon x:Name="ThemeIcon" Data="{StaticResource IconMoon}" Width="24" Height="24" />
+                    </Button>
+                    <Button x:Name="RailToggleBtn" Classes="Icon" HorizontalAlignment="Right"
+                            Click="OnToggleRail" ToolTip.Tip="Collapse / expand navigation">
+                        <PathIcon x:Name="CollapseChevron" Data="{StaticResource IconCaretLeft}"
+                                  Width="24" Height="24" RenderTransformOrigin="50%,50%" />
+                    </Button>
+                </Panel>
+            </Border>
+        </DrawerPage.DrawerFooter>
+
+        <!-- Main content: one page per destination, swapped by nav selection. The
+             pane↔content trailing-edge divider is now baked into the DrawerPage template
+             (PART_PaneDivider), so no consumer-side Border is needed.
+             DrawerPage's main-content slot does NOT inherit the window DataContext (its
+             DrawerHeader/Footer slots do). So set it explicitly here; PageHost and every
+             hosted page then bind against the VM. -->
+        <Border DataContext="{Binding $parent[Window].DataContext}">
+            <TransitioningContentControl x:Name="PageHost"
+                                         Content="{Binding #NavList.SelectedIndex, Converter={StaticResource NavIndexToPage}}">
+                <TransitioningContentControl.PageTransition>
+                    <CrossFade Duration="0:0:0.15" />
+                </TransitioningContentControl.PageTransition>
+            </TransitioningContentControl>
+        </Border>
+
+    </DrawerPage>
+
+</Window>

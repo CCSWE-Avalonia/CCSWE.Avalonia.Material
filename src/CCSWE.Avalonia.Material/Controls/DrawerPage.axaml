@@ -1,0 +1,464 @@
+<!--
+  M3 Navigation Drawer + Rail for Avalonia 12's DrawerPage (built on SplitView).
+  DrawerPage is a container (pane + content slots, open/dock/overlay/compact layout)
+  with no navigation-item model, so this file ships three things:
+    A)  M3NavigationDrawerItem - the M3 drawer destination (56dp full-pill ListBoxItem).
+    A2) M3NavigationRailItem   - the compact rail destination (icon-over-label). Content
+        contract: Content = the icon, Tag = the label string.
+    B)  the {x:Type DrawerPage} ControlTheme - the full container template + M3 pane/
+        header/footer surfaces, scrim, and M3 pane/rail widths.
+  Both item themes are KEYED (applied via ItemContainerTheme), so they don't collide
+  with the global {x:Type ListBoxItem}.
+-->
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <Styles.Resources>
+    <x:Double x:Key="NavigationControlNavBarHeight">48</x:Double>
+
+    <StreamGeometry x:Key="DrawerPaneButtonIcon">M3 17h18a1 1 0 0 1 .117 1.993L21 19H3a1 1 0 0 1-.117-1.993L3 17h18H3Zm0-6 18-.002a1 1 0 0 1 .117 1.993l-.117.007L3 13a1 1 0 0 1-.117-1.993L3 11l18-.002L3 11Zm0-6h18a1 1 0 0 1 .117 1.993L21 7H3a1 1 0 0 1-.117-1.993L3 5h18H3Z</StreamGeometry>
+
+    <!-- A) The M3 navigation-drawer destination. KEYED (not {x:Type ListBoxItem}). -->
+    <ControlTheme x:Key="M3NavigationDrawerItem" TargetType="ListBoxItem">
+      <Setter Property="Foreground" Value="{DynamicResource OnSurfaceVariant}" />
+      <Setter Property="FontFamily" Value="{DynamicResource BodyFontFamily}" />
+      <Setter Property="FontSize" Value="{DynamicResource FontSizeLabelLarge}" />
+      <Setter Property="FontWeight" Value="Medium" />
+      <Setter Property="Height" Value="56" />
+      <!-- Side inset 12dp (pill sits in from the pane edge) + 2dp vertical = 4dp item gap. -->
+      <Setter Property="Margin" Value="12,2" />
+      <!-- Leading pad 16 -> icon; trailing pad 24 (badge room). Icon size + the 12dp
+           icon->label gap are consumer content (e.g. StackPanel Spacing=12). -->
+      <Setter Property="Padding" Value="16,0,24,0" />
+      <Setter Property="VerticalContentAlignment" Value="Center" />
+      <Setter Property="Template">
+        <ControlTemplate TargetType="ListBoxItem">
+          <Panel>
+            <!-- Active indicator = a full-pill SecondaryContainer fill (constant size;
+                 only its Opacity toggles, so selection can't reflow the row). -->
+            <Border x:Name="SelectedLayer" CornerRadius="{DynamicResource CornerRadiusFull}"
+                    Background="{DynamicResource SecondaryContainer}" Opacity="0" />
+            <Border x:Name="StateLayer" CornerRadius="{DynamicResource CornerRadiusFull}"
+                    Background="{DynamicResource OnSurface}" Opacity="0">
+              <Border.Transitions>
+                <Transitions><DoubleTransition Property="Opacity" Duration="{DynamicResource MotionDurationShort2}" /></Transitions>
+              </Border.Transitions>
+            </Border>
+            <!-- TextElement.Foreground here recolors BOTH the label and a PathIcon
+                 (icons paint from the inherited Foreground) together on :selected. -->
+            <ContentPresenter x:Name="PART_ContentPresenter"
+                              Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              Padding="{TemplateBinding Padding}"
+                              TextElement.Foreground="{DynamicResource OnSurfaceVariant}"
+                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+          </Panel>
+        </ControlTemplate>
+      </Setter>
+
+      <Style Selector="^:selected /template/ Border#SelectedLayer">
+        <Setter Property="Opacity" Value="1" />
+      </Style>
+      <Style Selector="^:selected /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource OnSecondaryContainer}" />
+      </Style>
+      <!-- Active row's state layer reads against the SecondaryContainer fill. -->
+      <Style Selector="^:selected /template/ Border#StateLayer">
+        <Setter Property="Background" Value="{DynamicResource OnSecondaryContainer}" />
+      </Style>
+      <Style Selector="^:pointerover /template/ Border#StateLayer">
+        <Setter Property="Opacity" Value="0.08" />
+      </Style>
+      <Style Selector="^:pressed /template/ Border#StateLayer">
+        <Setter Property="Opacity" Value="0.10" />
+      </Style>
+      <!-- Disabled: recolor (content OnSurface38, active fill OnSurface12), not an opacity dim. -->
+      <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource OnSurface38}" />
+      </Style>
+      <Style Selector="^:selected:disabled /template/ Border#SelectedLayer">
+        <Setter Property="Background" Value="{DynamicResource OnSurface12}" />
+      </Style>
+    </ControlTheme>
+
+    <!-- A2) The M3 navigation-RAIL destination (compact, icon-over-label). KEYED.
+         Content = the icon; Tag = the (optional) label string. The label auto-hides
+         when Tag is null, giving an icon-only rail (M3's "no labels" config) - in that
+         case the consumer should set ToolTip.Tip on the item for accessibility. -->
+    <ControlTheme x:Key="M3NavigationRailItem" TargetType="ListBoxItem">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="FontFamily" Value="{DynamicResource BodyFontFamily}" />
+      <!-- 56dp min touch target; 6dp top/bottom -> 12dp item-to-item gap. -->
+      <Setter Property="MinHeight" Value="56" />
+      <Setter Property="Margin" Value="0,6" />
+      <Setter Property="Padding" Value="0" />
+      <Setter Property="HorizontalContentAlignment" Value="Center" />
+      <Setter Property="VerticalContentAlignment" Value="Center" />
+      <Setter Property="Template">
+        <ControlTemplate TargetType="ListBoxItem">
+          <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <!-- 56x32 active-indicator pill wraps the ICON ONLY (M3 rail). Constant
+                 size; only SelectedLayer.Opacity toggles, so selection can't reflow.
+                 State layer is clipped to this 56x32 box, not the whole item. -->
+            <Panel Width="56" Height="32" HorizontalAlignment="Center">
+              <Border x:Name="SelectedLayer" CornerRadius="{DynamicResource CornerRadiusFull}"
+                      Background="{DynamicResource SecondaryContainer}" Opacity="0" />
+              <Border x:Name="StateLayer" CornerRadius="{DynamicResource CornerRadiusFull}"
+                      Background="{DynamicResource OnSurface}" Opacity="0">
+                <Border.Transitions>
+                  <Transitions><DoubleTransition Property="Opacity" Duration="{DynamicResource MotionDurationShort2}" /></Transitions>
+                </Border.Transitions>
+              </Border>
+              <!-- Icon = item Content (24dp, consumer-supplied). TextElement.Foreground
+                   recolors a PathIcon on :selected, INDEPENDENT of the label below. -->
+              <ContentPresenter x:Name="PART_ContentPresenter"
+                                Content="{TemplateBinding Content}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                TextElement.Foreground="{DynamicResource OnSurfaceVariant}"
+                                HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Panel>
+            <!-- Optional label = item Tag (stringly-typed). Hidden when Tag is null
+                 (icon-only rail). Label Medium, centered, <=2 lines, 4dp below the
+                 indicator. Recolors on its OWN target -> OnSurface when active (the rail's
+                 one divergence from the drawer, where label = OnSecondaryContainer). -->
+            <TextBlock x:Name="RailLabel" Text="{TemplateBinding Tag}"
+                       IsVisible="{TemplateBinding Tag, Converter={x:Static ObjectConverters.IsNotNull}}"
+                       Foreground="{DynamicResource OnSurfaceVariant}"
+                       FontSize="{DynamicResource FontSizeLabelMedium}" FontWeight="Medium" LineHeight="16"
+                       TextAlignment="Center" TextWrapping="Wrap" MaxLines="2"
+                       Margin="0,4,0,0" HorizontalAlignment="Center" />
+          </StackPanel>
+        </ControlTemplate>
+      </Setter>
+
+      <!-- Active: indicator fills SecondaryContainer; icon -> OnSecondaryContainer;
+           label -> OnSurface (NOT OnSecondaryContainer - rail label diverges). -->
+      <Style Selector="^:selected /template/ Border#SelectedLayer">
+        <Setter Property="Opacity" Value="1" />
+      </Style>
+      <Style Selector="^:selected /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource OnSecondaryContainer}" />
+      </Style>
+      <Style Selector="^:selected /template/ TextBlock#RailLabel">
+        <Setter Property="Foreground" Value="{DynamicResource OnSurface}" />
+      </Style>
+      <!-- Active row's state layer reads against the SecondaryContainer fill. -->
+      <Style Selector="^:selected /template/ Border#StateLayer">
+        <Setter Property="Background" Value="{DynamicResource OnSecondaryContainer}" />
+      </Style>
+      <Style Selector="^:pointerover /template/ Border#StateLayer">
+        <Setter Property="Opacity" Value="0.08" />
+      </Style>
+      <Style Selector="^:pressed /template/ Border#StateLayer">
+        <Setter Property="Opacity" Value="0.10" />
+      </Style>
+      <!-- Disabled: neutral recolor (icon + label OnSurface38, active fill OnSurface12),
+           never an opacity dim. -->
+      <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource OnSurface38}" />
+      </Style>
+      <Style Selector="^:disabled /template/ TextBlock#RailLabel">
+        <Setter Property="Foreground" Value="{DynamicResource OnSurface38}" />
+      </Style>
+      <Style Selector="^:selected:disabled /template/ Border#SelectedLayer">
+        <Setter Property="Background" Value="{DynamicResource OnSurface12}" />
+      </Style>
+    </ControlTheme>
+
+    <!-- B) The DrawerPage container: full M3 template + pane/header/footer surfaces,
+         scrim, and M3 pane/rail widths. -->
+    <ControlTheme x:Key="{x:Type DrawerPage}" TargetType="DrawerPage">
+      <Setter Property="Background" Value="{DynamicResource Surface}" />
+      <Setter Property="Foreground" Value="{DynamicResource OnSurface}" />
+      <!-- M3 pane surfaces: SurfaceContainerLow (elevated drawer surface). -->
+      <Setter Property="DrawerBackground" Value="{DynamicResource SurfaceContainerLow}" />
+      <Setter Property="DrawerHeaderBackground" Value="{DynamicResource SurfaceContainerLow}" />
+      <Setter Property="DrawerFooterBackground" Value="{DynamicResource SurfaceContainerLow}" />
+      <Setter Property="DrawerHeaderForeground" Value="{DynamicResource OnSurface}" />
+      <Setter Property="DrawerFooterForeground" Value="{DynamicResource OnSurface}" />
+      <!-- Modal/overlay scrim = Scrim @ 32%. -->
+      <Setter Property="BackdropBrush" Value="{DynamicResource Scrim32}" />
+      <!-- M3 widths (non-destructive; consumers can still set per-instance). -->
+      <Setter Property="DrawerLength" Value="360" />
+      <Setter Property="CompactDrawerLength" Value="80" />
+      <Setter Property="Template">
+        <ControlTemplate>
+          <SplitView Name="PART_SplitView"
+                     DisplayMode="{TemplateBinding DisplayMode}"
+                     OpenPaneLength="{TemplateBinding DrawerLength}"
+                     CompactPaneLength="{TemplateBinding CompactDrawerLength}"
+                     PaneBackground="{Binding DrawerBackground, RelativeSource={RelativeSource TemplatedParent}}"
+                     IsPaneOpen="{Binding IsOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
+            <SplitView.Pane>
+              <DockPanel Background="{TemplateBinding DrawerBackground}">
+                <!-- Compact-mode toggle: visible only in CompactOverlay/CompactInline. -->
+                <ToggleButton Name="PART_CompactPaneToggle"
+                              DockPanel.Dock="Top"
+                              IsChecked="{Binding #PART_SplitView.IsPaneOpen, Mode=TwoWay}"
+                              Background="Transparent"
+                              IsVisible="False"
+                              HorizontalAlignment="Left"
+                              Width="{TemplateBinding CompactDrawerLength}"
+                              Height="{TemplateBinding CompactDrawerLength}"
+                              AutomationProperties.Name="Toggle navigation drawer"
+                              ToolTip.Tip="Toggle navigation drawer">
+                  <Panel>
+                    <PathIcon
+                      IsVisible="{Binding DrawerIcon, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ObjectConverters.IsNull}}"
+                      Data="{DynamicResource DrawerPaneButtonIcon}"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center" />
+                    <ContentPresenter
+                      Name="PART_CompactPaneIconPresenter"
+                      Content="{TemplateBinding DrawerIcon}"
+                      ContentTemplate="{TemplateBinding DrawerIconTemplate}"
+                      IsVisible="{Binding DrawerIcon, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ObjectConverters.IsNotNull}}"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center" />
+                  </Panel>
+                </ToggleButton>
+                <ContentPresenter Name="PART_DrawerHeader"
+                                  DockPanel.Dock="Top"
+                                  Content="{TemplateBinding DrawerHeader}"
+                                  ContentTemplate="{TemplateBinding DrawerHeaderTemplate}"
+                                  Background="{TemplateBinding DrawerHeaderBackground}"
+                                  TextElement.Foreground="{TemplateBinding DrawerHeaderForeground}"
+                                  IsVisible="{TemplateBinding DrawerHeader, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                <ContentPresenter Name="PART_DrawerFooter"
+                                  DockPanel.Dock="Bottom"
+                                  Content="{TemplateBinding DrawerFooter}"
+                                  ContentTemplate="{TemplateBinding DrawerFooterTemplate}"
+                                  Background="{TemplateBinding DrawerFooterBackground}"
+                                  TextElement.Foreground="{TemplateBinding DrawerFooterForeground}"
+                                  IsVisible="{TemplateBinding DrawerFooter, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                <ContentPresenter Name="PART_DrawerPresenter"
+                                  HorizontalContentAlignment="Stretch"
+                                  VerticalContentAlignment="Stretch"
+                                  Content="{TemplateBinding Drawer}"
+                                  ContentTemplate="{TemplateBinding DrawerTemplate}" />
+              </DockPanel>
+            </SplitView.Pane>
+            <Grid HorizontalAlignment="Stretch"
+                  VerticalAlignment="Stretch">
+              <DockPanel Name="PART_ContentDock">
+                <Border
+                  Name="PART_TopBar"
+                  Padding="5"
+                  Height="{DynamicResource NavigationControlNavBarHeight}"
+                  Background="{DynamicResource Surface}"
+                  DockPanel.Dock="Top">
+                  <DockPanel HorizontalAlignment="Stretch">
+                    <ToggleButton x:Name="PART_PaneButton"
+                                  IsChecked="{Binding #PART_SplitView.IsPaneOpen, Mode=TwoWay}"
+                                  Background="Transparent"
+                                  DockPanel.Dock="Left"
+                                  AutomationProperties.Name="Toggle navigation drawer"
+                                  ToolTip.Tip="Toggle navigation drawer">
+                      <Panel>
+                        <PathIcon
+                          IsVisible="{Binding DrawerIcon, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ObjectConverters.IsNull}}"
+                          Data="{DynamicResource DrawerPaneButtonIcon}"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center" />
+                        <ContentPresenter
+                          Name="PART_PaneIconPresenter"
+                          Content="{TemplateBinding DrawerIcon}"
+                          ContentTemplate="{TemplateBinding DrawerIconTemplate}"
+                          IsVisible="{Binding DrawerIcon, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ObjectConverters.IsNotNull}}"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center" />
+                      </Panel>
+                    </ToggleButton>
+                    <ContentPresenter x:Name="PART_TitlePresenter"
+                                      Content="{TemplateBinding Header}"
+                                      ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                      VerticalAlignment="Center"
+                                      VerticalContentAlignment="Center"
+                                      FontFamily="{DynamicResource BrandFontFamily}"
+                                      FontSize="{DynamicResource FontSizeTitleMedium}"
+                                      FontWeight="Medium"
+                                      Margin="8,0,0,0"
+                                      IsVisible="{TemplateBinding Header, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                  </DockPanel>
+                </Border>
+                <Border
+                  Name="PART_BottomBar"
+                  Padding="5"
+                  Height="{DynamicResource NavigationControlNavBarHeight}"
+                  Background="{DynamicResource Surface}"
+                  DockPanel.Dock="Bottom"
+                  IsVisible="False">
+                  <DockPanel HorizontalAlignment="Stretch">
+                    <ToggleButton x:Name="PART_BottomPaneButton"
+                                  IsChecked="{Binding #PART_SplitView.IsPaneOpen, Mode=TwoWay}"
+                                  Background="Transparent"
+                                  DockPanel.Dock="Left"
+                                  AutomationProperties.Name="Toggle navigation drawer"
+                                  ToolTip.Tip="Toggle navigation drawer">
+                      <Panel>
+                        <PathIcon
+                          IsVisible="{Binding DrawerIcon, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ObjectConverters.IsNull}}"
+                          Data="{DynamicResource DrawerPaneButtonIcon}"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center" />
+                        <ContentPresenter
+                          Name="PART_BottomPaneIconPresenter"
+                          Content="{TemplateBinding DrawerIcon}"
+                          ContentTemplate="{TemplateBinding DrawerIconTemplate}"
+                          IsVisible="{Binding DrawerIcon, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ObjectConverters.IsNotNull}}"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center" />
+                      </Panel>
+                    </ToggleButton>
+                    <ContentPresenter x:Name="PART_BottomTitlePresenter"
+                                      Content="{TemplateBinding Header}"
+                                      ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                      VerticalAlignment="Center"
+                                      VerticalContentAlignment="Center"
+                                      FontFamily="{DynamicResource BrandFontFamily}"
+                                      FontSize="{DynamicResource FontSizeTitleMedium}"
+                                      FontWeight="Medium"
+                                      Margin="8,0,0,0"
+                                      IsVisible="{TemplateBinding Header, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                  </DockPanel>
+                </Border>
+                <ContentPresenter Name="PART_ContentPresenter"
+                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                  Background="{TemplateBinding Background}"
+                                  BorderBrush="{TemplateBinding BorderBrush}"
+                                  BorderThickness="{TemplateBinding BorderThickness}"
+                                  Content="{TemplateBinding Content}"
+                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                  CornerRadius="{TemplateBinding CornerRadius}" />
+              </DockPanel>
+              <Border Name="PART_Backdrop"
+                      Background="{TemplateBinding BackdropBrush}"
+                      IsVisible="False"
+                      IsHitTestVisible="False" />
+              <!-- Trailing-edge divider at the pane<->content seam (1dp OutlineVariant).
+                   Sits on the content's leading edge (left by default); repositioned per
+                   DrawerPlacement and hidden in pure Overlay mode (the pane floats there). -->
+              <Border Name="PART_PaneDivider"
+                      Background="{DynamicResource OutlineVariant}"
+                      Width="1"
+                      HorizontalAlignment="Left"
+                      VerticalAlignment="Stretch"
+                      IsHitTestVisible="False" />
+            </Grid>
+          </SplitView>
+        </ControlTemplate>
+      </Setter>
+
+      <Style Selector="^:placement-right /template/ ToggleButton#PART_PaneButton">
+        <Setter Property="DockPanel.Dock" Value="Right" />
+      </Style>
+
+      <!-- Pane divider: reposition to the content's leading edge per placement. -->
+      <Style Selector="^:placement-right /template/ Border#PART_PaneDivider">
+        <Setter Property="HorizontalAlignment" Value="Right" />
+      </Style>
+      <Style Selector="^:placement-top /template/ Border#PART_PaneDivider">
+        <Setter Property="Width" Value="NaN" />
+        <Setter Property="Height" Value="1" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+      </Style>
+      <Style Selector="^:placement-bottom /template/ Border#PART_PaneDivider">
+        <Setter Property="Width" Value="NaN" />
+        <Setter Property="Height" Value="1" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+      </Style>
+      <!-- Pure Overlay: the pane floats over content (backdrop scrim), so no seam divider. -->
+      <Style Selector="^[DisplayMode=Overlay] /template/ Border#PART_PaneDivider">
+        <Setter Property="IsVisible" Value="False" />
+      </Style>
+      <!-- No divider when the drawer is disabled (no pane). -->
+      <Style Selector="^[DrawerBehavior=Disabled] /template/ Border#PART_PaneDivider">
+        <Setter Property="IsVisible" Value="False" />
+      </Style>
+
+      <!-- Bottom placement: swap top bar for bottom bar -->
+      <Style Selector="^:placement-bottom /template/ Border#PART_TopBar">
+        <Setter Property="IsVisible" Value="False" />
+      </Style>
+      <Style Selector="^:placement-bottom /template/ Border#PART_BottomBar">
+        <Setter Property="IsVisible" Value="True" />
+      </Style>
+
+      <!-- Bottom placement + compact modes: pane compact strip provides toggle, hide bottom bar -->
+      <Style Selector="^:placement-bottom[DisplayMode=CompactOverlay] /template/ Border#PART_BottomBar">
+        <Setter Property="IsVisible" Value="False" />
+      </Style>
+      <Style Selector="^:placement-bottom[DisplayMode=CompactInline] /template/ Border#PART_BottomBar">
+        <Setter Property="IsVisible" Value="False" />
+      </Style>
+
+      <!-- Horizontal pane (Bottom/Top): compact toggle must dock Left so drawer content can fill the rest -->
+      <Style Selector="^:placement-bottom /template/ ToggleButton#PART_CompactPaneToggle">
+        <Setter Property="DockPanel.Dock" Value="Left" />
+      </Style>
+      <Style Selector="^:placement-top /template/ ToggleButton#PART_CompactPaneToggle">
+        <Setter Property="DockPanel.Dock" Value="Left" />
+      </Style>
+
+      <Style Selector="^[DrawerBehavior=Locked] /template/ Border#PART_TopBar">
+        <Setter Property="IsVisible" Value="False" />
+      </Style>
+
+      <Style Selector="^[DrawerBehavior=Disabled] /template/ Border#PART_TopBar">
+        <Setter Property="IsVisible" Value="False" />
+      </Style>
+
+      <Style Selector="^:detail-is-navpage /template/ Border#PART_TopBar">
+        <Setter Property="IsVisible" Value="False" />
+      </Style>
+
+      <Style Selector="^[DisplayMode=CompactOverlay] /template/ Border#PART_TopBar">
+        <Setter Property="IsVisible" Value="False" />
+      </Style>
+
+      <Style Selector="^[DisplayMode=CompactOverlay] /template/ ToggleButton#PART_CompactPaneToggle">
+        <Setter Property="IsVisible" Value="True" />
+      </Style>
+
+      <Style Selector="^[DisplayMode=CompactInline] /template/ Border#PART_TopBar">
+        <Setter Property="IsVisible" Value="False" />
+      </Style>
+
+      <Style Selector="^[DisplayMode=CompactInline] /template/ ToggleButton#PART_CompactPaneToggle">
+        <Setter Property="IsVisible" Value="True" />
+      </Style>
+
+      <Style Selector="^[IsInNavigationPage=True] /template/ Border#PART_TopBar">
+        <Setter Property="IsVisible" Value="False" />
+      </Style>
+
+      <!-- NavigationPage already hosts a hamburger toggle - suppress the compact pane toggle. -->
+      <Style Selector="^:detail-is-navpage /template/ ToggleButton#PART_CompactPaneToggle">
+        <Setter Property="IsVisible" Value="False" />
+      </Style>
+    </ControlTheme>
+  </Styles.Resources>
+
+  <!-- Host: ListBox Classes="NavigationDrawer" wears the destination treatment. -->
+  <Style Selector="ListBox.NavigationDrawer">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Padding" Value="0,8" />
+    <Setter Property="ItemContainerTheme" Value="{StaticResource M3NavigationDrawerItem}" />
+  </Style>
+
+  <!-- Host: ListBox Classes="NavigationRail" wears the compact rail treatment. Width is
+       supplied by DrawerPage's CompactDrawerLength (80dp). Centering is owned by the item
+       (ListBox is a SelectingItemsControl with no HorizontalContentAlignment). -->
+  <Style Selector="ListBox.NavigationRail">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Padding" Value="0,12" />
+    <Setter Property="ItemContainerTheme" Value="{StaticResource M3NavigationRailItem}" />
+  </Style>
+
+</Styles>

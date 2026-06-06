@@ -1,0 +1,75 @@
+<!--
+  =============================================================================
+  HAND-AUTHORED - library responsibility (the no-base infrastructure layer).
+  NOT emitted by the design system.
+  =============================================================================
+
+  Base aliases for the forked Base/* infrastructure templates.
+
+  The Base/* control templates were seeded (forked once, at Avalonia 12.0.4) from
+  Avalonia.Themes.Simple. Simple's templates reference a `Theme*`-named palette plus
+  a handful of metric keys. Rather than scrub every fork, we DEFINE those keys here
+  and alias them onto the CCSWE M3 token system (Tokens.axaml).
+
+  Brush aliases bind their Color via {DynamicResource <Role>Color} so they track the
+  Dark/Light ThemeVariant flip through the underlying M3 color token (the brush itself
+  can live in this single flat dictionary; the variance rides on the color token).
+
+  This is the no-base analog of FluentOverrides.axaml, but ADDITIVE (it defines the
+  keys the forks need) rather than CORRECTIVE (it does not patch a vendor's leaked
+  values). When a Base/* fork is later re-styled to real M3, drop the keys it stops
+  referencing.
+-->
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="using:System">
+
+  <!-- Surfaces / foregrounds -->
+  <SolidColorBrush x:Key="ThemeBackgroundBrush" Color="{DynamicResource SurfaceColor}" />
+  <SolidColorBrush x:Key="ThemeForegroundBrush" Color="{DynamicResource OnSurfaceColor}" />
+  <SolidColorBrush x:Key="ThemeForegroundLowBrush" Color="{DynamicResource OnSurfaceVariantColor}" />
+  <SolidColorBrush x:Key="TitleBarBackgroundBrush" Color="{DynamicResource SurfaceColor}" />
+
+  <!-- Control fills: Simple's low->very-high tonal ramp mapped to the M3 container ramp. -->
+  <SolidColorBrush x:Key="ThemeControlMidBrush" Color="{DynamicResource SurfaceContainerColor}" />
+  <SolidColorBrush x:Key="ThemeControlMidHighBrush" Color="{DynamicResource SurfaceContainerHighColor}" />
+  <SolidColorBrush x:Key="ThemeControlHighBrush" Color="{DynamicResource SurfaceContainerHighColor}" />
+  <SolidColorBrush x:Key="ThemeControlVeryHighBrush" Color="{DynamicResource SurfaceContainerHighestColor}" />
+
+  <!-- Borders -->
+  <SolidColorBrush x:Key="ThemeBorderLowBrush" Color="{DynamicResource OutlineVariantColor}" />
+  <SolidColorBrush x:Key="ThemeBorderMidBrush" Color="{DynamicResource OutlineColor}" />
+
+  <!-- Accent / selection -->
+  <SolidColorBrush x:Key="ThemeAccentBrush" Color="{DynamicResource PrimaryColor}" />
+  <SolidColorBrush x:Key="HighlightBrush" Color="{DynamicResource PrimaryColor}" />
+  <Color x:Key="HighlightForegroundColor">#FFFFFFFF</Color>
+
+  <!-- Error -->
+  <SolidColorBrush x:Key="ErrorBrush" Color="{DynamicResource ErrorColor}" />
+
+  <!-- Window caption buttons (M3: transparent chrome, OnSurface glyph). -->
+  <SolidColorBrush x:Key="CaptionButtonBackground" Color="Transparent" />
+  <SolidColorBrush x:Key="CaptionButtonForeground" Color="{DynamicResource OnSurfaceColor}" />
+  <SolidColorBrush x:Key="CaptionButtonBorderBrush" Color="Transparent" />
+
+  <!-- Metrics (theme-invariant). Faithful to Simple for the spike; M3-tune in a later pass. -->
+  <Thickness x:Key="ThemeBorderThickness">1</Thickness>
+  <sys:Double x:Key="ThemeDisabledOpacity">0.38</sys:Double>
+  <sys:Double x:Key="ScrollBarThickness">14</sys:Double>
+  <sys:Double x:Key="ScrollBarThumbThickness">8</sys:Double>
+  <sys:Double x:Key="IconElementThemeHeight">20</sys:Double>
+  <sys:Double x:Key="IconElementThemeWidth">20</sys:Double>
+  <sys:Double x:Key="FontSizeNormal">14</sys:Double>
+
+  <!-- Default content font -> the M3 body family (mirrors Fonts.axaml/BodyFontFamily). -->
+  <FontFamily x:Key="ContentControlThemeFontFamily">avares://CCSWE.Avalonia.Material/Assets/Fonts/#DM Sans</FontFamily>
+
+  <!-- Long-tail keys referenced only by deferred/unused forks (date family, page shells).
+       Not in Simple's palette; aliased here so DynamicResource resolves cleanly. -->
+  <SolidColorBrush x:Key="DatePickerSpacerFill" Color="{DynamicResource OutlineVariantColor}" />
+  <SolidColorBrush x:Key="TimePickerSpacerFill" Color="{DynamicResource OutlineVariantColor}" />
+  <Color x:Key="ThemeForegroundMidColor">#FF9AA0A6</Color>
+  <Color x:Key="ThemeDisabledColor">#61FFFFFF</Color>
+
+</ResourceDictionary>

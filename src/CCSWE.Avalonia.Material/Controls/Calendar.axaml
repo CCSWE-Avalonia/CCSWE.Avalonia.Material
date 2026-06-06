@@ -1,0 +1,29 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <Styles.Resources>
+    <ControlTheme x:Key="{x:Type Calendar}" TargetType="Calendar">
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="BorderBrush" Value="{DynamicResource OutlineVariant}" />
+      <Setter Property="Background" Value="{DynamicResource SurfaceContainerHigh}" />
+      <!-- M3 calendars don't fill the header row. -->
+      <Setter Property="HeaderBackground" Value="Transparent" />
+      <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusMedium}" />
+      <Setter Property="Template">
+        <ControlTemplate>
+          <StackPanel Name="PART_Root"
+                      HorizontalAlignment="Center"
+                      ClipToBounds="True">
+            <CalendarItem Name="PART_CalendarItem"
+                          Background="{TemplateBinding Background}"
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}"
+                          CornerRadius="{TemplateBinding CornerRadius}"
+                          HeaderBackground="{TemplateBinding HeaderBackground}" />
+          </StackPanel>
+        </ControlTemplate>
+      </Setter>
+    </ControlTheme>
+  </Styles.Resources>
+
+</Styles>

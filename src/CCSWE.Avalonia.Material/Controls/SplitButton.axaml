@@ -1,0 +1,116 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:converters="using:Avalonia.Controls.Converters">
+
+  <Styles.Resources>
+    <converters:CornerRadiusFilterConverter x:Key="SplitButtonLeftCorners" Filter="TopLeft, BottomLeft" />
+    <converters:CornerRadiusFilterConverter x:Key="SplitButtonRightCorners" Filter="TopRight, BottomRight" />
+
+    <!-- One split segment (primary action or the dropdown chevron): transparent with an
+         M3 state layer over the SplitButton's SecondaryContainer pill. -->
+    <ControlTheme x:Key="M3SplitButtonSegment" TargetType="Button">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="Template">
+        <ControlTemplate>
+          <Panel>
+            <Border x:Name="PART_StateLayer"
+                    Background="{DynamicResource OnSecondaryContainer}"
+                    CornerRadius="{TemplateBinding CornerRadius}"
+                    Opacity="0">
+              <Border.Transitions>
+                <Transitions>
+                  <DoubleTransition Property="Opacity" Duration="{DynamicResource MotionDurationShort2}" />
+                </Transitions>
+              </Border.Transitions>
+            </Border>
+            <ContentPresenter x:Name="PART_ContentPresenter"
+                              Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              Padding="{TemplateBinding Padding}"
+                              RecognizesAccessKey="True"
+                              TextElement.Foreground="{DynamicResource OnSecondaryContainer}"
+                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+          </Panel>
+        </ControlTemplate>
+      </Setter>
+      <Style Selector="^:pointerover /template/ Border#PART_StateLayer">
+        <Setter Property="Opacity" Value="0.08" />
+      </Style>
+      <Style Selector="^:pressed /template/ Border#PART_StateLayer">
+        <Setter Property="Opacity" Value="0.10" />
+      </Style>
+      <Style Selector="^[Tag=flyout-open] /template/ Border#PART_StateLayer">
+        <Setter Property="Opacity" Value="0.10" />
+      </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="{x:Type SplitButton}" TargetType="SplitButton">
+      <Setter Property="Background" Value="{DynamicResource SecondaryContainer}" />
+      <Setter Property="Foreground" Value="{DynamicResource OnSecondaryContainer}" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusFull}" />
+      <Setter Property="MinHeight" Value="40" />
+      <Setter Property="HorizontalAlignment" Value="Left" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="HorizontalContentAlignment" Value="Center" />
+      <Setter Property="VerticalContentAlignment" Value="Center" />
+      <Setter Property="FontFamily" Value="{DynamicResource BodyFontFamily}" />
+      <Setter Property="FontSize" Value="{DynamicResource FontSizeLabelLarge}" />
+      <Setter Property="FontWeight" Value="Medium" />
+      <Setter Property="Padding" Value="20,0" />
+      <Setter Property="Template">
+        <ControlTemplate>
+          <Border Background="{TemplateBinding Background}"
+                  CornerRadius="{TemplateBinding CornerRadius}"
+                  ClipToBounds="True">
+            <Grid ColumnDefinitions="*,Auto,Auto">
+              <Button x:Name="PART_PrimaryButton"
+                      Grid.Column="0"
+                      Theme="{StaticResource M3SplitButtonSegment}"
+                      Content="{TemplateBinding Content}"
+                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                      Command="{TemplateBinding Command}"
+                      CommandParameter="{TemplateBinding CommandParameter}"
+                      CornerRadius="{TemplateBinding CornerRadius, Converter={StaticResource SplitButtonLeftCorners}}"
+                      Padding="{TemplateBinding Padding}"
+                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch"
+                      Focusable="False"
+                      KeyboardNavigation.IsTabStop="False" />
+
+              <Border Grid.Column="1" Width="1" Margin="0,8"
+                      Background="{DynamicResource OutlineVariant}" />
+
+              <Button x:Name="PART_SecondaryButton"
+                      Grid.Column="2"
+                      Theme="{StaticResource M3SplitButtonSegment}"
+                      CornerRadius="{TemplateBinding CornerRadius, Converter={StaticResource SplitButtonRightCorners}}"
+                      Padding="10,0"
+                      HorizontalContentAlignment="Center"
+                      VerticalContentAlignment="Center"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch"
+                      Focusable="False"
+                      KeyboardNavigation.IsTabStop="False">
+                <PathIcon Width="18" Height="18"
+                          Foreground="{DynamicResource OnSecondaryContainer}"
+                          Data="M1939 486L2029 576L1024 1581L19 576L109 486L1024 1401L1939 486Z" />
+              </Button>
+            </Grid>
+          </Border>
+        </ControlTemplate>
+      </Setter>
+
+      <Style Selector="^:flyout-open /template/ Button#PART_SecondaryButton">
+        <Setter Property="Tag" Value="flyout-open" />
+      </Style>
+      <Style Selector="^:disabled">
+        <Setter Property="Opacity" Value="0.38" />
+      </Style>
+    </ControlTheme>
+  </Styles.Resources>
+
+</Styles>

@@ -1,0 +1,50 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:CCSWE.Avalonia.Material.Demo.ViewModels"
+             x:Class="CCSWE.Avalonia.Material.Demo.Views.Pages.FeedbackPage"
+             x:DataType="vm:MainWindowViewModel">
+    <ScrollViewer x:DataType="vm:MainWindowViewModel">
+        <StackPanel Spacing="24" Margin="32,24,32,48">
+            <TextBlock Classes="HeadlineSmall" Text="Sliders &amp; progress" />
+            <Border Classes="Card Outlined">
+                <StackPanel Spacing="16">
+                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="SLIDER" />
+                    <Slider Minimum="0" Maximum="100" Value="60" />
+
+                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="PROGRESSBAR" />
+                    <ProgressBar Minimum="0" Maximum="100" Value="60" Height="8" />
+                    <ProgressBar IsIndeterminate="True" Height="8" />
+
+                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="TOOLTIP" />
+                    <WrapPanel>
+                        <Button Classes="Outlined" Content="Hover for tooltip" Margin="0,0,12,0"
+                                ToolTip.Tip="Tooltips show informative text when users hover, focus, or press an element." />
+                    </WrapPanel>
+
+                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="NOTIFICATIONS (NotificationCard)" />
+                    <WrapPanel>
+                        <Button Classes="FilledTonal" Content="Information" Margin="0,0,12,12" Click="OnShowInformation" />
+                        <Button Classes="FilledTonal" Content="Success" Margin="0,0,12,12" Click="OnShowSuccess" />
+                        <Button Classes="FilledTonal" Content="Warning" Margin="0,0,12,12" Click="OnShowWarning" />
+                        <Button Classes="FilledTonal" Content="Error" Margin="0,0,12,12" Click="OnShowError" />
+                    </WrapPanel>
+
+                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="REFRESHCONTAINER (pull down to reveal the M3 spinner)" />
+                    <Border Height="120" CornerRadius="{DynamicResource CornerRadiusMedium}" BorderBrush="{DynamicResource OutlineVariant}" BorderThickness="1" ClipToBounds="True">
+                        <RefreshContainer>
+                            <ScrollViewer>
+                                <StackPanel Spacing="8" Margin="16">
+                                    <TextBlock Classes="BodyMedium" Text="Pixel 8 (emulator)" />
+                                    <TextBlock Classes="BodyMedium" Text="Galaxy S23 (wifi)" />
+                                    <TextBlock Classes="BodyMedium" Text="Nexus 5X (usb)" />
+                                    <TextBlock Classes="BodySmall" Foreground="{DynamicResource OnSurfaceVariant}"
+                                               Text="Drag down from the top to show the refresh indicator." />
+                                </StackPanel>
+                            </ScrollViewer>
+                        </RefreshContainer>
+                    </Border>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

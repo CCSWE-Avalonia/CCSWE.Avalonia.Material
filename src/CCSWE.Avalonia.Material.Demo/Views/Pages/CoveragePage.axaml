@@ -1,0 +1,27 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:CCSWE.Avalonia.Material.Demo.ViewModels"
+             x:Class="CCSWE.Avalonia.Material.Demo.Views.Pages.CoveragePage"
+             x:DataType="vm:MainWindowViewModel">
+    <ScrollViewer x:DataType="vm:MainWindowViewModel">
+        <StackPanel Spacing="24" Margin="32,24,32,48">
+            <TextBlock Classes="HeadlineSmall" Text="Coverage audit" />
+            <Border Classes="Card Outlined">
+                <StackPanel Spacing="16">
+                    <TextBlock Classes="BodySmall" Foreground="{DynamicResource OnSurfaceVariant}"
+                               Text="Date &amp; time pickers — now hand-rolled to M3 (circular calendar day cells with Primary selection, SurfaceContainerHigh popups, SecondaryContainer spinner highlight)." />
+
+                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="PICKERS (DatePicker / TimePicker / CalendarDatePicker)" />
+                    <WrapPanel>
+                        <DatePicker Margin="0,0,12,12" />
+                        <TimePicker Margin="0,0,12,12" />
+                        <CalendarDatePicker Margin="0,0,12,12" />
+                    </WrapPanel>
+
+                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="CALENDAR (inline)" />
+                    <Calendar HorizontalAlignment="Left" />
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

@@ -1,0 +1,168 @@
+<!--
+  Material 3 Slider. Active track = Primary, inactive track =
+  SurfaceContainerHighest (a high-contrast neutral that reads on the dark
+  scheme). Thumb = Primary (a 20dp circle). 4dp tracks, rounded. Covers
+  Horizontal and Vertical.
+
+  Rail / fill structure (1.4.2): the inactive rail is a dedicated full-length
+  Border drawn BEHIND PART_Track. The ACTIVE fill is painted by the
+  DecreaseButton's OWN background (deterministic 4dp cross-size + trivial
+  Border template) rather than by nested RepeatButton content - the nested
+  content collapsed on the cross axis in 1.4.1, so the active fill didn't
+  render over the rail. The IncreaseButton is transparent so the rail shows
+  through the inactive portion; the Track stacks after the rail so the fill and
+  thumb sit on top. Avalonia's Slider template requires the named parts
+  PART_Track / PART_DecreaseButton / PART_IncreaseButton / thumb.
+-->
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <Styles.Resources>
+
+    <!-- Thumb look, shared by both orientations. Ellipse fill = Background (Primary) so
+         the disabled state can recolor it to a neutral via the thumb's Background. -->
+    <ControlTheme x:Key="CcsweSliderThumb" TargetType="Thumb">
+      <Setter Property="Background" Value="{DynamicResource Primary}" />
+      <Setter Property="Width" Value="20" />
+      <Setter Property="Height" Value="20" />
+      <Setter Property="Template">
+        <ControlTemplate TargetType="Thumb">
+          <Panel>
+            <Border x:Name="StateLayer" Width="40" Height="40" CornerRadius="20"
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Background="{DynamicResource Primary}" Opacity="0">
+              <Border.Transitions>
+                <Transitions><DoubleTransition Property="Opacity" Duration="{DynamicResource MotionDurationShort2}" /></Transitions>
+              </Border.Transitions>
+            </Border>
+            <Ellipse Width="20" Height="20" Fill="{TemplateBinding Background}"
+                     HorizontalAlignment="Center" VerticalAlignment="Center" />
+          </Panel>
+        </ControlTemplate>
+      </Setter>
+      <Style Selector="^:pointerover /template/ Border#StateLayer">
+        <Setter Property="Opacity" Value="0.08" />
+      </Style>
+      <Style Selector="^:pressed /template/ Border#StateLayer">
+        <Setter Property="Opacity" Value="0.10" />
+      </Style>
+    </ControlTheme>
+
+    <!-- Active fill: the RepeatButton paints its OWN background at a fixed 4dp
+         cross-size. Horizontal variant (Height-constrained). -->
+    <ControlTheme x:Key="CcsweSliderFillH" TargetType="RepeatButton">
+      <Setter Property="Background" Value="{DynamicResource Primary}" />
+      <Setter Property="Height" Value="4" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="Focusable" Value="False" />
+      <Setter Property="Template">
+        <ControlTemplate TargetType="RepeatButton">
+          <Border Background="{TemplateBinding Background}" CornerRadius="2" />
+        </ControlTemplate>
+      </Setter>
+    </ControlTheme>
+
+    <!-- Transparent track segment (inactive side - the rail behind shows through). -->
+    <ControlTheme x:Key="CcsweSliderEmpty" TargetType="RepeatButton">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="Focusable" Value="False" />
+      <Setter Property="Template">
+        <ControlTemplate TargetType="RepeatButton">
+          <Border Background="{TemplateBinding Background}" />
+        </ControlTemplate>
+      </Setter>
+    </ControlTheme>
+
+    <!-- Active fill: vertical variant (Width-constrained). -->
+    <ControlTheme x:Key="CcsweSliderFillV" TargetType="RepeatButton" BasedOn="{StaticResource CcsweSliderFillH}">
+      <Setter Property="Height" Value="NaN" />
+      <Setter Property="Width" Value="4" />
+      <Setter Property="HorizontalAlignment" Value="Center" />
+      <Setter Property="VerticalAlignment" Value="Stretch" />
+    </ControlTheme>
+
+    <ControlTheme x:Key="{x:Type Slider}" TargetType="Slider">
+      <Setter Property="Background" Value="{DynamicResource SurfaceContainerHighest}" />
+      <Setter Property="Foreground" Value="{DynamicResource Primary}" />
+      <Setter Property="MinHeight" Value="40" />
+
+      <!-- Horizontal -->
+      <Style Selector="^:horizontal">
+        <Setter Property="Template">
+          <ControlTemplate TargetType="Slider">
+            <Border Background="Transparent" Padding="0">
+              <Grid x:Name="SliderContainer" Margin="0">
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="*" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <!-- Inactive rail: full-width, behind the Track. -->
+                <Border Grid.Row="1" Height="4" CornerRadius="2" x:Name="InactiveRail"
+                        Background="{DynamicResource SurfaceContainerHighest}"
+                        VerticalAlignment="Center" />
+                <Track Grid.Row="1" x:Name="PART_Track" Minimum="{TemplateBinding Minimum}"
+                       Maximum="{TemplateBinding Maximum}" Value="{TemplateBinding Value, Mode=TwoWay}"
+                       Orientation="Horizontal">
+                  <Track.DecreaseButton>
+                    <RepeatButton x:Name="PART_DecreaseButton" Theme="{StaticResource CcsweSliderFillH}" />
+                  </Track.DecreaseButton>
+                  <Track.IncreaseButton>
+                    <RepeatButton x:Name="PART_IncreaseButton" Theme="{StaticResource CcsweSliderEmpty}" />
+                  </Track.IncreaseButton>
+                  <Thumb Theme="{StaticResource CcsweSliderThumb}" x:Name="PART_Thumb" />
+                </Track>
+              </Grid>
+            </Border>
+          </ControlTemplate>
+        </Setter>
+      </Style>
+
+      <!-- Vertical -->
+      <Style Selector="^:vertical">
+        <Setter Property="Template">
+          <ControlTemplate TargetType="Slider">
+            <Border Background="Transparent" Padding="0">
+              <Grid x:Name="SliderContainer">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <!-- Inactive rail: full-height, behind the Track. -->
+                <Border Grid.Column="1" Width="4" CornerRadius="2" x:Name="InactiveRail"
+                        Background="{DynamicResource SurfaceContainerHighest}"
+                        HorizontalAlignment="Center" />
+                <Track Grid.Column="1" x:Name="PART_Track" Minimum="{TemplateBinding Minimum}"
+                       Maximum="{TemplateBinding Maximum}" Value="{TemplateBinding Value, Mode=TwoWay}"
+                       Orientation="Vertical">
+                  <Track.DecreaseButton>
+                    <RepeatButton x:Name="PART_DecreaseButton" Theme="{StaticResource CcsweSliderFillV}" />
+                  </Track.DecreaseButton>
+                  <Track.IncreaseButton>
+                    <RepeatButton x:Name="PART_IncreaseButton" Theme="{StaticResource CcsweSliderEmpty}" />
+                  </Track.IncreaseButton>
+                  <Thumb Theme="{StaticResource CcsweSliderThumb}" x:Name="PART_Thumb" />
+                </Track>
+              </Grid>
+            </Border>
+          </ControlTemplate>
+        </Setter>
+      </Style>
+
+      <!-- Disabled: neutral recolor, not a whole-element opacity dim. Active fill +
+           thumb -> OnSurface38, inactive rail -> OnSurface12. (Thumb Ellipse reads the
+           thumb's Background; both orientations share the named rail/thumb.) -->
+      <Style Selector="^:disabled /template/ RepeatButton#PART_DecreaseButton">
+        <Setter Property="Background" Value="{DynamicResource OnSurface38}" />
+      </Style>
+      <Style Selector="^:disabled /template/ Thumb#PART_Thumb">
+        <Setter Property="Background" Value="{DynamicResource OnSurface38}" />
+      </Style>
+      <Style Selector="^:disabled /template/ Border#InactiveRail">
+        <Setter Property="Background" Value="{DynamicResource OnSurface12}" />
+      </Style>
+    </ControlTheme>
+
+  </Styles.Resources>
+</Styles>

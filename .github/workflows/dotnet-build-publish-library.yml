@@ -33,21 +33,21 @@ jobs:
           dotnet-version: 10.0.x
 
       - name: Restore
-        run: dotnet restore src/CCSWE.Avalonia.Theme.slnx
+        run: dotnet restore src/CCSWE.Avalonia.Material.slnx
 
       - name: Build
-        run: dotnet build src/CCSWE.Avalonia.Theme.slnx -c Release --no-restore /p:ContinuousIntegrationBuild=true
+        run: dotnet build src/CCSWE.Avalonia.Material.slnx -c Release --no-restore /p:ContinuousIntegrationBuild=true
 
       - name: Test
         run: |
           if [ -n "$(find . -name '*.Tests.csproj' -o -name '*.UnitTests.csproj' 2>/dev/null)" ]; then
-            dotnet test src/CCSWE.Avalonia.Theme.slnx -c Release --no-build --verbosity normal
+            dotnet test src/CCSWE.Avalonia.Material.slnx -c Release --no-build --verbosity normal
           else
             echo "No test projects yet — skipping."
           fi
 
       - name: Pack
-        run: dotnet pack src/CCSWE.Avalonia.Theme/CCSWE.Avalonia.Theme.csproj -c Release --no-build -o "${{ github.workspace }}/artifacts"
+        run: dotnet pack src/CCSWE.Avalonia.Material/CCSWE.Avalonia.Material.csproj -c Release --no-build -o "${{ github.workspace }}/artifacts"
 
       - name: Upload package artifacts
         uses: actions/upload-artifact@v7

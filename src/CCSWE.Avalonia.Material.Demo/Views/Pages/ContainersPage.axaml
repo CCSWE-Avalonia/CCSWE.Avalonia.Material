@@ -1,0 +1,110 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:CCSWE.Avalonia.Material.Demo.ViewModels"
+             x:Class="CCSWE.Avalonia.Material.Demo.Views.Pages.ContainersPage"
+             x:DataType="vm:MainWindowViewModel">
+    <ScrollViewer x:DataType="vm:MainWindowViewModel">
+        <StackPanel Spacing="24" Margin="32,24,32,48">
+            <TextBlock Classes="HeadlineSmall" Text="Containers" />
+            <Border Classes="Card Outlined">
+                <StackPanel Spacing="16">
+                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="EXPANDER" />
+                    <Expander Header="Advanced options">
+                        <StackPanel Spacing="8">
+                            <CheckBox Content="Connect automatically on launch" />
+                            <CheckBox Content="Keep screen awake while connected" IsChecked="True" />
+                        </StackPanel>
+                    </Expander>
+
+                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="CARD VARIANTS" />
+                    <Grid ColumnDefinitions="*,*,*" ColumnSpacing="16">
+                        <Border Grid.Column="0" Classes="Card Elevated">
+                            <TextBlock Classes="TitleSmall" Text="Elevated" />
+                        </Border>
+                        <Border Grid.Column="1" Classes="Card Filled">
+                            <TextBlock Classes="TitleSmall" Text="Filled" />
+                        </Border>
+                        <Border Grid.Column="2" Classes="Card Outlined">
+                            <TextBlock Classes="TitleSmall" Text="Outlined" />
+                        </Border>
+                    </Grid>
+
+                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="GROUPBOX" />
+                    <GroupBox Header="Connection">
+                        <StackPanel Spacing="8" Margin="0,8,0,0">
+                            <Label Content="Server address" />
+                            <SelectableTextBlock Text="vpn.ccswe.example.com — select and copy this text" />
+                        </StackPanel>
+                    </GroupBox>
+
+                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="GRIDSPLITTER" />
+                    <Grid ColumnDefinitions="*,Auto,*" Height="80">
+                        <Border Grid.Column="0" Classes="Card Filled">
+                            <TextBlock Classes="BodySmall" Text="Left pane" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        </Border>
+                        <GridSplitter Grid.Column="1" Width="4" Margin="6,0" />
+                        <Border Grid.Column="2" Classes="Card Filled">
+                            <TextBlock Classes="BodySmall" Text="Right pane" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        </Border>
+                    </Grid>
+
+                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="TABBEDPAGE (primary tabs)" />
+                    <Border Height="200" CornerRadius="{DynamicResource CornerRadiusMedium}" BorderBrush="{DynamicResource OutlineVariant}" BorderThickness="1" ClipToBounds="True">
+                        <TabbedPage>
+                            <ContentPage Header="Home">
+                                <TextBlock Classes="BodyMedium" Text="Home page content" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </ContentPage>
+                            <ContentPage Header="Devices">
+                                <TextBlock Classes="BodyMedium" Text="Devices page content" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </ContentPage>
+                            <ContentPage Header="Settings">
+                                <TextBlock Classes="BodyMedium" Text="Settings page content" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </ContentPage>
+                        </TabbedPage>
+                    </Border>
+
+                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="NAVIGATIONPAGE (top app bar)" />
+                    <Border Height="160" CornerRadius="{DynamicResource CornerRadiusMedium}" BorderBrush="{DynamicResource OutlineVariant}" BorderThickness="1" ClipToBounds="True">
+                        <NavigationPage>
+                            <ContentPage Header="Connected devices">
+                                <TextBlock Classes="BodyMedium" Text="Page content sits below the M3 top app bar." HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </ContentPage>
+                        </NavigationPage>
+                    </Border>
+
+                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="HEADEREDCONTENTCONTROL / ITEMSCONTROL" />
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="16">
+                        <HeaderedContentControl Grid.Column="0">
+                            <HeaderedContentControl.Header>
+                                <TextBlock Classes="TitleSmall" Text="Header" />
+                            </HeaderedContentControl.Header>
+                            <TextBlock Classes="BodyMedium" Margin="0,4,0,0" Text="Headered content body." />
+                        </HeaderedContentControl>
+                        <ItemsControl Grid.Column="1">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Spacing="4" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <TextBlock Classes="BodyMedium" Text="• adb devices" />
+                            <TextBlock Classes="BodyMedium" Text="• adb logcat" />
+                            <TextBlock Classes="BodyMedium" Text="• adb install" />
+                        </ItemsControl>
+                    </Grid>
+
+                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="CAROUSELPAGE (swipe / drag between pages)" />
+                    <Border Height="160" CornerRadius="{DynamicResource CornerRadiusMedium}" BorderBrush="{DynamicResource OutlineVariant}" BorderThickness="1" ClipToBounds="True">
+                        <CarouselPage>
+                            <ContentPage Header="Page 1">
+                                <TextBlock Classes="BodyMedium" Text="First page — drag horizontally to advance" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </ContentPage>
+                            <ContentPage Header="Page 2">
+                                <TextBlock Classes="BodyMedium" Text="Second page" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </ContentPage>
+                        </CarouselPage>
+                    </Border>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

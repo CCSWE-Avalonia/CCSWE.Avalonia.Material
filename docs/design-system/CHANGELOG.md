@@ -1,5 +1,151 @@
 # Changelog — CCSWE Avalonia Design System
 
+## 2.1.0 — 2026-06-05 — semantic status roles: Success / Warning / Info
+
+**Design System (Avalonia):** 2.0.0 → 2.1.0
+**Tokens:** 1.1.0 (unchanged upstream) · **Avalonia:** 12.0.4
+
+Acts on `ds-feedback/semantic-status-tokens.md` — the one open round-trip note against the
+v2 baseline. The consumer is hand-rolling `NotificationCard` to M3 (severities
+`:information` / `:success` / `:warning` / `:error`) and has only `Error*` to work with;
+`warning` and `information` fall back to a neutral surface. This cycle adds the three missing
+status families. **Tokens-only, additive — no existing role/key/value changes.**
+
+### Added — status color roles (Tokens.axaml, both ThemeDictionaries)
+
+Three M3 "custom color role" quads, each emitted exactly like the existing `Error*` set
+(paired `Color` + `SolidColorBrush`, Dark + Light):
+
+- `Success` / `OnSuccess` / `SuccessContainer` / `OnSuccessContainer`
+- `Warning` / `OnWarning` / `WarningContainer` / `OnWarningContainer`
+- `Info` / `OnInfo` / `InfoContainer` / `OnInfoContainer`
+
+`NotificationCard` can now map `:success` → `SuccessContainer`/`OnSuccessContainer`,
+`:warning` → `WarningContainer`/`OnWarningContainer`, `:information` →
+`InfoContainer`/`OnInfoContainer` — retiring the interim `TertiaryContainer` (success) and
+neutral-`InverseSurface` (warning/info) proxies.
+
+### Sourcing (a desktop decision — recorded in `tokens.local.json` `statusRoles`)
+
+The upstream semantic layer carries **only** `error`. Rather than invent palettes, the new
+roles reuse the curated, contrast-tuned colors already in the system:
+
+- **Success** ← the Android **green** stoplight variant accent (`variants.json`):
+  `primary→Success`, `onPrimary→OnSuccess`, `primaryContainer→SuccessContainer`,
+  `onPrimaryContainer→OnSuccessContainer`. (Dark `#FF4B8349` / Light `#FF3B863D`.)
+- **Warning** ← the Android **yellow** variant accent, same quad mapping.
+  (Dark `#FF936F04` / Light `#FFFABD00`; light `OnWarning` is the dark ink `#FF02101C`.)
+- **Info** ← **deliberately the Primary family** (brand blue). No blue variant exists and the
+  brand primary is already blue, so `Info == Primary` on purpose (Dark `#FF659EC7` / Light
+  `#FF336699` + the matching `primaryContainer` pair). Documented as intentional in
+  `statusRoles.sourcing.info` so a future reader doesn't "fix" it; revisit only if a distinct
+  info-blue is wanted.
+
+### Canonicalization — flagged upstream
+
+These are emitted at the desktop emit boundary (this DS consumes `tokens.upstream-1.1.0.json`
+verbatim and does not hand-edit it). `tokens.local.json` records the values + an
+`upstreamRequest`: **add Success/Warning/Info (container + on-container pairs) to the shared
+semantic layer** per M3 custom color roles, so web + Android + desktop converge. When upstream
+adopts them, `statusRoles` becomes a verbatim consumer and the sourcing notes retire.
+
+### Schemes
+
+- **Dark + Light only** — matches the emitted surface. The variant accents carry
+  `darkHighContrast`/`lightHighContrast` too, but desktop emits no HC schemes yet (same status
+  as the upstream HC schemes); HC status values get captured when an HC toggle lands.
+
+### Docs / preview / bundle
+
+- All emitted `*.axaml` headers stamped **v2.1.0** (4 files); `Tokens.axaml` header gains a
+  status-roles note.
+- **README / HANDOFF / CONVENTIONS** note the status roles in the emitted surface +
+  fresh-bundle verification.
+- **Preview.html** — the color-roles showcase gains a **Status** group (Success/Warning/Info
+  quads), chip → `DS 2.1.0`.
+- `tokens.preview.css` **regenerated** from `Tokens.axaml` (the status roles now appear as
+  `--success` / `--warning` / `--info` + container vars).
+- `ccswe-avalonia-bundle.zip` rebuilt.
+
+### Compile / runtime-verification owed (consumer)
+
+- Drop the updated `Tokens.axaml` in verbatim; confirm `MaterialTheme` resolves the 12 new
+  brushes/colors with no missing-resource errors, and that Dark/Light variant switch repaints
+  the new role brushes alongside the rest.
+- Re-point `NotificationCard` severities at the real roles (drop the `TertiaryContainer` /
+  `InverseSurface` proxies) and run the Dark + Light visual pass on all four severities.
+
+---
+
+## 2.0.0 — 2026-06-05 — v2 restructure: tokens-only emit + rename to CCSWE.Avalonia.Material
+
+**Design System (Avalonia):** 1.7.3 → 2.0.0 (**breaking**)
+**Tokens:** 1.1.0 (unchanged) · **Avalonia:** 12.0.4
+
+Acts on `ds-feedback/v2-tokens-only-restructure.md`. The desktop library moved to a
+**standalone, no-base Material 3 theme** (no `FluentTheme`/`SimpleTheme`) — it now hand-authors
+every M3 control theme and a forked `Base/` infra layer, exposing one `<theme:MaterialTheme/>`
+entry. So the emit-vs-own line moved: the DS **narrows to the token layer** and stops emitting
+control templates + the Fluent-coupled glue. This mirrors the **Android** DS, which translates
+tokens for a framework-native M3 component library and never generates the component templates.
+The single v2 guidance supersedes all prior incremental ds-feedback notes.
+
+### Renamed — `CCSWE.Avalonia.Theme` → `CCSWE.Avalonia.Material` (everywhere the emitter produces)
+
+- The emitted folder/library root, the assembly/package id/root namespace, and every
+  `avares://CCSWE.Avalonia.Theme/...` URI → `avares://CCSWE.Avalonia.Material/...` (the only
+  emitted file carrying an `avares://` URI is now `Fonts.axaml`).
+- The "AUTO-GENERATED by CCSWE Design System" file headers are kept on emitted files (their
+  presence is how the library distinguishes DS-emitted from hand-authored).
+- Repo is now `https://github.com/CoryCharlton/CCSWE.Avalonia.Material` (old packages unlisted).
+
+### Emitted surface (v2) — token layer only
+
+- **`Tokens.axaml`** — Dark/Light color roles + disabled/scrim alpha brushes + theme-invariant
+  metrics: `CornerRadius*`, `Spacing*` (double + Thickness), and **NEW: the M3 type-size scale
+  `FontSize<Role>`** (all 15 roles, `FontSizeDisplayLarge` … `FontSizeLabelSmall`, `x:Double`).
+  The library hand-added these `FontSize*` tokens during the v1.x no-base migration; the DS now
+  owns and emits them.
+- **`Typography.axaml`** — the 15-role type-scale `TextBlock` classes; `FontSize` setters now
+  **reference the `FontSize*` tokens** (via `DynamicResource`, for reliable cross-file resolution)
+  instead of inlined sizes. `LineHeight`/`FontWeight`/`LetterSpacing` stay inline (per-role).
+- **`Motion.axaml`**, **`Fonts.axaml`** — unchanged but for the rename + header restamp.
+
+That is the entire emitted surface (4 files + the `Assets/Fonts/` acquisition scripts).
+
+### Removed from the emitted surface (now library-owned)
+
+- **`Controls/*.axaml`** (all 19) — framework-coupled M3 control templates (`PART_*`,
+  pseudo-classes, Avalonia version quirks); not a pure function of tokens.
+- **`Theme.axaml`** — replaced by the library-owned `MaterialTheme` entry (`Styles` subclass).
+- **`FluentOverrides.axaml`** — deleted; there is no base theme to remap, so the bucket-1/2/2b
+  accent + neutral-chrome + page-shell-token overrides are all moot.
+- **`App.sample.axaml`** — the FluentTheme-wiring snippet is obsolete; wiring is one
+  `<theme:MaterialTheme/>` line, documented in README/HANDOFF.
+
+### Docs
+
+- **README / HANDOFF / CONVENTIONS** rewritten for the tokens-only, no-base, renamed v2.
+  CONVENTIONS keeps the token/resource-naming + `DynamicResource` rules and retires the
+  framework-coupled control-template conventions (they move to the library).
+- **`FONTS.md`** — rename references (`avares://` URIs, the `Assets/Fonts/` path).
+- **`FLUENT-AUDIT.md` — retired/deleted.** With no FluentTheme base there is no override audit.
+- All emitted `*.axaml` headers stamped **v2.0.0** (4 files).
+- **Preview.html** rebuilt as a **token-layer** showcase (colors / type scale + `FontSize` tokens /
+  shape / spacing / motion) — the control galleries are gone, matching what the DS now emits.
+- `tokens.preview.css` regenerated from `Tokens.axaml`.
+- `ccswe-avalonia-bundle.zip` rebuilt — the four token files + `Assets/Fonts/` + docs, renamed root.
+
+### Compile / runtime-verification owed (consumer)
+
+- Drop the four emitted files into `CCSWE.Avalonia.Material` verbatim; confirm `MaterialTheme`
+  resolves them (no missing-resource errors) and the `FontSize*` tokens feed both `Typography.axaml`
+  and any direct control-theme `FontSize` references.
+- Confirm Dark/Light variant switch still repaints every role brush, and the rename left no
+  stale `avares://CCSWE.Avalonia.Theme/...` URI anywhere in the library.
+
+---
+
 ## 1.7.3 — 2026-06-05 — DrawerPage content slot: token remap (supersedes the no-op 1.7.2)
 
 **Design System (Avalonia):** 1.7.2 → 1.7.3
