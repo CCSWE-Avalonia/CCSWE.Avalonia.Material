@@ -60,7 +60,7 @@ dotnet test src/CCSWE.Avalonia.Material.slnx
 dotnet test src/CCSWE.Avalonia.Material.slnx --filter "FullyQualifiedName~ClassName"
 ```
 
-The SDK is pinned to `10.0.0` (`rollForward: latestMinor`) via the root `global.json`. `src/Directory.Build.props` applies `LangVersion=preview`, `ImplicitUsings=enable`, and `Nullable=enable` solution-wide, and references JetBrains.Annotations and Nerdbank.GitVersioning (version derived from git history — base `0.1` in the root `version.json`).
+The SDK is pinned to `10.0.0` (`rollForward: latestMinor`) via the root `global.json`. `src/Directory.Build.props` applies `LangVersion=preview`, `ImplicitUsings=enable`, and `Nullable=enable` solution-wide, and references JetBrains.Annotations and Nerdbank.GitVersioning (version derived from git history — base `12.0` in the root `version.json`).
 
 ## Package management
 
@@ -70,7 +70,7 @@ Keep the Avalonia package versions (`Avalonia`, `Avalonia.Desktop`, etc.) in loc
 
 ## Publishing
 
-The library publishes to **NuGet.org** as `CCSWE.Avalonia.Material`. Versioning is **Nerdbank.GitVersioning** (root `version.json`, base `0.1` → `0.1.x`). Shared package metadata lives in `src/Directory.Build.props`; per-package metadata (description, tags, README) in the library csproj. The Demo sets `IsPackable=false`. SourceLink + `snupkg` symbols are enabled.
+The library publishes to **NuGet.org** as `CCSWE.Avalonia.Material`. Versioning is **Nerdbank.GitVersioning** (root `version.json`, base `12.0` → `12.0.x`). **The major version tracks the supported Avalonia major** (12.x → Avalonia 12.x; bump to 13.x when retargeting Avalonia 13) — this mirrors the Semi.Avalonia convention and reflects the library's tight coupling to Avalonia's control templates. Minor/patch are the library's own (features/fixes), **not** Avalonia's minor/patch. Shared package metadata lives in `src/Directory.Build.props`; per-package metadata (description, tags, README) in the library csproj. The Demo sets `IsPackable=false`. SourceLink + `snupkg` symbols are enabled.
 
 CI (`.github/workflows/dotnet-build-publish-library.yml`): pushes to **`master`** build + test + pack + **publish to NuGet.org** (via the `NUGET_API_KEY` secret); PRs build + test only. NuGet versions are immutable, so every `master` push is an immutable public release. There is no committed `nuget.config` with credentials.
 

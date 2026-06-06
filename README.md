@@ -27,6 +27,10 @@ package.
 dotnet add package CCSWE.Avalonia.Material
 ```
 
+> **Versioning:** the **major version tracks the supported Avalonia major** — `12.x`
+> targets **Avalonia 12.x**. Pick the major that matches your Avalonia version; minor/patch
+> are this library's own features and fixes.
+
 Then add one element to your `App.axaml` (full sample in
 [`docs/samples/App.sample.axaml`](docs/samples/App.sample.axaml)):
 
