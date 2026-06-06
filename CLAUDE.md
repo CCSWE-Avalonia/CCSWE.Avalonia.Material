@@ -94,6 +94,7 @@ Conventions when working on the theme (full detail in `docs/design-system/CONVEN
 - **`DynamicResource` inside `ControlTheme`s — always**, for color/metric/motion refs. `StaticResource` freezes a brush at parse time so the control won't repaint on a `ThemeVariant` flip (a real bug). `StaticResource` is only for same-file structural refs (`BasedOn=`, `Theme=` assignments).
 - **Control themes** are full templates (no base theme to `BasedOn`), honoring required Avalonia part names (`PART_*`) and the standard pseudo-classes (`:checked`, `:error`, `:focus-within`, …). `ControlTheme`s must be declared inside `<Styles.Resources>`.
 - Files are `AvaloniaResource` (auto-globbed for axaml; fonts included explicitly in the csproj) and resolve via `avares://CCSWE.Avalonia.Material/...` URIs.
+- **Include ordering in `MaterialTheme.axaml`:** group by folder (root token files → `Base/*` → Typography → `Controls/*`) and alphabetize within each group, **except** where order is load-bearing — keep such exceptions together with a comment. Current exceptions: the `Base/` shims `SimplePalette` → `Strings` → `BaseAliases` (BaseAliases overrides SimplePalette keys via last-wins, so it stays last) and the whole `Controls/*` group applying after `Base/*`. (This mirrors the alphabetize-within-group rule in Coding Standards.)
 
 ## Reference implementations (pull the source — don't guess)
 
