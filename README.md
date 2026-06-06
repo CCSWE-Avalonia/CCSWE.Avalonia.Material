@@ -1,8 +1,9 @@
 # CCSWE.Avalonia.Material
 
-[![Build](https://github.com/CoryCharlton/CCSWE.Avalonia.Material/actions/workflows/dotnet-build-publish-library.yml/badge.svg)](https://github.com/CoryCharlton/CCSWE.Avalonia.Material/actions/workflows/dotnet-build-publish-library.yml)
+[![Build](https://img.shields.io/github/actions/workflow/status/CoryCharlton/CCSWE.Avalonia.Material/dotnet-build-publish-library.yml?branch=master&label=build)](https://github.com/CoryCharlton/CCSWE.Avalonia.Material/actions/workflows/dotnet-build-publish-library.yml)
 [![NuGet](https://img.shields.io/nuget/v/CCSWE.Avalonia.Material.svg)](https://www.nuget.org/packages/CCSWE.Avalonia.Material)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.md)
+[![Downloads](https://img.shields.io/nuget/dt/CCSWE.Avalonia.Material.svg)](https://www.nuget.org/packages/CCSWE.Avalonia.Material)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
 
 A standalone **Material 3** theme for [Avalonia](https://avaloniaui.net) 12 — a
 Dark/Light color system, the M3 type scale, motion, embedded brand fonts, and M3
