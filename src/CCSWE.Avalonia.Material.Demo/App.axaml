@@ -1,10 +1,26 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:theme="using:CCSWE.Avalonia.Material"
+             xmlns:views="using:CCSWE.Avalonia.Material.Demo.Views"
              x:Class="CCSWE.Avalonia.Material.Demo.App"
              RequestedThemeVariant="Dark">
              <!-- Dark is the CCSWE app default (matches web + upstream intent).
                   The Demo flips this at runtime via the header toggle. -->
+
+    <Application.Resources>
+        <!-- Gallery section pages: scrollable content host. PART_Scroll is exposed by
+             GalleryPage so the record-mode tour can drive a smooth scroll. -->
+        <ControlTheme x:Key="{x:Type views:GalleryPage}" TargetType="views:GalleryPage">
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <ScrollViewer x:Name="PART_Scroll">
+                        <ContentPresenter Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}" />
+                    </ScrollViewer>
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
+    </Application.Resources>
 
     <Application.Styles>
         <!-- One-stop CCSWE Material 3 theme: supplies the whole control surface itself

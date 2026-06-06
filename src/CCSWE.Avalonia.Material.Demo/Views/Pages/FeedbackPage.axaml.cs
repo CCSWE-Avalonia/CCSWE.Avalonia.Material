@@ -5,7 +5,7 @@ using Avalonia.Interactivity;
 
 namespace CCSWE.Avalonia.Material.Demo.Views.Pages;
 
-public partial class FeedbackPage : UserControl
+public partial class FeedbackPage : GalleryPage
 {
     private WindowNotificationManager? _notificationManager;
 

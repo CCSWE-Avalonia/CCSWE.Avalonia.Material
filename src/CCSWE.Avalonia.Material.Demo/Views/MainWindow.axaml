@@ -7,7 +7,8 @@
         mc:Ignorable="d" d:DesignWidth="1100" d:DesignHeight="760"
         x:Class="CCSWE.Avalonia.Material.Demo.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
-        Width="1100" Height="760"
+        Width="1024" Height="768"
+        WindowStartupLocation="CenterScreen"
         Background="{DynamicResource Surface}"
         Icon="/Assets/ccswe-logo.ico"
         Title="CCSWE.Avalonia.Material.Demo">
@@ -41,6 +42,7 @@
          drawer drives the gallery. DrawerHeader = brand, Drawer = destinations,
          DrawerFooter = theme toggle, Content = a TransitioningContentControl (PageHost)
          that shows one page per nav index (NavIndexToPageConverter). XAML-only. -->
+    <Panel>
     <DrawerPage x:Name="Shell" DrawerBehavior="Locked" IsOpen="True">
 
         <!-- Brand header -->
@@ -199,5 +201,19 @@
         </Border>
 
     </DrawerPage>
+
+        <!-- Record-mode countdown: shown during the start delay so an external recorder can be
+             armed, then hidden when one second remains so it isn't captured. -->
+        <Border x:Name="CountdownOverlay"
+                IsVisible="False"
+                Background="{DynamicResource Scrim32}"
+                HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <TextBlock x:Name="CountdownText"
+                       Classes="DisplayLarge"
+                       Foreground="{DynamicResource OnSurface}"
+                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Border>
+
+    </Panel>
 
 </Window>
