@@ -1,0 +1,85 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <Styles.Resources>
+    <ControlTheme x:Key="{x:Type CalendarDatePicker}" TargetType="CalendarDatePicker">
+      <Setter Property="PlaceholderForeground" Value="{DynamicResource OnSurfaceVariant}" />
+      <Setter Property="Template">
+        <ControlTemplate>
+          <Grid ColumnDefinitions="*,Auto">
+
+            <Grid.Styles>
+              <!-- Trailing calendar-icon button: M3 icon button (circular state layer). -->
+              <Style Selector="Button.CalendarDropDown">
+                <Setter Property="Template">
+                  <ControlTemplate>
+                    <Border Name="Root" Background="Transparent"
+                            Width="32" Height="32"
+                            CornerRadius="{DynamicResource CornerRadiusFull}">
+                      <Panel>
+                        <Border Name="StateLayer"
+                                CornerRadius="{DynamicResource CornerRadiusFull}"
+                                Background="{DynamicResource OnSurfaceVariant}"
+                                Opacity="0" />
+                        <PathIcon Width="20" Height="20"
+                                  Foreground="{DynamicResource OnSurfaceVariant}"
+                                  Data="M19,4h-1V2h-2v2H8V2H6v2H5C3.89,4 3,4.9 3,6v14c0,1.1 0.89,2 2,2h14c1.1,0 2,-0.9 2,-2V6C21,4.9 20.1,4 19,4zm0,16H5V10h14V20zm0,-12H5V6h14V8z" />
+                      </Panel>
+                    </Border>
+                  </ControlTemplate>
+                </Setter>
+              </Style>
+              <Style Selector="Button.CalendarDropDown:pointerover /template/ Border#StateLayer">
+                <Setter Property="Opacity" Value="0.08" />
+              </Style>
+              <Style Selector="Button.CalendarDropDown:pressed /template/ Border#StateLayer">
+                <Setter Property="Opacity" Value="0.10" />
+              </Style>
+            </Grid.Styles>
+
+            <!-- The field uses the M3 {x:Type TextBox} theme (owns surface/border/focus). -->
+            <TextBox Name="PART_TextBox"
+                     Grid.Column="0"
+                     HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                     VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                     DataValidationErrors.Errors="{TemplateBinding (DataValidationErrors.Errors)}"
+                     UseFloatingPlaceholder="{TemplateBinding UseFloatingPlaceholder}"
+                     PlaceholderText="{TemplateBinding PlaceholderText}"
+                     PlaceholderForeground="{TemplateBinding PlaceholderForeground}" />
+
+            <Button Name="PART_Button"
+                    Grid.Column="1"
+                    Margin="4,0,0,0"
+                    Padding="0"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Classes="CalendarDropDown"
+                    VerticalAlignment="Center"
+                    Focusable="False" />
+
+            <Popup Name="PART_Popup"
+                   PlacementTarget="{TemplateBinding}"
+                   WindowManagerAddShadowHint="True"
+                   IsLightDismissEnabled="True">
+              <Border Background="{DynamicResource SurfaceContainerHigh}"
+                      BorderBrush="{DynamicResource OutlineVariant}"
+                      BorderThickness="1"
+                      CornerRadius="{DynamicResource CornerRadiusMedium}"
+                      Padding="4"
+                      Margin="0,4,0,0">
+                <Calendar Name="PART_Calendar"
+                          DisplayDate="{TemplateBinding DisplayDate}"
+                          DisplayDateEnd="{TemplateBinding DisplayDateEnd}"
+                          DisplayDateStart="{TemplateBinding DisplayDateStart}"
+                          FirstDayOfWeek="{TemplateBinding FirstDayOfWeek}"
+                          IsTodayHighlighted="{TemplateBinding IsTodayHighlighted}"
+                          SelectedDate="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectedDate, Mode=TwoWay}" />
+              </Border>
+            </Popup>
+          </Grid>
+        </ControlTemplate>
+      </Setter>
+    </ControlTheme>
+  </Styles.Resources>
+
+</Styles>

@@ -9,7 +9,7 @@
             <Border Classes="Card Outlined">
                 <StackPanel Spacing="16">
                     <TextBlock Classes="BodySmall" Foreground="{DynamicResource OnSurfaceVariant}"
-                               Text="Remaining gap: controls not yet hand-rolled to M3 — they render via the interim forked-Simple base until promoted." />
+                               Text="Date &amp; time pickers — now hand-rolled to M3 (circular calendar day cells with Primary selection, SurfaceContainerHigh popups, SecondaryContainer spinner highlight)." />
 
                     <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="PICKERS (DatePicker / TimePicker / CalendarDatePicker)" />
                     <WrapPanel>

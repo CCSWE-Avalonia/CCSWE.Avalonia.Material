@@ -40,7 +40,7 @@
       </Style>
       <Style Selector="^/template/ ContentPresenter">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{DynamicResource ThemeForegroundBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource OnSurface}" />
       </Style>
     </Style>
     <Style Selector="^.MonthItem">
@@ -52,7 +52,7 @@
   <!--  This is used for both the accept/dismiss & repeatbuttons in the presenter  -->
   <ControlTheme x:Key="SimpleDateTimePickerButton"
                 TargetType="Button">
-    <Setter Property="Background" Value="{DynamicResource ThemeControlTransparentBrush}" />
+    <Setter Property="Background" Value="Transparent" />
     <Setter Property="Height" Value="22" />
     <Setter Property="HorizontalContentAlignment" Value="Center" />
     <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -69,28 +69,28 @@
                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                             Background="{TemplateBinding Background}"
-                            BorderBrush="{DynamicResource ThemeControlTransparentBrush}"
+                            BorderBrush="Transparent"
                             BorderThickness="{DynamicResource DateTimeFlyoutButtonBorderThickness}"
                             Content="{TemplateBinding Content}"
                             ContentTemplate="{TemplateBinding ContentTemplate}"
                             CornerRadius="{TemplateBinding CornerRadius}"
-                            Foreground="{DynamicResource ThemeForegroundBrush}" />
+                            Foreground="{DynamicResource OnSurface}" />
         </Border>
       </ControlTemplate>
     </Setter>
 
     <Style Selector="^:pointerover /template/ ContentPresenter">
-      <Setter Property="BorderBrush" Value="{DynamicResource ThemeControlHighBrush}" />
-      <Setter Property="TextElement.Foreground" Value="{DynamicResource ThemeForegroundBrush}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource Outline}" />
+      <Setter Property="TextElement.Foreground" Value="{DynamicResource OnSurface}" />
     </Style>
 
     <Style Selector="^:pressed /template/ ContentPresenter">
       <Setter Property="Background">
         <SolidColorBrush Opacity="0.6"
-                         Color="{DynamicResource ThemeControlMidHighColor}" />
+                         Color="{DynamicResource SurfaceContainerHighestColor}" />
       </Setter>
-      <Setter Property="BorderBrush" Value="{DynamicResource ThemeControlLowBrush}" />
-      <Setter Property="TextElement.Foreground" Value="{DynamicResource ThemeForegroundBrush}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource Outline}" />
+      <Setter Property="TextElement.Foreground" Value="{DynamicResource OnSurface}" />
     </Style>
   </ControlTheme>
 
@@ -101,7 +101,7 @@
     <Setter Property="Height" Value="22" />
     <Setter Property="HorizontalAlignment" Value="Stretch" />
     <Setter Property="Focusable" Value="False" />
-    <Setter Property="Background" Value="{DynamicResource ThemeControlHighlightLowBrush}" />
+    <Setter Property="Background" Value="{DynamicResource SurfaceContainerHighest}" />
     <Setter Property="IsVisible" Value="False" />
     <Setter Property="Content">
       <Template>
@@ -124,7 +124,7 @@
     <Setter Property="Height" Value="22" />
     <Setter Property="HorizontalAlignment" Value="Stretch" />
     <Setter Property="Focusable" Value="False" />
-    <Setter Property="Background" Value="{DynamicResource ThemeControlHighlightLowBrush}" />
+    <Setter Property="Background" Value="{DynamicResource SurfaceContainerHighest}" />
     <Setter Property="IsVisible" Value="False" />
     <Setter Property="Content">
       <Template>

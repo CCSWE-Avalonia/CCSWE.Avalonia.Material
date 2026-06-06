@@ -59,17 +59,17 @@
     </Setter>
 
     <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="BorderBrush" Value="{DynamicResource ThemeControlHighBrush}" />
-      <Setter Property="TextBlock.Foreground" Value="{DynamicResource ThemeForegroundBrush}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource Outline}" />
+      <Setter Property="TextBlock.Foreground" Value="{DynamicResource OnSurface}" />
     </Style>
 
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="BorderBrush" Value="{DynamicResource ThemeControlLowBrush}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource Outline}" />
       <Setter Property="Background">
         <SolidColorBrush Opacity="0.6"
-                         Color="{DynamicResource ThemeControlMidHighColor}" />
+                         Color="{DynamicResource SurfaceContainerHighestColor}" />
       </Setter>
-      <Setter Property="TextBlock.Foreground" Value="{DynamicResource ThemeForegroundBrush}" />
+      <Setter Property="TextBlock.Foreground" Value="{DynamicResource OnSurface}" />
     </Style>
 
     <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
@@ -79,10 +79,10 @@
 
   <ControlTheme x:Key="{x:Type DatePicker}"
                 TargetType="DatePicker">
-    <Setter Property="FontSize" Value="{DynamicResource FontSizeNormal}" />
-    <Setter Property="Foreground" Value="{DynamicResource ThemeForegroundBrush}" />
-    <Setter Property="Background" Value="{DynamicResource ThemeBackgroundBrush}" />
-    <Setter Property="BorderBrush" Value="{DynamicResource ThemeControlHighlightMidBrush}" />
+    <Setter Property="FontSize" Value="{DynamicResource FontSizeBodyLarge}" />
+    <Setter Property="Foreground" Value="{DynamicResource OnSurface}" />
+    <Setter Property="Background" Value="{DynamicResource Surface}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource Outline}" />
     <Setter Property="BorderThickness" Value="1" />
     <Setter Property="HorizontalAlignment" Value="Left" />
     <Setter Property="VerticalAlignment" Value="Center" />
@@ -132,12 +132,12 @@
                            Grid.Column="1"
                            Width="1"
                            HorizontalAlignment="Center"
-                           Fill="{DynamicResource DatePickerSpacerFill}" />
+                           Fill="{DynamicResource OutlineVariant}" />
                 <Rectangle x:Name="PART_SecondSpacer"
                            Grid.Column="3"
                            Width="1"
                            HorizontalAlignment="Center"
-                           Fill="{DynamicResource DatePickerSpacerFill}" />
+                           Fill="{DynamicResource OutlineVariant}" />
               </Grid>
             </Button>
 
@@ -160,7 +160,7 @@
 
     <!--  Changes foreground for watermark text when SelectedDate is null  -->
     <Style Selector="^:hasnodate /template/ Button#PART_FlyoutButton TextBlock">
-      <Setter Property="Foreground" Value="{DynamicResource ThemeForegroundLowBrush}" />
+      <Setter Property="Foreground" Value="{DynamicResource OnSurfaceVariant}" />
     </Style>
   </ControlTheme>
 
@@ -171,9 +171,9 @@
     <Setter Property="MinWidth" Value="296" />
     <Setter Property="MaxHeight" Value="398" />
     <Setter Property="FontWeight" Value="Normal" />
-    <Setter Property="FontSize" Value="{DynamicResource FontSizeNormal}" />
-    <Setter Property="Background" Value="{DynamicResource ThemeBackgroundBrush}" />
-    <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderMidBrush}" />
+    <Setter Property="FontSize" Value="{DynamicResource FontSizeBodyLarge}" />
+    <Setter Property="Background" Value="{DynamicResource SurfaceContainerHigh}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource OutlineVariant}" />
     <Setter Property="BorderThickness" Value="{DynamicResource DateTimeFlyoutBorderThickness}" />
     <Setter Property="Template">
       <ControlTemplate>
@@ -240,20 +240,19 @@
                          IsHitTestVisible="False"
                          ZIndex="-1">
                 <Rectangle.Fill>
-                  <SolidColorBrush Opacity="0.6"
-                                   Color="{DynamicResource ThemeAccentColor}" />
+                  <SolidColorBrush Color="{DynamicResource SecondaryContainerColor}" />
                 </Rectangle.Fill>
               </Rectangle>
               <Rectangle Name="PART_FirstSpacer"
                          Grid.Column="1"
                          Width="{DynamicResource DatePickerSpacerThemeWidth}"
                          HorizontalAlignment="Center"
-                         Fill="{DynamicResource ThemeControlMidHighBrush}" />
+                         Fill="{DynamicResource OutlineVariant}" />
               <Rectangle Name="PART_SecondSpacer"
                          Grid.Column="3"
                          Width="{DynamicResource DatePickerSpacerThemeWidth}"
                          HorizontalAlignment="Center"
-                         Fill="{DynamicResource ThemeControlMidHighBrush}" />
+                         Fill="{DynamicResource OutlineVariant}" />
             </Grid>
 
             <Grid Name="AcceptDismissGrid"
@@ -262,7 +261,7 @@
               <Rectangle Grid.ColumnSpan="2"
                          Height="{DynamicResource DatePickerSpacerThemeWidth}"
                          VerticalAlignment="Top"
-                         Fill="{DynamicResource ThemeControlMidHighBrush}" />
+                         Fill="{DynamicResource OutlineVariant}" />
               <Button Name="PART_AcceptButton"
                       Grid.Column="0"
                       Height="{DynamicResource DatePickerFlyoutPresenterAcceptDismissHostGridHeight}"

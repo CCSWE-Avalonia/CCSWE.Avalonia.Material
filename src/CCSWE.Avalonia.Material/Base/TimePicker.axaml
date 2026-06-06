@@ -58,17 +58,17 @@
     </Setter>
 
     <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="BorderBrush" Value="{DynamicResource ThemeControlHighBrush}" />
-      <Setter Property="TextElement.Foreground" Value="{DynamicResource ThemeForegroundBrush}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource Outline}" />
+      <Setter Property="TextElement.Foreground" Value="{DynamicResource OnSurface}" />
     </Style>
 
     <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background">
         <SolidColorBrush Opacity="0.6"
-                         Color="{DynamicResource ThemeControlMidHighColor}" />
+                         Color="{DynamicResource SurfaceContainerHighestColor}" />
       </Setter>
-      <Setter Property="BorderBrush" Value="{DynamicResource ThemeControlLowBrush}" />
-      <Setter Property="TextElement.Foreground" Value="{DynamicResource ThemeForegroundBrush}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource Outline}" />
+      <Setter Property="TextElement.Foreground" Value="{DynamicResource OnSurface}" />
     </Style>
 
     <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
@@ -78,10 +78,10 @@
 
   <ControlTheme x:Key="{x:Type TimePicker}"
                 TargetType="TimePicker">
-    <Setter Property="FontSize" Value="{DynamicResource FontSizeNormal}" />
-    <Setter Property="Foreground" Value="{DynamicResource ThemeForegroundBrush}" />
-    <Setter Property="Background" Value="{DynamicResource ThemeBackgroundBrush}" />
-    <Setter Property="BorderBrush" Value="{DynamicResource ThemeControlHighlightMidBrush}" />
+    <Setter Property="FontSize" Value="{DynamicResource FontSizeBodyLarge}" />
+    <Setter Property="Foreground" Value="{DynamicResource OnSurface}" />
+    <Setter Property="Background" Value="{DynamicResource Surface}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource Outline}" />
     <Setter Property="BorderThickness" Value="{DynamicResource TimePickerBorderThemeThickness}" />
     <Setter Property="HorizontalAlignment" Value="Left" />
     <Setter Property="VerticalAlignment" Value="Center" />
@@ -122,7 +122,7 @@
                            Grid.Column="1"
                            Width="{DynamicResource TimePickerSpacerThemeWidth}"
                            HorizontalAlignment="Center"
-                           Fill="{DynamicResource TimePickerSpacerFill}" />
+                           Fill="{DynamicResource OutlineVariant}" />
 
                 <Border x:Name="PART_SecondPickerHost"
                         Grid.Column="2"
@@ -141,7 +141,7 @@
                            Grid.Column="3"
                            Width="{DynamicResource TimePickerSpacerThemeWidth}"
                            HorizontalAlignment="Center"
-                           Fill="{DynamicResource TimePickerSpacerFill}" />
+                           Fill="{DynamicResource OutlineVariant}" />
                 
                 <Border x:Name="PART_ThirdPickerHost"
                         Grid.Column="4"
@@ -160,7 +160,7 @@
                            Grid.Column="5"
                            Width="{DynamicResource TimePickerSpacerThemeWidth}"
                            HorizontalAlignment="Center"
-                           Fill="{DynamicResource TimePickerSpacerFill}" />
+                           Fill="{DynamicResource OutlineVariant}" />
 
                 <Border x:Name="PART_FourthPickerHost"
                         Grid.Column="6"
@@ -194,7 +194,7 @@
     </Style>
 
     <Style Selector="^:hasnotime /template/ Button#PART_FlyoutButton TextBlock">
-      <Setter Property="Foreground" Value="{DynamicResource ThemeForegroundLowBrush}" />
+      <Setter Property="Foreground" Value="{DynamicResource OnSurfaceVariant}" />
     </Style>
   </ControlTheme>
 
@@ -204,8 +204,8 @@
     <Setter Property="MinWidth" Value="242" />
     <Setter Property="MaxHeight" Value="398" />
     <Setter Property="FontWeight" Value="Normal" />
-    <Setter Property="Background" Value="{DynamicResource ThemeBackgroundBrush}" />
-    <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderMidBrush}" />
+    <Setter Property="Background" Value="{DynamicResource SurfaceContainerHigh}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource OutlineVariant}" />
     <Setter Property="BorderThickness" Value="{DynamicResource DateTimeFlyoutBorderThickness}" />
     <Setter Property="Template">
       <ControlTemplate>
@@ -287,25 +287,24 @@
                          VerticalAlignment="Center"
                          ZIndex="-1">
                 <Rectangle.Fill>
-                  <SolidColorBrush Opacity="0.6"
-                                   Color="{DynamicResource ThemeAccentColor}" />
+                  <SolidColorBrush Color="{DynamicResource SecondaryContainerColor}" />
                 </Rectangle.Fill>
               </Rectangle>
               <Rectangle Name="PART_FirstSpacer"
                          Grid.Column="1"
                          Width="{DynamicResource TimePickerSpacerThemeWidth}"
                          HorizontalAlignment="Center"
-                         Fill="{DynamicResource ThemeControlMidHighBrush}" />
+                         Fill="{DynamicResource OutlineVariant}" />
               <Rectangle Name="PART_SecondSpacer"
                          Grid.Column="3"
                          Width="{DynamicResource TimePickerSpacerThemeWidth}"
                          HorizontalAlignment="Center"
-                         Fill="{DynamicResource ThemeControlMidHighBrush}" />
+                         Fill="{DynamicResource OutlineVariant}" />
               <Rectangle Name="PART_ThirdSpacer"
                          Grid.Column="5"
                          Width="{DynamicResource TimePickerSpacerThemeWidth}"
                          HorizontalAlignment="Center"
-                         Fill="{DynamicResource ThemeControlMidHighBrush}" />
+                         Fill="{DynamicResource OutlineVariant}" />
             </Grid>
 
             <Grid Name="AcceptDismissGrid"
@@ -314,7 +313,7 @@
               <Rectangle Grid.ColumnSpan="2"
                          Height="{DynamicResource TimePickerSpacerThemeWidth}"
                          VerticalAlignment="Top"
-                         Fill="{DynamicResource ThemeControlMidHighBrush}" />
+                         Fill="{DynamicResource OutlineVariant}" />
               <Button Name="PART_AcceptButton"
                       Grid.Column="0"
                       Height="{DynamicResource TimePickerFlyoutPresenterAcceptDismissHostGridHeight}"
