@@ -40,7 +40,6 @@
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/CalendarItem.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/DatePicker.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/DateTimePickerShared.axaml" />
-        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/DrawerPage.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/EmbeddableControlRoot.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/OverlayPopupHost.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/PathIcon.axaml" />

@@ -18,7 +18,7 @@ interim forks, and which are verified in the Demo. Update this **per control** a
 |---|---|---|---|
 | Button | ✅ M3 | classed ✓ | keyed M3 variants + `{x:Type Button}` default = Filled; `Base/Button` deleted |
 | TextBox | ✅ M3 | classed ✓ | keyed M3 variants + `{x:Type TextBox}` default = Outlined; `Base/TextBox` deleted |
-| DrawerPage | 🔶 Partial | ✓ (demo shell) | `Controls/DrawerPage` Style-layer over forked `Base/DrawerPage` template; promote to full ControlTheme |
+| DrawerPage | ✅ M3 | ✓ (demo shell) | promoted to full `{x:Type DrawerPage}` ControlTheme: M3 template + SurfaceContainerLow pane/header/footer, Surface bars, Scrim32 backdrop, 360/80 widths; nav drawer + rail item themes; `Base/DrawerPage` deleted |
 | ScrollBar | ✅ M3 | ✓ 2026-06-05 | thin pill thumb, no arrows; `Base/ScrollBar` deleted |
 | AutoCompleteBox, CheckBox, ComboBox, Card, Expander, ListBox, Menu, NumericUpDown, ProgressBar, RadioButton, Slider, TabControl, TabStrip, ToggleButton, ToggleSwitch, TreeView | ✅ M3 | mostly ✓ | owned `{x:Type}` (Card via style classes); no `Base/` fork |
 | Window, WindowDrawnDecorations | 🏗 Infra | ✓ (boots) | `Base/Window` recolored to M3 tokens; chrome stays forked |
