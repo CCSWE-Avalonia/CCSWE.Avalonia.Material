@@ -17,6 +17,9 @@
                         <TimePicker Margin="0,0,12,12" />
                         <CalendarDatePicker Margin="0,0,12,12" />
                     </WrapPanel>
+
+                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="CALENDAR (inline)" />
+                    <Calendar HorizontalAlignment="Left" />
                 </StackPanel>
             </Border>
         </StackPanel>

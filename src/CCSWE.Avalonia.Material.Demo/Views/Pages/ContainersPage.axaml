@@ -72,6 +72,26 @@
                         </NavigationPage>
                     </Border>
 
+                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="HEADEREDCONTENTCONTROL / ITEMSCONTROL" />
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="16">
+                        <HeaderedContentControl Grid.Column="0">
+                            <HeaderedContentControl.Header>
+                                <TextBlock Classes="TitleSmall" Text="Header" />
+                            </HeaderedContentControl.Header>
+                            <TextBlock Classes="BodyMedium" Margin="0,4,0,0" Text="Headered content body." />
+                        </HeaderedContentControl>
+                        <ItemsControl Grid.Column="1">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Spacing="4" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <TextBlock Classes="BodyMedium" Text="• adb devices" />
+                            <TextBlock Classes="BodyMedium" Text="• adb logcat" />
+                            <TextBlock Classes="BodyMedium" Text="• adb install" />
+                        </ItemsControl>
+                    </Grid>
+
                     <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="CAROUSELPAGE (swipe / drag between pages)" />
                     <Border Height="160" CornerRadius="{DynamicResource CornerRadiusMedium}" BorderBrush="{DynamicResource OutlineVariant}" BorderThickness="1" ClipToBounds="True">
                         <CarouselPage>
