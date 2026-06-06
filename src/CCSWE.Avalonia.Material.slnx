@@ -3,6 +3,7 @@
     <File Path="../CLAUDE.md" />
     <File Path="../LICENSE.md" />
     <File Path="../README.md" />
+    <File Path="../SECURITY.md" />
     <File Path="../THIRD-PARTY-NOTICES.md" />
   </Folder>
   <Folder Name="/docs/design-system/">
