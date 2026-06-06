@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Avalonia.Layout;
 using Avalonia.Media;
 using Avalonia.Styling;
 using CCSWE.Avalonia.Material.Demo.ViewModels;
@@ -22,19 +23,24 @@ public partial class MainWindow : Window
         }
     }
 
-    private void OnThemeToggleChanged(object? sender, RoutedEventArgs e)
+    // Sun/moon theme toggle. The glyph shows the CURRENT theme (moon = dark, sun = light);
+    // a click flips the app variant and swaps the glyph to match.
+    private void OnThemeToggleClick(object? sender, RoutedEventArgs e)
     {
-        if (Application.Current is { } app && sender is ToggleSwitch toggle)
+        if (Application.Current is not { } app)
         {
-            app.RequestedThemeVariant = toggle.IsChecked == true
-                ? ThemeVariant.Light
-                : ThemeVariant.Dark;
+            return;
         }
+
+        var goingLight = app.RequestedThemeVariant != ThemeVariant.Light;
+        app.RequestedThemeVariant = goingLight ? ThemeVariant.Light : ThemeVariant.Dark;
+        ThemeIcon.Data = (Geometry)this.FindResource(goingLight ? "IconSun" : "IconMoon")!;
     }
 
     // Collapse the labeled drawer (360dp) to the icon rail (80dp) and back. IsRail drives
-    // the list/brand/toggle visibility via bindings; here we set the pane width and flip
-    // the chevron so it points the way it will move.
+    // the list/brand/toggle visibility via bindings; here we set the pane width, flip the
+    // chevron so it points the way it will move, and center the toggle in the narrow rail
+    // (it's right-aligned beside the theme toggle in the expanded drawer).
     private void OnToggleRail(object? sender, RoutedEventArgs e)
     {
         if (DataContext is MainWindowViewModel vm)
@@ -42,6 +48,9 @@ public partial class MainWindow : Window
             vm.IsRail = !vm.IsRail;
             Shell.DrawerLength = vm.IsRail ? 80 : 360;
             CollapseChevron.RenderTransform = new RotateTransform(vm.IsRail ? 180 : 0);
+            RailToggleBtn.HorizontalAlignment = vm.IsRail
+                ? HorizontalAlignment.Center
+                : HorizontalAlignment.Right;
         }
     }
 }
