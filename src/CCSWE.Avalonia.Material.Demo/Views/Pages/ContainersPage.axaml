@@ -1,5 +1,6 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:theme="using:CCSWE.Avalonia.Material"
              xmlns:vm="using:CCSWE.Avalonia.Material.Demo.ViewModels"
              x:Class="CCSWE.Avalonia.Material.Demo.Views.Pages.ContainersPage"
              x:DataType="vm:MainWindowViewModel">
@@ -28,6 +29,32 @@
                             <TextBlock Classes="TitleSmall" Text="Outlined" />
                         </Border>
                     </Grid>
+
+                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="INTERACTIVE CARDS (hover / press)" />
+                    <Grid ColumnDefinitions="*,*,*" ColumnSpacing="16">
+                        <theme:Card Grid.Column="0" Classes="Elevated" Command="{Binding CardClickedCommand}">
+                            <StackPanel Spacing="4">
+                                <TextBlock Classes="TitleSmall" Text="Elevated" />
+                                <TextBlock Classes="BodySmall" Foreground="{DynamicResource OnSurfaceVariant}" Text="Clickable (Command)" />
+                            </StackPanel>
+                        </theme:Card>
+                        <theme:Card Grid.Column="1" Classes="Filled" Command="{Binding CardClickedCommand}">
+                            <StackPanel Spacing="4">
+                                <TextBlock Classes="TitleSmall" Text="Filled" />
+                                <TextBlock Classes="BodySmall" Foreground="{DynamicResource OnSurfaceVariant}" Text="Clickable (Command)" />
+                            </StackPanel>
+                        </theme:Card>
+                        <theme:Card Grid.Column="2" Classes="Outlined" IsClickable="True">
+                            <StackPanel Spacing="4">
+                                <TextBlock Classes="TitleSmall" Text="Outlined" />
+                                <TextBlock Classes="BodySmall" Foreground="{DynamicResource OnSurfaceVariant}" Text="Clickable (IsClickable)" />
+                            </StackPanel>
+                        </theme:Card>
+                    </Grid>
+                    <TextBlock Classes="BodySmall" Foreground="{DynamicResource OnSurfaceVariant}" Text="{Binding CardClicks}" />
+                    <theme:Card Classes="Filled">
+                        <TextBlock Classes="BodySmall" Text="Static Card (no Command, not clickable) — no hover state" />
+                    </theme:Card>
 
                     <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="GROUPBOX" />
                     <GroupBox Header="Connection">
