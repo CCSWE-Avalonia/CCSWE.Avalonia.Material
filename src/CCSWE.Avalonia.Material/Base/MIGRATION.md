@@ -22,7 +22,10 @@ interim forks, and which are verified in the Demo. Update this **per control** a
 | ScrollBar | ✅ M3 | ✓ 2026-06-05 | thin pill thumb, no arrows; `Base/ScrollBar` deleted |
 | AutoCompleteBox, CheckBox, ComboBox, Card, Expander, ListBox, Menu, NumericUpDown, ProgressBar, RadioButton, Slider, TabControl, TabStrip, ToggleButton, ToggleSwitch, TreeView | ✅ M3 | mostly ✓ | owned `{x:Type}` (Card via style classes); no `Base/` fork |
 | Window, WindowDrawnDecorations | 🏗 Infra | ✓ (boots) | `Base/Window` recolored to M3 tokens; chrome stays forked |
-| PopupRoot, OverlayPopupHost, EmbeddableControlRoot, AdornerLayer, ThemeVariantScope, TransitioningContentControl, PathIcon, TextSelectionHandle, WindowNotificationManager | ⬜ Forked | runs | structural infra; recolor/keep as forks; M3 polish low priority |
+| PopupRoot, OverlayPopupHost, EmbeddableControlRoot, ThemeVariantScope | 🏗 Infra | runs | recolored to M3 (Surface/OnSurface); pure plumbing, stay forked |
+| TextSelectionHandle | 🏗 Infra | runs | selection grabber recolored to Primary; stays forked |
+| SplitView, WindowDrawnDecorations | 🏗 Infra | runs | recolored to M3 (SurfaceContainerLow pane, Scrim light-dismiss; Outline window border, Primary fullscreen bar); stay forked |
+| AdornerLayer, PathIcon, TransitioningContentControl, WindowNotificationManager | ⬜ Forked | runs | pure plumbing, no color refs; stay near-verbatim |
 | FlyoutPresenter | ✅ M3 | — | M3 flyout/menu surface (SurfaceContainer + OutlineVariant, extra-small corners); fork deleted |
 | RepeatButton | ✅ M3 | — | transparent w/ surface state-layer tints, OnSurfaceVariant, disabled 0.38; fork deleted |
 | ScrollViewer | ✅ M3 | ✓ (every page) | transparent track + transparent corner filler (pairs with the thin overlay ScrollBar); dropped dead SimpleMenuScrollViewer; `Base/ScrollViewer` deleted |

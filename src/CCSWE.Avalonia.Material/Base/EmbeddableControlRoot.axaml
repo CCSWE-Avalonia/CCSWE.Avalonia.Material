@@ -3,8 +3,8 @@
                     x:ClassModifier="internal">
   <ControlTheme x:Key="{x:Type EmbeddableControlRoot}"
                 TargetType="EmbeddableControlRoot">
-    <Setter Property="Foreground" Value="{DynamicResource ThemeForegroundBrush}" />
-    <Setter Property="Background" Value="{DynamicResource ThemeBackgroundBrush}" />
+    <Setter Property="Foreground" Value="{DynamicResource OnSurface}" />
+    <Setter Property="Background" Value="{DynamicResource Surface}" />
     <Setter Property="FontSize" Value="{DynamicResource FontSizeNormal}" />
     <Setter Property="FontFamily" Value="{DynamicResource ContentControlThemeFontFamily}" />
     <Setter Property="Template">

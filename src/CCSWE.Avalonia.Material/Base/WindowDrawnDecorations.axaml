@@ -43,7 +43,7 @@
               <Border x:Name="PART_WindowBorder"
                       Background="Transparent"
                       BorderThickness="{TemplateBinding FrameThickness}"
-                      BorderBrush="{DynamicResource ThemeBorderMidBrush}"
+                      BorderBrush="{DynamicResource Outline}"
                       IsHitTestVisible="False" />
               <!-- Titlebar: background, title text, and drag area live in underlay -->
               <Panel x:Name="PART_TitleBar" VerticalAlignment="Top"
@@ -129,7 +129,7 @@
             <!-- Shown on hover at top edge in fullscreen mode -->
             <Panel Height="30"
                    VerticalAlignment="Top"
-                   Background="{DynamicResource ThemeAccentBrush}"
+                   Background="{DynamicResource Primary}"
                    WindowDecorationProperties.ElementRole="TitleBar">
               <TextBlock Text="{TemplateBinding Title}"
                          VerticalAlignment="Center"

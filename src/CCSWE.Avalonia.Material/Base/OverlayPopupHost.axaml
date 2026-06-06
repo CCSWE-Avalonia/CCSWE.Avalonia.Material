@@ -3,7 +3,7 @@
                     x:ClassModifier="internal">
   <ControlTheme x:Key="{x:Type OverlayPopupHost}"
                 TargetType="OverlayPopupHost">
-    <Setter Property="Foreground" Value="{DynamicResource ThemeForegroundBrush}" />
+    <Setter Property="Foreground" Value="{DynamicResource OnSurface}" />
     <Setter Property="FontSize" Value="{DynamicResource FontSizeNormal}" />
     <Setter Property="FontFamily" Value="{DynamicResource ContentControlThemeFontFamily}" />
     <Setter Property="FontWeight" Value="Normal" />
