@@ -1,10 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace CCSWE.Avalonia.Material.Demo.ViewModels;
 
 public partial class MainWindowViewModel : ObservableValidator
 {
+    private int _cardClickCount;
     public IReadOnlyList<string> DeviceNames { get; } =
     [
         "Pixel 8 (emulator)",
@@ -30,8 +32,18 @@ public partial class MainWindowViewModel : ObservableValidator
     [ObservableProperty]
     private bool _isRail;
 
+    [ObservableProperty]
+    private string _cardClicks = "Cards clicked: 0";
+
     public MainWindowViewModel()
     {
         ValidateAllProperties();
+    }
+
+    [RelayCommand]
+    private void CardClicked()
+    {
+        _cardClickCount++;
+        CardClicks = $"Cards clicked: {_cardClickCount}";
     }
 }

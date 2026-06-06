@@ -17,6 +17,7 @@
     <File Path="../docs/samples/App.sample.axaml" />
   </Folder>
   <Folder Name="/eng/">
+    <File Path="../.editorconfig" />
     <File Path="../.gitattributes" />
     <File Path="../.gitignore" />
     <File Path="../global.json" />
@@ -26,6 +27,8 @@
   </Folder>
   <Folder Name="/eng/GitHub Actions/">
     <File Path="../.github/workflows/dotnet-build-publish-library.yml" />
+    <File Path="../.github/workflows/codeql.yml" />
+    <File Path="../.github/dependabot.yml" />
   </Folder>
   <Folder Name="/src/">
     <Project Path="CCSWE.Avalonia.Material.Demo/CCSWE.Avalonia.Material.Demo.csproj" />
