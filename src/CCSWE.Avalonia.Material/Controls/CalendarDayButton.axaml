@@ -1,0 +1,108 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <Styles.Resources>
+    <!-- M3 calendar date cell: 40dp circular. Default transparent/OnSurface; selected =
+         Primary fill + OnPrimary; today = 1dp Primary ring (when unselected); hover/pressed
+         = OnSurface state layer; inactive (adjacent month) = OnSurfaceVariant; blackout/
+         disabled = OnSurface38. -->
+    <ControlTheme x:Key="{x:Type CalendarDayButton}" TargetType="CalendarDayButton">
+      <Setter Property="Foreground" Value="{DynamicResource OnSurface}" />
+      <Setter Property="FontFamily" Value="{DynamicResource BodyFontFamily}" />
+      <Setter Property="FontSize" Value="{DynamicResource FontSizeBodyMedium}" />
+      <Setter Property="HorizontalContentAlignment" Value="Center" />
+      <Setter Property="VerticalContentAlignment" Value="Center" />
+      <Setter Property="MinWidth" Value="40" />
+      <Setter Property="MinHeight" Value="40" />
+      <Setter Property="Margin" Value="1" />
+      <Setter Property="Focusable" Value="False" />
+      <Setter Property="Template">
+        <ControlTemplate>
+          <Panel Background="Transparent">
+            <!-- Today: 1dp Primary ring (hidden when the cell is selected). -->
+            <Border Name="TodayRing"
+                    CornerRadius="{DynamicResource CornerRadiusFull}"
+                    BorderBrush="{DynamicResource Primary}"
+                    BorderThickness="1"
+                    IsVisible="False" />
+            <!-- Selected: solid Primary disc. -->
+            <Border Name="SelectedBackground"
+                    CornerRadius="{DynamicResource CornerRadiusFull}"
+                    Background="{DynamicResource Primary}"
+                    IsVisible="False" />
+            <!-- State layer (OnSurface) for hover/pressed. -->
+            <Border Name="StateLayer"
+                    CornerRadius="{DynamicResource CornerRadiusFull}"
+                    Background="{DynamicResource OnSurface}"
+                    Opacity="0">
+              <Border.Transitions>
+                <Transitions><DoubleTransition Property="Opacity" Duration="{DynamicResource MotionDurationShort2}" /></Transitions>
+              </Border.Transitions>
+            </Border>
+            <ContentPresenter Name="PART_ContentPresenter"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                              Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              FontSize="{TemplateBinding FontSize}"
+                              TextElement.Foreground="{TemplateBinding Foreground}" />
+            <Path Name="BlackoutVisual"
+                  Margin="6"
+                  HorizontalAlignment="Stretch"
+                  VerticalAlignment="Stretch"
+                  Data="M8.1772461,11.029181 L10.433105,11.029181 L11.700684,12.801641 L12.973633,11.029181 L15.191895,11.029181 L12.844727,13.999395 L15.21875,17.060919 L12.962891,17.060919 L11.673828,15.256231 L10.352539,17.060919 L8.1396484,17.060919 L10.519043,14.042364 z"
+                  Fill="{DynamicResource OnSurface38}"
+                  IsVisible="False"
+                  Stretch="Fill" />
+          </Panel>
+        </ControlTemplate>
+      </Setter>
+
+      <Style Selector="^:pointerover /template/ Border#StateLayer">
+        <Setter Property="Opacity" Value="0.08" />
+      </Style>
+      <Style Selector="^:pressed /template/ Border#StateLayer">
+        <Setter Property="Opacity" Value="0.10" />
+      </Style>
+
+      <!-- Today (Primary ring + Primary label) -->
+      <Style Selector="^:today /template/ Border#TodayRing">
+        <Setter Property="IsVisible" Value="True" />
+      </Style>
+      <Style Selector="^:today /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource Primary}" />
+      </Style>
+
+      <!-- Selected (Primary disc + OnPrimary label; ring + state layer recolor onto the disc) -->
+      <Style Selector="^:selected /template/ Border#SelectedBackground">
+        <Setter Property="IsVisible" Value="True" />
+      </Style>
+      <Style Selector="^:selected /template/ Border#TodayRing">
+        <Setter Property="IsVisible" Value="False" />
+      </Style>
+      <Style Selector="^:selected /template/ Border#StateLayer">
+        <Setter Property="Background" Value="{DynamicResource OnPrimary}" />
+      </Style>
+      <Style Selector="^:selected /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource OnPrimary}" />
+      </Style>
+
+      <!-- Inactive (adjacent month) -->
+      <Style Selector="^:inactive /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource OnSurfaceVariant}" />
+      </Style>
+
+      <!-- Disabled / blackout -->
+      <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource OnSurface38}" />
+      </Style>
+      <Style Selector="^:blackout /template/ Path#BlackoutVisual">
+        <Setter Property="IsVisible" Value="True" />
+      </Style>
+      <Style Selector="^:blackout /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="IsVisible" Value="False" />
+      </Style>
+    </ControlTheme>
+  </Styles.Resources>
+
+</Styles>

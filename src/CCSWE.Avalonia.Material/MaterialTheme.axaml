@@ -33,11 +33,7 @@
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/Strings.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/BaseAliases.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/AdornerLayer.axaml" />
-        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/Calendar.axaml" />
-        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/CalendarButton.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/CalendarDatePicker.axaml" />
-        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/CalendarDayButton.axaml" />
-        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/CalendarItem.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/DatePicker.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/DateTimePickerShared.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/EmbeddableControlRoot.axaml" />
@@ -90,6 +86,10 @@
   <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/NavigationPage.axaml" />
   <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/ScrollViewer.axaml" />
   <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/FlyoutPresenter.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/CalendarDayButton.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/CalendarButton.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/CalendarItem.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/Calendar.axaml" />
   <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/RepeatButton.axaml" />
   <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/Slider.axaml" />
   <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/ProgressBar.axaml" />
