@@ -337,6 +337,15 @@
                       Background="{TemplateBinding BackdropBrush}"
                       IsVisible="False"
                       IsHitTestVisible="False" />
+              <!-- Trailing-edge divider at the pane<->content seam (1dp OutlineVariant).
+                   Sits on the content's leading edge (left by default); repositioned per
+                   DrawerPlacement and hidden in pure Overlay mode (the pane floats there). -->
+              <Border Name="PART_PaneDivider"
+                      Background="{DynamicResource OutlineVariant}"
+                      Width="1"
+                      HorizontalAlignment="Left"
+                      VerticalAlignment="Stretch"
+                      IsHitTestVisible="False" />
             </Grid>
           </SplitView>
         </ControlTemplate>
@@ -344,6 +353,31 @@
 
       <Style Selector="^:placement-right /template/ ToggleButton#PART_PaneButton">
         <Setter Property="DockPanel.Dock" Value="Right" />
+      </Style>
+
+      <!-- Pane divider: reposition to the content's leading edge per placement. -->
+      <Style Selector="^:placement-right /template/ Border#PART_PaneDivider">
+        <Setter Property="HorizontalAlignment" Value="Right" />
+      </Style>
+      <Style Selector="^:placement-top /template/ Border#PART_PaneDivider">
+        <Setter Property="Width" Value="NaN" />
+        <Setter Property="Height" Value="1" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+      </Style>
+      <Style Selector="^:placement-bottom /template/ Border#PART_PaneDivider">
+        <Setter Property="Width" Value="NaN" />
+        <Setter Property="Height" Value="1" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+      </Style>
+      <!-- Pure Overlay: the pane floats over content (backdrop scrim), so no seam divider. -->
+      <Style Selector="^[DisplayMode=Overlay] /template/ Border#PART_PaneDivider">
+        <Setter Property="IsVisible" Value="False" />
+      </Style>
+      <!-- No divider when the drawer is disabled (no pane). -->
+      <Style Selector="^[DrawerBehavior=Disabled] /template/ Border#PART_PaneDivider">
+        <Setter Property="IsVisible" Value="False" />
       </Style>
 
       <!-- Bottom placement: swap top bar for bottom bar -->

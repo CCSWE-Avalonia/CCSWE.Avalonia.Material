@@ -183,15 +183,13 @@
             </Border>
         </DrawerPage.DrawerFooter>
 
-        <!-- Main content: one page per destination, swapped by nav selection.
-             The wrapping Border's left edge is the interim M3 trailing-edge divider
-             (1dp OutlineVariant) at the docked pane↔content seam — the blessed
-             consumer-side pattern (HANDOFF) until DrawerPage exposes a border property. -->
-        <!-- DrawerPage's main-content slot does NOT inherit the window DataContext (its
+        <!-- Main content: one page per destination, swapped by nav selection. The
+             pane↔content trailing-edge divider is now baked into the DrawerPage template
+             (PART_PaneDivider), so no consumer-side Border is needed.
+             DrawerPage's main-content slot does NOT inherit the window DataContext (its
              DrawerHeader/Footer slots do). So set it explicitly here; PageHost and every
              hosted page then bind against the VM. -->
-        <Border BorderBrush="{DynamicResource OutlineVariant}" BorderThickness="1,0,0,0"
-                DataContext="{Binding $parent[Window].DataContext}">
+        <Border DataContext="{Binding $parent[Window].DataContext}">
             <TransitioningContentControl x:Name="PageHost"
                                          Content="{Binding #NavList.SelectedIndex, Converter={StaticResource NavIndexToPage}}">
                 <TransitioningContentControl.PageTransition>
