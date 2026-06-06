@@ -82,11 +82,13 @@
       </Style>
     </ControlTheme>
 
-    <!-- A2) The M3 navigation-RAIL destination (compact, icon-over-label). KEYED.
-         Content = the icon; Tag = the label string (the no-C# split). -->
+    <!-- A2) The M3 navigation-RAIL destination (compact, ICON-ONLY). KEYED.
+         Content = the icon; Tag = the destination name, surfaced as a TOOLTIP (the
+         rail shows no on-screen labels - the tooltip identifies each destination). -->
     <ControlTheme x:Key="M3NavigationRailItem" TargetType="ListBoxItem">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="FontFamily" Value="{DynamicResource BodyFontFamily}" />
+      <Setter Property="ToolTip.Tip" Value="{Binding Tag, RelativeSource={RelativeSource Self}}" />
       <!-- 56dp min touch target; 6dp top/bottom -> 12dp item-to-item gap. -->
       <Setter Property="MinHeight" Value="56" />
       <Setter Property="Margin" Value="0,6" />
@@ -95,36 +97,26 @@
       <Setter Property="VerticalContentAlignment" Value="Center" />
       <Setter Property="Template">
         <ControlTemplate TargetType="ListBoxItem">
-          <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <!-- 56x32 active-indicator pill wraps the ICON ONLY (M3 rail). Constant
-                 size; only SelectedLayer.Opacity toggles, so selection can't reflow.
-                 State layer is clipped to this 56x32 box, not the whole item. -->
-            <Panel Width="56" Height="32" HorizontalAlignment="Center">
-              <Border x:Name="SelectedLayer" CornerRadius="{DynamicResource CornerRadiusFull}"
-                      Background="{DynamicResource SecondaryContainer}" Opacity="0" />
-              <Border x:Name="StateLayer" CornerRadius="{DynamicResource CornerRadiusFull}"
-                      Background="{DynamicResource OnSurface}" Opacity="0">
-                <Border.Transitions>
-                  <Transitions><DoubleTransition Property="Opacity" Duration="{DynamicResource MotionDurationShort2}" /></Transitions>
-                </Border.Transitions>
-              </Border>
-              <!-- Icon = item Content (24dp, consumer-supplied). TextElement.Foreground
-                   recolors a PathIcon on :selected, INDEPENDENT of the label below. -->
-              <ContentPresenter x:Name="PART_ContentPresenter"
-                                Content="{TemplateBinding Content}"
-                                ContentTemplate="{TemplateBinding ContentTemplate}"
-                                TextElement.Foreground="{DynamicResource OnSurfaceVariant}"
-                                HorizontalAlignment="Center" VerticalAlignment="Center" />
-            </Panel>
-            <!-- Label = item Tag (stringly-typed). Label Medium, centered, <=2 lines, 4dp
-                 below the indicator. Recolors on its OWN target -> OnSurface when active
-                 (the rail's one divergence from the drawer, where label = OnSecondaryContainer). -->
-            <TextBlock x:Name="RailLabel" Text="{TemplateBinding Tag}"
-                       Foreground="{DynamicResource OnSurfaceVariant}"
-                       FontSize="{DynamicResource FontSizeLabelMedium}" FontWeight="Medium" LineHeight="16"
-                       TextAlignment="Center" TextWrapping="Wrap" MaxLines="2"
-                       Margin="0,4,0,0" HorizontalAlignment="Center" />
-          </StackPanel>
+          <!-- 56x32 active-indicator pill wraps the ICON (M3 rail). Constant size;
+               only SelectedLayer.Opacity toggles, so selection can't reflow. The
+               destination name rides as a tooltip (Tag) - this rail is icon-only. -->
+          <Panel Width="56" Height="32" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Border x:Name="SelectedLayer" CornerRadius="{DynamicResource CornerRadiusFull}"
+                    Background="{DynamicResource SecondaryContainer}" Opacity="0" />
+            <Border x:Name="StateLayer" CornerRadius="{DynamicResource CornerRadiusFull}"
+                    Background="{DynamicResource OnSurface}" Opacity="0">
+              <Border.Transitions>
+                <Transitions><DoubleTransition Property="Opacity" Duration="{DynamicResource MotionDurationShort2}" /></Transitions>
+              </Border.Transitions>
+            </Border>
+            <!-- Icon = item Content (24dp, consumer-supplied). TextElement.Foreground
+                 recolors a PathIcon -> OnSecondaryContainer on :selected. -->
+            <ContentPresenter x:Name="PART_ContentPresenter"
+                              Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              TextElement.Foreground="{DynamicResource OnSurfaceVariant}"
+                              HorizontalAlignment="Center" VerticalAlignment="Center" />
+          </Panel>
         </ControlTemplate>
       </Setter>
 
@@ -136,9 +128,6 @@
       <Style Selector="^:selected /template/ ContentPresenter#PART_ContentPresenter">
         <Setter Property="TextElement.Foreground" Value="{DynamicResource OnSecondaryContainer}" />
       </Style>
-      <Style Selector="^:selected /template/ TextBlock#RailLabel">
-        <Setter Property="Foreground" Value="{DynamicResource OnSurface}" />
-      </Style>
       <!-- Active row's state layer reads against the SecondaryContainer fill. -->
       <Style Selector="^:selected /template/ Border#StateLayer">
         <Setter Property="Background" Value="{DynamicResource OnSecondaryContainer}" />
@@ -149,13 +138,9 @@
       <Style Selector="^:pressed /template/ Border#StateLayer">
         <Setter Property="Opacity" Value="0.10" />
       </Style>
-      <!-- Disabled: neutral recolor (icon + label OnSurface38, active fill OnSurface12),
-           never an opacity dim. -->
+      <!-- Disabled: neutral recolor (icon OnSurface38, active fill OnSurface12), never an opacity dim. -->
       <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
         <Setter Property="TextElement.Foreground" Value="{DynamicResource OnSurface38}" />
-      </Style>
-      <Style Selector="^:disabled /template/ TextBlock#RailLabel">
-        <Setter Property="Foreground" Value="{DynamicResource OnSurface38}" />
       </Style>
       <Style Selector="^:selected:disabled /template/ Border#SelectedLayer">
         <Setter Property="Background" Value="{DynamicResource OnSurface12}" />
