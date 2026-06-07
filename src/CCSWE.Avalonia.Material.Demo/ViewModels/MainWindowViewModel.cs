@@ -7,6 +7,7 @@ namespace CCSWE.Avalonia.Material.Demo.ViewModels;
 public partial class MainWindowViewModel : ObservableValidator
 {
     private int _cardClickCount;
+    private int _fabClickCount;
     public IReadOnlyList<string> DeviceNames { get; } =
     [
         "Pixel 8 (emulator)",
@@ -35,6 +36,9 @@ public partial class MainWindowViewModel : ObservableValidator
     [ObservableProperty]
     private string _cardClicks = "Cards clicked: 0";
 
+    [ObservableProperty]
+    private string _fabClicks = "FAB clicked: 0";
+
     public MainWindowViewModel()
     {
         ValidateAllProperties();
@@ -45,5 +49,12 @@ public partial class MainWindowViewModel : ObservableValidator
     {
         _cardClickCount++;
         CardClicks = $"Cards clicked: {_cardClickCount}";
+    }
+
+    [RelayCommand]
+    private void FabClicked()
+    {
+        _fabClickCount++;
+        FabClicks = $"FAB clicked: {_fabClickCount}";
     }
 }

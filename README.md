@@ -8,7 +8,7 @@
 A standalone **Material 3** theme for [Avalonia](https://avaloniaui.net) 12 — a
 Dark/Light color system, the M3 type scale, motion, embedded brand fonts, and M3
 control themes across the full surface: buttons (toggle/split/dropdown/hyperlink +
-command bar), text fields, autocomplete, numeric steppers, selection controls,
+command bar + floating action button), text fields, autocomplete, numeric steppers, selection controls,
 lists, tree views, dropdowns, menus, expander, cards, group boxes, sliders,
 progress, tabs (tab control + tab strip), pips pager, tooltips, notifications, the
 date family (calendar, date/time pickers), page shells, and a navigation drawer +
@@ -66,6 +66,7 @@ depends only on Avalonia core. **No `<FluentTheme/>` or other base theme is requ
 ```
 
 - **Buttons:** `Filled`, `FilledTonal`, `Elevated`, `Outlined`, `Text`, `Icon`.
+- **Floating action button:** the `<theme:FloatingActionButton>` control — `Size` (`Small` / `Regular` / `Large`) and `Color` (`Primary` / `Secondary` / `Tertiary` / `Surface`) M3 mappings, with `Command` / `Click` inherited from `Button`.
 - **Text fields:** `Outlined`, `Filled`.
 - **Cards:** the `<theme:Card>` control for interactive cards — `Elevated` / `Filled` / `Outlined` classes, M3 hover/press state layers, and `Command` / `Click` (clickable when a `Command` is set, or `IsClickable="True"`). For a static surface, a plain `Border` with `Card` + `Elevated` / `Filled` / `Outlined` still works.
 - **Navigation:** a `DrawerPage` shell with a `ListBox Classes="NavigationDrawer"` of destinations, or `Classes="NavigationRail"` for the compact 80dp rail (the active destination gets the M3 indicator pill).

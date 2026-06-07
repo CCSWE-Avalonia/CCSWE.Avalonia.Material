@@ -49,6 +49,7 @@ depends only on Avalonia core. **No `<FluentTheme/>` (or other base theme) is re
 ```
 
 - **Buttons:** `Filled`, `FilledTonal`, `Elevated`, `Outlined`, `Text`, `Icon`.
+- **Floating action button:** the `<theme:FloatingActionButton>` control — `Size` (`Small` / `Regular` / `Large`) and `Color` (`Primary` / `Secondary` / `Tertiary` / `Surface`) M3 mappings, with `Command` / `Click` inherited from `Button`.
 - **Text fields:** `Outlined`, `Filled`.
 - **Cards:** the `<theme:Card>` control for interactive cards (`Elevated` / `Filled` / `Outlined`, M3 hover/press state layers, `Command` / `Click`; clickable when a `Command` is set or `IsClickable="True"`), or a plain `Border` with `Card` + `Elevated` / `Filled` / `Outlined` for static surfaces.
 - **Default-themed (no class):** `ToggleButton`, `AutoCompleteBox`, `NumericUpDown`,

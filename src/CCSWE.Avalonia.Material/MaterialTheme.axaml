@@ -71,6 +71,7 @@
   <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/DrawerPage.axaml" />
   <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/DropDownButton.axaml" />
   <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/Expander.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/FloatingActionButton.axaml" />
   <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/FlyoutPresenter.axaml" />
   <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/GridSplitter.axaml" />
   <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/GroupBox.axaml" />

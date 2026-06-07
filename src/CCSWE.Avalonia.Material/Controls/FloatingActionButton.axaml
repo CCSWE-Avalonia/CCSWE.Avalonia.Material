@@ -1,0 +1,134 @@
+<!--
+  Material 3 floating action button as an Avalonia ControlTheme. Every color, radius,
+  and motion value is a {DynamicResource} into Tokens.axaml / Motion.axaml - no literals
+  (so the brushes re-resolve when the ThemeVariant flips Dark<->Light at runtime).
+
+  Unlike the Button family (single variant axis, one theme swapped per class), the FAB
+  has TWO orthogonal axes - Size and Color - so it is one ControlTheme keyed to the type
+  with composing property selectors: ^[Size=Small|Large] adjust the box + radius (Regular
+  is the base default); ^[Color=Secondary|Tertiary|Surface] adjust the container fill,
+  icon, and state-layer color (Primary is the base default).
+
+  M3: container rests at elevation level 3, raises to level 4 on hover. State layer = the
+  on-color painted over the container at hover 0.08 / pressed 0.10. Disabled: container
+  OnSurface @ 0.12, icon @ 0.38, no shadow.
+-->
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:theme="using:CCSWE.Avalonia.Material">
+
+  <Styles.Resources>
+
+    <!-- Base = Regular size (56) + Primary color. -->
+    <ControlTheme x:Key="{x:Type theme:FloatingActionButton}" TargetType="theme:FloatingActionButton">
+      <Setter Property="Width" Value="56" />
+      <Setter Property="Height" Value="56" />
+      <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusLarge}" />
+      <Setter Property="Padding" Value="0" />
+      <Setter Property="HorizontalContentAlignment" Value="Center" />
+      <Setter Property="VerticalContentAlignment" Value="Center" />
+      <Setter Property="Cursor" Value="Hand" />
+      <Setter Property="ClipToBounds" Value="False" />
+      <Setter Property="Background" Value="{DynamicResource PrimaryContainer}" />
+      <Setter Property="Foreground" Value="{DynamicResource OnPrimaryContainer}" />
+      <Setter Property="Template">
+        <ControlTemplate TargetType="theme:FloatingActionButton">
+          <Border x:Name="PART_Container"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  BoxShadow="0 4 8 0 #33000000, 0 2 4 0 #1F000000"
+                  ClipToBounds="False"
+                  CornerRadius="{TemplateBinding CornerRadius}">
+            <Border.Transitions>
+              <Transitions>
+                <BoxShadowsTransition Property="BoxShadow"
+                                      Duration="{DynamicResource MotionDurationShort2}"
+                                      Easing="{DynamicResource MotionEasingStandard}" />
+              </Transitions>
+            </Border.Transitions>
+            <Panel>
+              <Border x:Name="PART_StateLayer"
+                      Background="{DynamicResource OnPrimaryContainer}"
+                      CornerRadius="{TemplateBinding CornerRadius}"
+                      Opacity="0">
+                <Border.Transitions>
+                  <Transitions>
+                    <DoubleTransition Property="Opacity"
+                                      Duration="{DynamicResource MotionDurationShort2}"
+                                      Easing="{DynamicResource MotionEasingStandard}" />
+                  </Transitions>
+                </Border.Transitions>
+              </Border>
+              <ContentPresenter x:Name="PART_ContentPresenter"
+                                Content="{TemplateBinding Content}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                Padding="{TemplateBinding Padding}"
+                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+            </Panel>
+          </Border>
+        </ControlTemplate>
+      </Setter>
+
+      <!-- Elevation raise on hover (level 3 -> level 4). -->
+      <Style Selector="^:pointerover /template/ Border#PART_Container">
+        <Setter Property="BoxShadow" Value="0 6 10 0 #33000000, 0 2 6 0 #1F000000" />
+      </Style>
+
+      <!-- State layer (on-color set per Color variant; opacity per state). -->
+      <Style Selector="^:pointerover /template/ Border#PART_StateLayer">
+        <Setter Property="Opacity" Value="0.08" />
+      </Style>
+      <Style Selector="^:pressed /template/ Border#PART_StateLayer">
+        <Setter Property="Opacity" Value="0.10" />
+      </Style>
+
+      <!-- Disabled: neutral OnSurface container @ 0.12, icon @ 0.38, no shadow. -->
+      <Style Selector="^:disabled /template/ Border#PART_Container">
+        <Setter Property="Background" Value="{DynamicResource OnSurface12}" />
+        <Setter Property="BoxShadow" Value="none" />
+      </Style>
+      <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource OnSurface38}" />
+      </Style>
+
+      <!-- Size: Small (40 / r12) and Large (96 / r28); Regular is the base. -->
+      <Style Selector="^[Size=Small]">
+        <Setter Property="Width" Value="40" />
+        <Setter Property="Height" Value="40" />
+        <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusMedium}" />
+      </Style>
+      <Style Selector="^[Size=Large]">
+        <Setter Property="Width" Value="96" />
+        <Setter Property="Height" Value="96" />
+        <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusExtraLarge}" />
+      </Style>
+
+      <!-- Color: Secondary / Tertiary / Surface; Primary is the base. -->
+      <Style Selector="^[Color=Secondary]">
+        <Setter Property="Background" Value="{DynamicResource SecondaryContainer}" />
+        <Setter Property="Foreground" Value="{DynamicResource OnSecondaryContainer}" />
+        <Style Selector="^ /template/ Border#PART_StateLayer">
+          <Setter Property="Background" Value="{DynamicResource OnSecondaryContainer}" />
+        </Style>
+      </Style>
+      <Style Selector="^[Color=Tertiary]">
+        <Setter Property="Background" Value="{DynamicResource TertiaryContainer}" />
+        <Setter Property="Foreground" Value="{DynamicResource OnTertiaryContainer}" />
+        <Style Selector="^ /template/ Border#PART_StateLayer">
+          <Setter Property="Background" Value="{DynamicResource OnTertiaryContainer}" />
+        </Style>
+      </Style>
+      <Style Selector="^[Color=Surface]">
+        <Setter Property="Background" Value="{DynamicResource SurfaceContainerHigh}" />
+        <Setter Property="Foreground" Value="{DynamicResource Primary}" />
+        <Style Selector="^ /template/ Border#PART_StateLayer">
+          <Setter Property="Background" Value="{DynamicResource Primary}" />
+        </Style>
+      </Style>
+    </ControlTheme>
+
+  </Styles.Resources>
+
+</Styles>

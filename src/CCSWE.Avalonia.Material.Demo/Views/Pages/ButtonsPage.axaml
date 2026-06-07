@@ -1,5 +1,6 @@
 <views:GalleryPage xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:theme="using:CCSWE.Avalonia.Material"
              xmlns:views="using:CCSWE.Avalonia.Material.Demo.Views"
              xmlns:vm="using:CCSWE.Avalonia.Material.Demo.ViewModels"
              x:Class="CCSWE.Avalonia.Material.Demo.Views.Pages.ButtonsPage"
@@ -84,6 +85,42 @@
                             </CommandBarButton>
                         </CommandBar.SecondaryCommands>
                     </CommandBar>
+                </StackPanel>
+            </Border>
+            <Border Classes="Card Outlined">
+                <StackPanel Spacing="16">
+                    <TextBlock Classes="TitleMedium" Text="Floating action button" />
+                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="COLOR (Primary / Secondary / Tertiary / Surface)" />
+                    <WrapPanel>
+                        <theme:FloatingActionButton Color="Primary" Margin="0,0,16,16" Command="{Binding FabClickedCommand}">
+                            <PathIcon Width="24" Height="24" Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                        </theme:FloatingActionButton>
+                        <theme:FloatingActionButton Color="Secondary" Margin="0,0,16,16" Command="{Binding FabClickedCommand}">
+                            <PathIcon Width="24" Height="24" Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                        </theme:FloatingActionButton>
+                        <theme:FloatingActionButton Color="Tertiary" Margin="0,0,16,16" Command="{Binding FabClickedCommand}">
+                            <PathIcon Width="24" Height="24" Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                        </theme:FloatingActionButton>
+                        <theme:FloatingActionButton Color="Surface" Margin="0,0,16,16" Command="{Binding FabClickedCommand}">
+                            <PathIcon Width="24" Height="24" Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                        </theme:FloatingActionButton>
+                    </WrapPanel>
+                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="SIZE (Small / Regular / Large) &amp; DISABLED" />
+                    <WrapPanel VerticalAlignment="Center">
+                        <theme:FloatingActionButton Size="Small" Margin="0,0,16,16" VerticalAlignment="Center" Command="{Binding FabClickedCommand}">
+                            <PathIcon Width="24" Height="24" Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                        </theme:FloatingActionButton>
+                        <theme:FloatingActionButton Size="Regular" Margin="0,0,16,16" VerticalAlignment="Center" Command="{Binding FabClickedCommand}">
+                            <PathIcon Width="24" Height="24" Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                        </theme:FloatingActionButton>
+                        <theme:FloatingActionButton Size="Large" Margin="0,0,16,16" VerticalAlignment="Center" Command="{Binding FabClickedCommand}">
+                            <PathIcon Width="36" Height="36" Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                        </theme:FloatingActionButton>
+                        <theme:FloatingActionButton IsEnabled="False" Margin="0,0,16,16" VerticalAlignment="Center">
+                            <PathIcon Width="24" Height="24" Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                        </theme:FloatingActionButton>
+                    </WrapPanel>
+                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="{Binding FabClicks}" />
                 </StackPanel>
             </Border>
         </StackPanel>
