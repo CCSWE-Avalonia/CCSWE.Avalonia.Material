@@ -30,6 +30,8 @@ public class MaterialThemeTests
         ("CircularProgressIndicator.Determinate", () => new CircularProgressIndicator { Value = 60 }),
         ("CircularProgressIndicator.Indeterminate", () => new CircularProgressIndicator { IsIndeterminate = true }),
         ("Card", () => new Card { Content = "Card" }),
+        ("Divider.Plain", () => new Divider()),
+        ("Divider.Header", () => new Divider { Header = "Section" }),
         ("CheckBox", () => new CheckBox { Content = "Check" }),
         ("RadioButton", () => new RadioButton { Content = "Radio" }),
         ("ToggleButton", () => new ToggleButton { Content = "Toggle" }),

@@ -52,6 +52,7 @@ depends only on Avalonia core. **No `<FluentTheme/>` (or other base theme) is re
 - **Floating action button:** the `<theme:FloatingActionButton>` control — `Size` (`Small` / `Regular` / `Large`) and `Color` (`Primary` / `Secondary` / `Tertiary` / `Surface`) M3 mappings, with `Command` / `Click` inherited from `Button`.
 - **Text fields:** `Outlined`, `Filled`.
 - **Cards:** the `<theme:Card>` control for interactive cards (`Elevated` / `Filled` / `Outlined`, M3 hover/press state layers, `Command` / `Click`; clickable when a `Command` is set or `IsClickable="True"`), or a plain `Border` with `Card` + `Elevated` / `Filled` / `Outlined` for static surfaces.
+- **Divider:** the `<theme:Divider>` control — a thin M3 rule, with an optional `Header` that turns it into a leading section header (label on the rule's axis, hairline filling to its right); omit it for a plain full-width rule.
 - **Circular progress:** the `<theme:CircularProgressIndicator>` control — determinate (`Value` / `Minimum` / `Maximum`) or an `IsIndeterminate="True"` spinner; the ring counterpart to the linear `ProgressBar`.
 - **Default-themed (no class):** `ToggleButton`, `AutoCompleteBox`, `NumericUpDown`,
   `CheckBox`, `RadioButton`, `ToggleSwitch`, `ListBox`, `TreeView`, `ComboBox`,

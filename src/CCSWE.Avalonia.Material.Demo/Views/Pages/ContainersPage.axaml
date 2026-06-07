@@ -64,6 +64,28 @@
                         </StackPanel>
                     </GroupBox>
 
+                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="DIVIDER" />
+                    <StackPanel Spacing="16">
+                        <TextBlock Classes="BodySmall" Foreground="{DynamicResource OnSurfaceVariant}" Text="Plain rule (no header)" />
+                        <theme:Divider />
+
+                        <theme:Divider Header="Storage" />
+                        <Grid ColumnDefinitions="160,*" RowSpacing="8">
+                            <TextBlock Grid.Column="0" Classes="BodyMedium" Text="Internal storage" VerticalAlignment="Center" />
+                            <TextBox Grid.Column="1" Text="6 GB" />
+                        </Grid>
+
+                        <theme:Divider Header="Emulated Performance" />
+                        <Grid ColumnDefinitions="160,*" RowSpacing="8">
+                            <TextBlock Grid.Column="0" Classes="BodyMedium" Text="CPU cores" VerticalAlignment="Center" />
+                            <ComboBox Grid.Column="1" SelectedIndex="2">
+                                <ComboBoxItem>1</ComboBoxItem>
+                                <ComboBoxItem>2</ComboBoxItem>
+                                <ComboBoxItem>4</ComboBoxItem>
+                            </ComboBox>
+                        </Grid>
+                    </StackPanel>
+
                     <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="GRIDSPLITTER" />
                     <Grid ColumnDefinitions="*,Auto,*" Height="80">
                         <Border Grid.Column="0" Classes="Card Filled">
