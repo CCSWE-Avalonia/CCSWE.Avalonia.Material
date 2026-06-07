@@ -50,6 +50,7 @@
               <Border Background="{DynamicResource SurfaceContainer}"
                       CornerRadius="{DynamicResource CornerRadiusExtraSmall}"
                       BorderBrush="{DynamicResource OutlineVariant}" BorderThickness="1"
+                      MinWidth="{Binding $parent[ComboBox].Bounds.Width}"
                       Padding="0,4"
                       BoxShadow="0 4 8 0 #33000000, 0 2 4 0 #1F000000">
                 <ScrollViewer>
