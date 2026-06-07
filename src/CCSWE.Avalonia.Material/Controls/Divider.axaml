@@ -1,0 +1,56 @@
+<!--
+  Material 3 Divider: a thin horizontal rule (1dp OutlineVariant) with an optional leading header.
+
+  Layout is a two-column Grid [Auto, *]: the header presenter leads, the rule fills the rest. The
+  header's IsVisible is bound to Header via ObjectConverters.IsNotNull - when Header is null the
+  presenter hides, its Auto column measures to 0, and the rule spans the full width with no leading
+  gap. So the same template serves both the bare rule and the section-header form with no code-behind.
+
+  The label uses TitleSmall/Medium on OnSurface (a bright section header, matching the Android pattern
+  this mirrors). Foreground/font are setters TemplateBound onto the presenter, so a consumer can restyle
+  per instance. Every color/font ref is a {DynamicResource} so it re-resolves on a Dark<->Light flip.
+-->
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:converters="using:Avalonia.Data.Converters"
+        xmlns:theme="using:CCSWE.Avalonia.Material">
+
+  <Styles.Resources>
+
+    <ControlTheme x:Key="{x:Type theme:Divider}" TargetType="theme:Divider">
+      <Setter Property="Foreground" Value="{DynamicResource OnSurface}" />
+      <Setter Property="FontFamily" Value="{DynamicResource BodyFontFamily}" />
+      <Setter Property="FontSize" Value="{DynamicResource FontSizeTitleSmall}" />
+      <Setter Property="FontWeight" Value="Medium" />
+      <Setter Property="HorizontalAlignment" Value="Stretch" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="Template">
+        <ControlTemplate TargetType="theme:Divider">
+          <Grid ColumnDefinitions="Auto,*" VerticalAlignment="Center">
+            <ContentPresenter x:Name="PART_HeaderPresenter"
+                              Grid.Column="0"
+                              Content="{TemplateBinding Header}"
+                              ContentTemplate="{TemplateBinding HeaderTemplate}"
+                              Foreground="{TemplateBinding Foreground}"
+                              FontFamily="{TemplateBinding FontFamily}"
+                              FontSize="{TemplateBinding FontSize}"
+                              FontWeight="{TemplateBinding FontWeight}"
+                              Margin="0,0,16,0"
+                              RecognizesAccessKey="True"
+                              VerticalAlignment="Center"
+                              IsVisible="{TemplateBinding Header, Converter={x:Static converters:ObjectConverters.IsNotNull}}"
+                              UseLayoutRounding="{TemplateBinding UseLayoutRounding}" />
+
+            <Border x:Name="PART_Rule"
+                    Grid.Column="1"
+                    Height="1"
+                    Background="{DynamicResource OutlineVariant}"
+                    VerticalAlignment="Center" />
+          </Grid>
+        </ControlTemplate>
+      </Setter>
+    </ControlTheme>
+
+  </Styles.Resources>
+
+</Styles>

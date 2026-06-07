@@ -9,7 +9,7 @@ A standalone **Material 3** theme for [Avalonia](https://avaloniaui.net) 12 — 
 Dark/Light color system, the M3 type scale, motion, embedded brand fonts, and M3
 control themes across the full surface: buttons (toggle/split/dropdown/hyperlink +
 command bar + floating action button), text fields, autocomplete, numeric steppers, selection controls,
-lists, tree views, dropdowns, menus, expander, cards, group boxes, sliders,
+lists, tree views, dropdowns, menus, expander, cards, group boxes, dividers, sliders,
 progress (linear + circular), tabs (tab control + tab strip), pips pager, tooltips, notifications, the
 date family (calendar, date/time pickers), page shells, and a navigation drawer +
 rail (`DrawerPage`). It depends only on **Avalonia core** — no
@@ -69,6 +69,7 @@ depends only on Avalonia core. **No `<FluentTheme/>` or other base theme is requ
 - **Floating action button:** the `<theme:FloatingActionButton>` control — `Size` (`Small` / `Regular` / `Large`) and `Color` (`Primary` / `Secondary` / `Tertiary` / `Surface`) M3 mappings, with `Command` / `Click` inherited from `Button`.
 - **Text fields:** `Outlined`, `Filled`.
 - **Cards:** the `<theme:Card>` control for interactive cards — `Elevated` / `Filled` / `Outlined` classes, M3 hover/press state layers, and `Command` / `Click` (clickable when a `Command` is set, or `IsClickable="True"`). For a static surface, a plain `Border` with `Card` + `Elevated` / `Filled` / `Outlined` still works.
+- **Divider:** the `<theme:Divider>` control — a thin M3 rule that separates content. An optional `Header` turns it into a leading section header (the label sits on the rule's axis with the hairline filling the width to its right); omit it for a plain full-width rule.
 - **Navigation:** a `DrawerPage` shell with a `ListBox Classes="NavigationDrawer"` of destinations, or `Classes="NavigationRail"` for the compact 80dp rail (the active destination gets the M3 indicator pill).
 - **Circular progress:** the `<theme:CircularProgressIndicator>` control — determinate (`Value` / `Minimum` / `Maximum`) or an `IsIndeterminate="True"` spinner; the ring counterpart to the linear `ProgressBar`.
 - **Default-themed (no class needed):** `ToggleButton`, `AutoCompleteBox`,
