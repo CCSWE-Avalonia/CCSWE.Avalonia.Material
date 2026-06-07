@@ -65,6 +65,7 @@
   <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/Carousel.axaml" />
   <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/CarouselPage.axaml" />
   <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/CheckBox.axaml" />
+  <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/CircularProgressIndicator.axaml" />
   <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/ComboBox.axaml" />
   <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/CommandBar.axaml" />
   <StyleInclude Source="avares://CCSWE.Avalonia.Material/Controls/ContentPage.axaml" />
