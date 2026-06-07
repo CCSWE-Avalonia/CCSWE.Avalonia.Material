@@ -50,7 +50,7 @@ dotnet build src/CCSWE.Avalonia.Material.slnx --configuration Release
 # Run the Demo gallery (visual verification harness — Dark/Light toggle)
 # To drive + screenshot the running demo under WSLg (agent-driven: launch, click/scroll via
 # xdotool, capture with import) for runtime/visual checks a `dotnet build` can't catch,
-# see eng/visual-verification.md.
+# see docs/wslg-gui-debugging.md.
 dotnet run --project src/CCSWE.Avalonia.Material.Demo
 
 # Pack the NuGet package (library only)

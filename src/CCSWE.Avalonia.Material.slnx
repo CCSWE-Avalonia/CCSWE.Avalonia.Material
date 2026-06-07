@@ -1,6 +1,7 @@
 <Solution>
   <Folder Name="/docs/">
     <File Path="../CLAUDE.md" />
+    <File Path="../docs/wslg-gui-debugging.md" />
     <File Path="../LICENSE.md" />
     <File Path="../README.md" />
     <File Path="../SECURITY.md" />
@@ -24,7 +25,6 @@
     <File Path="../global.json" />
     <File Path="../version.json" />
     <File Path="../eng/optimize-demo-gif.sh" />
-    <File Path="../eng/visual-verification.md" />
     <File Path="Directory.Build.props" />
     <File Path="Directory.Packages.props" />
   </Folder>
