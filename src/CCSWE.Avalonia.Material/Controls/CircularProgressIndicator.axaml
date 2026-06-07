@@ -1,0 +1,77 @@
+<!--
+  Material 3 circular progress indicator (the ring counterpart to ProgressBar).
+  Indicator arc = Primary, faint track ring = SurfaceContainerHighest, 4dp stroke,
+  48dp default. Determinate: the arc sweeps clockwise from 12 o'clock, its
+  SweepAngle bound to the control's computed SweepAngle (Value over the range,
+  in degrees). Indeterminate: the track hides and a fixed ~270deg arc spins.
+
+  Drawn with Avalonia's Arc shape (StartAngle/SweepAngle in degrees; it deflates
+  its geometry by StrokeThickness/2 so the stroke never clips, and recomputes from
+  Bounds so it scales with Width/Height). Every color/motion ref is a
+  {DynamicResource} so it re-resolves on a Dark<->Light flip. The :indeterminate
+  SweepAngle override beats the template binding the same way ProgressBar.axaml's
+  :indeterminate width override does.
+-->
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:shapes="using:Avalonia.Controls.Shapes"
+        xmlns:theme="using:CCSWE.Avalonia.Material">
+
+  <Styles.Resources>
+
+    <ControlTheme x:Key="{x:Type theme:CircularProgressIndicator}" TargetType="theme:CircularProgressIndicator">
+      <Setter Property="Background" Value="{DynamicResource SurfaceContainerHighest}" />
+      <Setter Property="Foreground" Value="{DynamicResource Primary}" />
+      <Setter Property="Width" Value="48" />
+      <Setter Property="Height" Value="48" />
+      <Setter Property="Template">
+        <ControlTemplate TargetType="theme:CircularProgressIndicator">
+          <Panel>
+            <Ellipse x:Name="PART_TrackRing"
+                     Stroke="{TemplateBinding Background}"
+                     StrokeThickness="4"
+                     HorizontalAlignment="Stretch"
+                     VerticalAlignment="Stretch" />
+            <shapes:Arc x:Name="PART_IndicatorArc"
+                        Stroke="{TemplateBinding Foreground}"
+                        StrokeThickness="4"
+                        StrokeLineCap="Round"
+                        StartAngle="-90"
+                        SweepAngle="{TemplateBinding SweepAngle}"
+                        RenderTransformOrigin="50%,50%"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch" />
+          </Panel>
+        </ControlTemplate>
+      </Setter>
+
+      <!-- Disabled: neutral recolor (track OnSurface12, indicator OnSurface38),
+           matching the linear ProgressBar's disabled treatment. -->
+      <Style Selector="^:disabled /template/ Ellipse#PART_TrackRing">
+        <Setter Property="Stroke" Value="{DynamicResource OnSurface12}" />
+      </Style>
+      <Style Selector="^:disabled /template/ shapes|Arc#PART_IndicatorArc">
+        <Setter Property="Stroke" Value="{DynamicResource OnSurface38}" />
+      </Style>
+
+      <!-- Indeterminate: hide the track, fix the arc length, spin it at constant speed. -->
+      <Style Selector="^:indeterminate /template/ Ellipse#PART_TrackRing">
+        <Setter Property="IsVisible" Value="False" />
+      </Style>
+      <Style Selector="^:indeterminate /template/ shapes|Arc#PART_IndicatorArc">
+        <Setter Property="SweepAngle" Value="270" />
+        <Style.Animations>
+          <Animation IterationCount="Infinite" Duration="0:0:1.4" Easing="LinearEasing">
+            <KeyFrame Cue="0%">
+              <Setter Property="RotateTransform.Angle" Value="0" />
+            </KeyFrame>
+            <KeyFrame Cue="100%">
+              <Setter Property="RotateTransform.Angle" Value="360" />
+            </KeyFrame>
+          </Animation>
+        </Style.Animations>
+      </Style>
+    </ControlTheme>
+
+  </Styles.Resources>
+</Styles>
