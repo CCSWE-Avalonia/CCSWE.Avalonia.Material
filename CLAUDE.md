@@ -48,6 +48,8 @@ Projects live under `src/`; the solution is `src/CCSWE.Avalonia.Material.slnx`.
 dotnet build src/CCSWE.Avalonia.Material.slnx --configuration Release
 
 # Run the Demo gallery (visual verification harness — Dark/Light toggle)
+# To screenshot the running demo headlessly for visual checks (WSLg / agent-driven),
+# see eng/visual-verification.md (poll for paint; never kill in the capture command).
 dotnet run --project src/CCSWE.Avalonia.Material.Demo
 
 # Pack the NuGet package (library only)

@@ -24,6 +24,7 @@
     <File Path="../global.json" />
     <File Path="../version.json" />
     <File Path="../eng/optimize-demo-gif.sh" />
+    <File Path="../eng/visual-verification.md" />
     <File Path="Directory.Build.props" />
     <File Path="Directory.Packages.props" />
   </Folder>
