@@ -15,9 +15,11 @@
         <ControlTemplate>
           <LayoutTransformControl Name="PART_LayoutTransformControl"
                                   UseRenderTransform="True">
+            <!-- Padding tracks the theme-level DensityStyle (no per-control .Compact class:
+                 notifications are created transiently by the notification manager). -->
             <ContentPresenter Name="PART_ContentPresenter"
                               MinHeight="64"
-                              Padding="16,12"
+                              Padding="{DynamicResource NotificationCardPadding}"
                               Background="{TemplateBinding Background}"
                               BorderBrush="{TemplateBinding BorderBrush}"
                               BorderThickness="{TemplateBinding BorderThickness}"

@@ -83,7 +83,7 @@
               <ContentPresenter x:Name="PART_ContentPresenter"
                                 Content="{TemplateBinding Content}"
                                 ContentTemplate="{TemplateBinding ContentTemplate}"
-                                Padding="16,0,16,16"
+                                Padding="{DynamicResource ExpanderContentPadding}"
                                 IsVisible="{TemplateBinding IsExpanded}" />
             </DockPanel>
           </Border>
@@ -97,4 +97,9 @@
     </ControlTheme>
 
   </Styles.Resources>
+
+  <!-- Opt-in compact density (content padding only; header toggle padding is unchanged). -->
+  <Style Selector="Expander.Compact /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Padding" Value="{DynamicResource ExpanderContentPaddingCompact}" />
+  </Style>
 </Styles>

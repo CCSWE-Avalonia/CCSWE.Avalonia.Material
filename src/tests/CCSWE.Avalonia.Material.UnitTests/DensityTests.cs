@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Headless.NUnit;
 using Avalonia.Threading;
 using NUnit.Framework;
@@ -33,6 +34,28 @@ public class DensityTests
             Dispatcher.UIThread.RunJobs();
 
             return control.Bounds.Height;
+        }
+        finally
+        {
+            Theme.DensityStyle = DensityStyle.Normal;
+        }
+    }
+
+    // Apply a control under the given density and return its resolved Padding (uniform left).
+    private static double PaddingUnder(TemplatedControl control, DensityStyle density)
+    {
+        try
+        {
+            Theme.DensityStyle = DensityStyle.Normal;
+
+            var window = new Window { Content = new StackPanel { Children = { control } } };
+            window.Show();
+            Dispatcher.UIThread.RunJobs();
+
+            Theme.DensityStyle = density;
+            Dispatcher.UIThread.RunJobs();
+
+            return control.Padding.Left;
         }
         finally
         {
@@ -111,6 +134,14 @@ public class DensityTests
         [AvaloniaTest]
         public void It_keeps_the_time_picker_at_56() =>
             Assert.That(HeightUnder(new TimePicker(), DensityStyle.Normal), Is.EqualTo(56));
+
+        [AvaloniaTest]
+        public void It_keeps_the_card_padding_at_16() =>
+            Assert.That(PaddingUnder(new Card(), DensityStyle.Normal), Is.EqualTo(16));
+
+        [AvaloniaTest]
+        public void It_keeps_the_group_box_padding_at_16() =>
+            Assert.That(PaddingUnder(new GroupBox(), DensityStyle.Normal), Is.EqualTo(16));
     }
 
     public class When_DensityStyle_Is_Compact : DensityTests
@@ -158,6 +189,14 @@ public class DensityTests
         [AvaloniaTest]
         public void It_shrinks_the_time_picker_to_48() =>
             Assert.That(HeightUnder(new TimePicker(), DensityStyle.Compact), Is.EqualTo(48));
+
+        [AvaloniaTest]
+        public void It_shrinks_the_card_padding_to_12() =>
+            Assert.That(PaddingUnder(new Card(), DensityStyle.Compact), Is.EqualTo(12));
+
+        [AvaloniaTest]
+        public void It_shrinks_the_group_box_padding_to_12() =>
+            Assert.That(PaddingUnder(new GroupBox(), DensityStyle.Compact), Is.EqualTo(12));
     }
 
     public class When_Compact_Class_Is_Applied : DensityTests

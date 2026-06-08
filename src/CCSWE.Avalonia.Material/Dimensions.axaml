@@ -41,6 +41,16 @@
   <Thickness x:Key="MenuItemPadding">12,8</Thickness>
   <Thickness x:Key="MenuItemPaddingCompact">8,6</Thickness>
 
+  <!-- Container content padding (whitespace, not row height) -->
+  <Thickness x:Key="CardPadding">16</Thickness>
+  <Thickness x:Key="CardPaddingCompact">12</Thickness>
+  <Thickness x:Key="GroupBoxPadding">16</Thickness>
+  <Thickness x:Key="GroupBoxPaddingCompact">12</Thickness>
+  <Thickness x:Key="ExpanderContentPadding">16,0,16,16</Thickness>
+  <Thickness x:Key="ExpanderContentPaddingCompact">12,0,12,12</Thickness>
+  <Thickness x:Key="NotificationCardPadding">16,12</Thickness>
+  <Thickness x:Key="NotificationCardPaddingCompact">12,8</Thickness>
+
   <!-- NumericUpDown spinner buttons: two stack vertically, so their combined height must
        stay under the field height (2x26=52 < 56; 2x22=44 < 48) or it floors the control. -->
   <x:Double x:Key="SpinnerButtonHeight">26</x:Double>

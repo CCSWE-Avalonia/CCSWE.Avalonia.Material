@@ -26,7 +26,7 @@
       <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusMedium}" />
       <Setter Property="FontFamily" Value="{DynamicResource BodyFontFamily}" />
       <Setter Property="FontSize" Value="{DynamicResource FontSizeBodyMedium}" />
-      <Setter Property="Padding" Value="16" />
+      <Setter Property="Padding" Value="{DynamicResource GroupBoxPadding}" />
       <Setter Property="HorizontalContentAlignment" Value="Stretch" />
       <Setter Property="Template">
         <ControlTemplate TargetType="GroupBox">
@@ -74,5 +74,10 @@
     </ControlTheme>
 
   </Styles.Resources>
+
+  <!-- Opt-in compact density (content padding only; header backplate notch is unchanged). -->
+  <Style Selector="GroupBox.Compact">
+    <Setter Property="Padding" Value="{DynamicResource GroupBoxPaddingCompact}" />
+  </Style>
 
 </Styles>

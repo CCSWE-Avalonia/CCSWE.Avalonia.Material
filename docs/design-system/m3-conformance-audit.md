@@ -91,12 +91,12 @@ Verdict key: **✓** matches M3 · **⚠** minor/intentional deviation · **✗*
 
 | Control | Dimension | Current | M3 | Verdict | Note |
 |---|---|---|---|---|---|
-| Card | padding | 16 | 16 (common) | ✓ | |
-| GroupBox | padding | 16 | n/a | n/a | not an M3 component |
-| Expander | header padding | 16,14 | n/a | n/a | M3 expander is newer/unstable; 16,14 reasonable |
+| Card | padding | 16 (→ 12 Compact) | 16 (common) | ✓ | density-aware (`CardPadding`) |
+| GroupBox | padding | 16 (→ 12 Compact) | n/a | n/a | density-aware (`GroupBoxPadding`); not an M3 component |
+| Expander | content padding | 16,0,16,16 (→ 12,0,12,12 Compact) | n/a | n/a | density-aware content; header toggle 16,14 unchanged |
 | Divider | thickness | 1 | 1 | ✓ | |
-| ToolTip | padding | 8,5 | 8 / 4 (plain) | ⚠ | vertical 5 vs ~4; trivial |
-| NotificationCard | min height + padding | 64 + 16,12 | 48 (snackbar single-line) | ⚠ | 64 taller than single-line snackbar; intentional for richer cards — confirm |
+| ToolTip | padding | 8,5 | 8 / 4 (plain) | ⚠ | vertical 5 vs ~4; trivial; fixed chrome (no compact) |
+| NotificationCard | min height + padding | 64 + 16,12 (→ 12,8 Compact) | 48 (snackbar single-line) | ⚠ | density-aware padding (global only); 64 taller than single-line snackbar — confirm |
 | FlyoutPresenter / Menu popup | padding | 4 / 0,4 | 8 (menu v-pad) | ⚠ | menu vertical padding 4 vs M3 8; trivial |
 
 ## Navigation & shells

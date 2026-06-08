@@ -28,7 +28,7 @@
     <ControlTheme x:Key="M3CardBase" TargetType="theme:Card">
       <Setter Property="ClipToBounds" Value="False" />
       <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusMedium}" />
-      <Setter Property="Padding" Value="16" />
+      <Setter Property="Padding" Value="{DynamicResource CardPadding}" />
       <Setter Property="Background" Value="{DynamicResource SurfaceContainerLow}" />
       <Setter Property="HorizontalContentAlignment" Value="Stretch" />
       <Setter Property="VerticalContentAlignment" Value="Stretch" />
@@ -118,13 +118,20 @@
   <Style Selector="theme|Card.Outlined">
     <Setter Property="Theme" Value="{StaticResource M3OutlinedCard}" />
   </Style>
+  <!-- Opt-in compact density (padding only; composes with the variant classes). -->
+  <Style Selector="theme|Card.Compact">
+    <Setter Property="Padding" Value="{DynamicResource CardPaddingCompact}" />
+  </Style>
 
   <!-- Border.Card class convention - static surfaces, no state layer -->
   <Style Selector="Border.Card">
     <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusMedium}" />
-    <Setter Property="Padding" Value="16" />
+    <Setter Property="Padding" Value="{DynamicResource CardPadding}" />
     <Setter Property="Background" Value="{DynamicResource SurfaceContainerLow}" />
     <Setter Property="BoxShadow" Value="0 1 2 0 #26000000, 0 1 3 1 #1A000000" />
+  </Style>
+  <Style Selector="Border.Card.Compact">
+    <Setter Property="Padding" Value="{DynamicResource CardPaddingCompact}" />
   </Style>
 
   <Style Selector="Border.Card.Elevated">

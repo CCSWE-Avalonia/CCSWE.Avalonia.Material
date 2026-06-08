@@ -30,6 +30,16 @@
                         </Border>
                     </Grid>
 
+                    <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="COMPACT PADDING (.Compact class — tighter interior, independent of the density toggle)" />
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="16">
+                        <Border Grid.Column="0" Classes="Card Outlined">
+                            <TextBlock Classes="TitleSmall" Text="Default — 16px" />
+                        </Border>
+                        <Border Grid.Column="1" Classes="Card Outlined Compact">
+                            <TextBlock Classes="TitleSmall" Text="Compact — 12px" />
+                        </Border>
+                    </Grid>
+
                     <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="INTERACTIVE CARDS (hover / press)" />
                     <Grid ColumnDefinitions="*,*,*" ColumnSpacing="16">
                         <theme:Card Grid.Column="0" Classes="Elevated" Command="{Binding CardClickedCommand}">
