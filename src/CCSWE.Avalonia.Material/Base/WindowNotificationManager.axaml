@@ -6,7 +6,8 @@
     <Setter Property="Margin" Value="0 0 8 8" />
     <Setter Property="Template">
       <ControlTemplate>
-        <ReversibleStackPanel Name="PART_Items">
+        <ReversibleStackPanel Name="PART_Items"
+                              Spacing="8">
           <ReversibleStackPanel.DataTemplates>
             <DataTemplate DataType="INotification">
               <StackPanel Margin="12"
