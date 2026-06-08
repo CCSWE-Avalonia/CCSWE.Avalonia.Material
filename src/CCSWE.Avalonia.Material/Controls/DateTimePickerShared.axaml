@@ -1,0 +1,133 @@
+<!--
+  Material 3 shared sub-component themes for the DatePicker / TimePicker spinner flyouts:
+  the spinner list items, the reveal-on-hover up/down RepeatButtons, and the accept/dismiss
+  buttons. Hand-rolled M3 (state layers + motion); structure derived from the Avalonia 12
+  Simple theme's DateTimePicker contract. Consumed by Controls/DatePicker.axaml and
+  Controls/TimePicker.axaml via {StaticResource}, so these three ship as one merged
+  ResourceDictionary group (see MaterialTheme.axaml).
+-->
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <Thickness x:Key="DateTimeFlyoutBorderThickness">1</Thickness>
+  <Thickness x:Key="DateTimeFlyoutBorderPadding">4</Thickness>
+
+  <!-- Spinner list item. The centered (selected) item overlaps the SecondaryContainer
+       highlight band, so its content reads as OnSecondaryContainer. -->
+  <ControlTheme x:Key="M3DateTimePickerItem"
+                BasedOn="{StaticResource {x:Type ListBoxItem}}"
+                TargetType="ListBoxItem">
+    <Setter Property="Foreground" Value="{DynamicResource OnSurface}" />
+    <Setter Property="Padding" Value="{DynamicResource DatePickerFlyoutPresenterItemPadding}" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+
+    <Style Selector="^:selected">
+      <Setter Property="IsHitTestVisible" Value="False" />
+      <Style Selector="^/template/ Rectangle#PressedBackground">
+        <Setter Property="Fill" Value="Transparent" />
+      </Style>
+      <Style Selector="^/template/ ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource OnSecondaryContainer}" />
+      </Style>
+    </Style>
+    <Style Selector="^.MonthItem">
+      <Setter Property="Padding" Value="{DynamicResource DatePickerFlyoutPresenterMonthPadding}" />
+      <Setter Property="HorizontalContentAlignment" Value="Left" />
+    </Style>
+  </ControlTheme>
+
+  <!-- Base for the accept/dismiss buttons and the up/down RepeatButtons: an M3 state layer
+       (8% hover / 10% press) over a transparent surface, with the standard motion. -->
+  <ControlTheme x:Key="M3DateTimePickerButton" TargetType="Button">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{DynamicResource OnSurface}" />
+    <Setter Property="Height" Value="22" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Background="{TemplateBinding Background}"
+                CornerRadius="{TemplateBinding CornerRadius}">
+          <Panel>
+            <Border x:Name="StateLayer"
+                    Background="{DynamicResource OnSurface}"
+                    CornerRadius="{TemplateBinding CornerRadius}"
+                    Opacity="0">
+              <Border.Transitions>
+                <Transitions>
+                  <DoubleTransition Property="Opacity"
+                                    Duration="{DynamicResource MotionDurationShort2}"
+                                    Easing="{DynamicResource MotionEasingStandard}" />
+                </Transitions>
+              </Border.Transitions>
+            </Border>
+            <ContentPresenter x:Name="PART_ContentPresenter"
+                              Padding="{TemplateBinding Padding}"
+                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                              Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              Foreground="{TemplateBinding Foreground}" />
+          </Panel>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^:pointerover /template/ Border#StateLayer">
+      <Setter Property="Opacity" Value="0.08" />
+    </Style>
+    <Style Selector="^:pressed /template/ Border#StateLayer">
+      <Setter Property="Opacity" Value="0.10" />
+    </Style>
+  </ControlTheme>
+
+  <!-- Up/down spinner buttons: opaque (SurfaceContainerHighest) so they sit over the
+       scrolling items, revealed only while the column is hovered. -->
+  <ControlTheme x:Key="M3DateTimePickerUpButton"
+                BasedOn="{StaticResource M3DateTimePickerButton}"
+                TargetType="RepeatButton">
+    <Setter Property="VerticalAlignment" Value="Top" />
+    <Setter Property="Height" Value="22" />
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="Focusable" Value="False" />
+    <Setter Property="Background" Value="{DynamicResource SurfaceContainerHighest}" />
+    <Setter Property="IsVisible" Value="False" />
+    <Setter Property="Content">
+      <Template>
+        <Viewbox Width="10"
+                 Height="10"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Center">
+          <Path Data="M 0,9 L 9,0 L 18,9"
+                Stroke="{Binding $parent[RepeatButton].Foreground}"
+                StrokeThickness="1" />
+        </Viewbox>
+      </Template>
+    </Setter>
+  </ControlTheme>
+
+  <ControlTheme x:Key="M3DateTimePickerDownButton"
+                BasedOn="{StaticResource M3DateTimePickerButton}"
+                TargetType="RepeatButton">
+    <Setter Property="VerticalAlignment" Value="Bottom" />
+    <Setter Property="Height" Value="22" />
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="Focusable" Value="False" />
+    <Setter Property="Background" Value="{DynamicResource SurfaceContainerHighest}" />
+    <Setter Property="IsVisible" Value="False" />
+    <Setter Property="Content">
+      <Template>
+        <Viewbox Width="10"
+                 Height="10"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Center">
+          <Path Data="M 0,0 L 9,9 L 18,0"
+                Stroke="{Binding $parent[RepeatButton].Foreground}"
+                StrokeThickness="1" />
+        </Viewbox>
+      </Template>
+    </Setter>
+  </ControlTheme>
+</ResourceDictionary>

@@ -82,7 +82,9 @@ Verdict key: **✓** matches M3 · **⚠** minor/intentional deviation · **✗*
 |---|---|---|---|---|---|
 | CalendarDayButton | cell / selection | 40 (margin 1) | 48 cell / 40 select | ⚠ | selection circle 40 ✓; grid cell tighter than 48 |
 | CalendarButton (month/year) | height | 42 (margin 2) | 40 (or 48) | ✗ | 42 is an odd one-off — align to 40 |
-| CalendarDatePicker | icon / glyph | 32 / 20 | ~24 target | ⚠ | picker affordance; review with date pickers |
+| CalendarDatePicker | field height | 56 (TextBox theme) | 56 | ✓ | inherits the M3 outlined field + density |
+| DatePicker (spinner) | field height | 56 (density-aware) | 56 | ✓ | hand-rolled M3 Outlined field; flyout SurfaceContainerHigh |
+| TimePicker (spinner) | field height | 56 (density-aware) | 56 | ✓ | hand-rolled M3 Outlined field; flyout SurfaceContainerHigh |
 | Calendar / CalendarItem | grid metrics | various | — | n/a | composite; relies on day/month buttons above |
 
 ## Containers

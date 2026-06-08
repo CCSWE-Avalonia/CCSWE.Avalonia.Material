@@ -103,6 +103,14 @@ public class DensityTests
         [AvaloniaTest]
         public void It_keeps_the_command_bar_at_48() =>
             Assert.That(HeightUnder(new CommandBar(), DensityStyle.Normal), Is.EqualTo(48));
+
+        [AvaloniaTest]
+        public void It_keeps_the_date_picker_at_56() =>
+            Assert.That(HeightUnder(new DatePicker(), DensityStyle.Normal), Is.EqualTo(56));
+
+        [AvaloniaTest]
+        public void It_keeps_the_time_picker_at_56() =>
+            Assert.That(HeightUnder(new TimePicker(), DensityStyle.Normal), Is.EqualTo(56));
     }
 
     public class When_DensityStyle_Is_Compact : DensityTests
@@ -142,6 +150,14 @@ public class DensityTests
         [AvaloniaTest]
         public void It_shrinks_the_command_bar_to_40() =>
             Assert.That(HeightUnder(new CommandBar(), DensityStyle.Compact), Is.EqualTo(40));
+
+        [AvaloniaTest]
+        public void It_shrinks_the_date_picker_to_48() =>
+            Assert.That(HeightUnder(new DatePicker(), DensityStyle.Compact), Is.EqualTo(48));
+
+        [AvaloniaTest]
+        public void It_shrinks_the_time_picker_to_48() =>
+            Assert.That(HeightUnder(new TimePicker(), DensityStyle.Compact), Is.EqualTo(48));
     }
 
     public class When_Compact_Class_Is_Applied : DensityTests

@@ -43,8 +43,8 @@ interim forks, and which are verified in the Demo. Update this **per control** a
 | ContentPage, CarouselPage, Carousel | ✅ M3 | — | Surface page hosts; forks deleted |
 | TabbedPage | ✅ M3 | — | M3 primary tabs: Primary indicator/label, OnSurfaceVariant unselected, surface state layers, 3dp rounded indicator; fork deleted |
 | NavigationPage | ✅ M3 | — | M3 top app bar: SurfaceContainer bar, OnSurface TitleLarge header, circular back-button state layers, Primary focus ring; fork deleted |
-| Calendar, CalendarButton, CalendarDayButton, CalendarItem, CalendarDatePicker | ✅ M3 | ✓ (Coverage page) | from-scratch M3 calendar grid (circular day cells, Primary selection/today ring) + icon-button date field w/ SurfaceContainerHigh popup; moved to Controls/, forks deleted |
-| DatePicker, TimePicker, DateTimePickerShared | 🏗 Infra | ✓ (Coverage page) | M3-recolored Simple spinner skeleton (Surface field, SurfaceContainerHigh popup, SecondaryContainer selection band, OutlineVariant dividers); kept in Base/ as recolored infra |
+| Calendar, CalendarButton, CalendarDayButton, CalendarItem, CalendarDatePicker | ✅ M3 | ✓ (Date / Time page) | from-scratch M3 calendar grid (circular day cells, Primary selection/today ring) + icon-button date field w/ SurfaceContainerHigh popup; moved to Controls/, forks deleted |
+| DatePicker, TimePicker, DateTimePickerShared | ✅ M3 | ✓ (Date / Time page) | from-scratch M3 spinner pickers: Outlined field (1px Outline → 2px Primary focus, CornerRadiusExtraSmall, density-aware TextFieldMinHeight), SurfaceContainerHigh elevated popup (CornerRadiusMedium), SecondaryContainer selection band, M3 state-layer/motion spinner buttons; moved to Controls/, forks deleted |
 
 ## How "done" is defined
 
