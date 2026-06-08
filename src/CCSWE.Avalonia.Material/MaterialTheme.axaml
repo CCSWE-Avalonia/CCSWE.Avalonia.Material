@@ -35,8 +35,6 @@
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/BaseAliases.axaml" />
         <!-- Base/* structural infra forks (alphabetical) -->
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/AdornerLayer.axaml" />
-        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/DatePicker.axaml" />
-        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/DateTimePickerShared.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/EmbeddableControlRoot.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/OverlayPopupHost.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/PathIcon.axaml" />
@@ -44,11 +42,16 @@
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/SplitView.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/TextSelectionHandle.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/ThemeVariantScope.axaml" />
-        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/TimePicker.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/TransitioningContentControl.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/Window.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/WindowDrawnDecorations.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/WindowNotificationManager.axaml" />
+        <!-- Controls/* date-time pickers. ControlTheme-only ResourceDictionaries (not Styles)
+             because the two pickers share spinner sub-themes via {StaticResource}, so they
+             ship as one merged group. Loaded after Base/* (last-wins) and after the tokens. -->
+        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Controls/DateTimePickerShared.axaml" />
+        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Controls/DatePicker.axaml" />
+        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Controls/TimePicker.axaml" />
       </ResourceDictionary.MergedDictionaries>
       <!-- Compact-density overrides. Kept OUT of MergedDictionaries (declared as a keyed
            resource) so the code-behind can GetAndRemove it and shadow the base dimension

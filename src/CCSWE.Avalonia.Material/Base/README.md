@@ -12,12 +12,12 @@ folder to the DS regenerate pipeline.
   state layers, shape, motion; references the M3 tokens directly). Library-owned, hand-authored.
 - **`Base/*.axaml`** — the **`Avalonia.Themes.Simple`-derived layer**: verbatim/near-verbatim
   structural forks AND recolored-but-still-Simple-skeleton infra (e.g. `Window`, `SplitView`,
-  popup/overlay hosts, the date-time spinner pickers).
+  popup/overlay hosts).
 
 A control **leaves `Base/` → `Controls/` only when it is given a from-scratch M3 theme.**
 Merely recoloring a Simple fork to M3 tokens keeps it in `Base/` (it's still the Simple
-skeleton). This is why, e.g., `DatePicker`/`TimePicker` are M3-recolored but remain in `Base/`,
-while the from-scratch `Calendar` grid moved to `Controls/`.
+skeleton). This is why, e.g., the `Window`/`SplitView` structural forks remain in `Base/`,
+while the from-scratch `Calendar`, `DatePicker`, and `TimePicker` themes live in `Controls/`.
 
 ## What's here now
 
@@ -31,9 +31,6 @@ while the from-scratch `Calendar` grid moved to `Controls/`.
   `PopupRoot`, `OverlayPopupHost`, `EmbeddableControlRoot`, `AdornerLayer`, `ThemeVariantScope`,
   `TransitioningContentControl`, `PathIcon`, `TextSelectionHandle`, `SplitView`. Structural
   plumbing recolored to M3 roles; kept as forks (pure-plumbing may stay near-verbatim).
-- **Recolored date-time spinner pickers** — `DatePicker`, `TimePicker`, `DateTimePickerShared`.
-  Simple spinner skeleton recolored to M3 (Surface field, `SurfaceContainerHigh` popup,
-  `SecondaryContainer` selection band).
 
 See `MIGRATION.md` for the per-control status table.
 

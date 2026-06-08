@@ -1,34 +1,17 @@
 <!--
-  // (c) Copyright Microsoft Corporation.
-  // This source is subject to the Microsoft Public License (Ms-PL).
-  // Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
-  // All other rights reserved.
--->
+  Material 3 DatePicker. The closed field reads as an M3 Outlined text field (transparent
+  fill, 1px Outline -> 2px Primary on focus, CornerRadiusExtraSmall, TextFieldMinHeight so it
+  tracks the density toggle) carrying day/month/year segments. The flyout is an M3
+  SurfaceContainerHigh surface (rounded, elevated) hosting the day/month/year spinner.
 
+  This is the spinner-style date entry; CalendarDatePicker is the calendar-based variant.
+  The Avalonia DatePicker/DatePickerPresenter template-part contract (PART_FlyoutButton,
+  PART_Popup, PART_PickerPresenter, PART_*Selector/Host/Up/DownButton, HighlightRect,
+  PART_*Spacer, PART_Accept/DismissButton) is preserved verbatim. Shared spinner sub-themes
+  live in Controls/DateTimePickerShared.axaml. Structure derived from Avalonia 12 Simple.
+-->
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:sys="using:System"
-                    x:ClassModifier="internal">
-  <Design.PreviewWith>
-    <Border Height="500"
-            Padding="20">
-      <StackPanel VerticalAlignment="Center"
-                  Spacing="20">
-        <DatePicker />
-        <DatePicker CornerRadius="10" />
-        <DatePicker IsEnabled="False" />
-        <DatePicker>
-          <DataValidationErrors.Error>
-            <sys:Exception>
-              <x:Arguments>
-                <x:String>Error</x:String>
-              </x:Arguments>
-            </sys:Exception>
-          </DataValidationErrors.Error>
-        </DatePicker>
-      </StackPanel>
-    </Border>
-  </Design.PreviewWith>
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
   <x:Double x:Key="DatePickerFlyoutPresenterHighlightHeight">40</x:Double>
   <x:Double x:Key="DatePickerFlyoutPresenterItemHeight">40</x:Double>
@@ -41,14 +24,15 @@
   <Thickness x:Key="DatePickerHostMonthPadding">9,3,0,6</Thickness>
   <x:Double x:Key="DatePickerSpacerThemeWidth">1</x:Double>
 
-  <ControlTheme x:Key="SimpleDatePickerFlyoutButton"
-                TargetType="Button">
+  <!-- The field trigger. Just hosts the segment grid; the M3 outline/fill/focus treatment
+       lives on the DatePicker ControlTheme below (it flows in via TemplateBindings). -->
+  <ControlTheme x:Key="M3DatePickerFlyoutButton" TargetType="Button">
     <Setter Property="RenderTransform" Value="none" />
     <Setter Property="Template">
       <ControlTemplate>
         <ContentPresenter Name="PART_ContentPresenter"
                           HorizontalContentAlignment="Stretch"
-                          VerticalContentAlignment="Stretch"
+                          VerticalContentAlignment="Center"
                           Background="{TemplateBinding Background}"
                           BorderBrush="{TemplateBinding BorderBrush}"
                           BorderThickness="{TemplateBinding BorderThickness}"
@@ -57,33 +41,18 @@
                           Foreground="{TemplateBinding Foreground}" />
       </ControlTemplate>
     </Setter>
-
-    <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="BorderBrush" Value="{DynamicResource Outline}" />
-      <Setter Property="TextBlock.Foreground" Value="{DynamicResource OnSurface}" />
-    </Style>
-
-    <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="BorderBrush" Value="{DynamicResource Outline}" />
-      <Setter Property="Background">
-        <SolidColorBrush Opacity="0.6"
-                         Color="{DynamicResource SurfaceContainerHighestColor}" />
-      </Setter>
-      <Setter Property="TextBlock.Foreground" Value="{DynamicResource OnSurface}" />
-    </Style>
-
-    <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Opacity" Value="0.38" />
-    </Style>
   </ControlTheme>
 
   <ControlTheme x:Key="{x:Type DatePicker}"
                 TargetType="DatePicker">
     <Setter Property="FontSize" Value="{DynamicResource FontSizeBodyLarge}" />
+    <Setter Property="FontFamily" Value="{DynamicResource BodyFontFamily}" />
     <Setter Property="Foreground" Value="{DynamicResource OnSurface}" />
-    <Setter Property="Background" Value="{DynamicResource Surface}" />
+    <Setter Property="Background" Value="Transparent" />
     <Setter Property="BorderBrush" Value="{DynamicResource Outline}" />
     <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusExtraSmall}" />
+    <Setter Property="MinHeight" Value="{DynamicResource TextFieldMinHeight}" />
     <Setter Property="HorizontalAlignment" Value="Left" />
     <Setter Property="VerticalAlignment" Value="Center" />
     <Setter Property="Template">
@@ -104,7 +73,7 @@
                     Foreground="{TemplateBinding Foreground}"
                     IsEnabled="{TemplateBinding IsEnabled}"
                     TemplatedControl.IsTemplateFocusTarget="True"
-                    Theme="{StaticResource SimpleDatePickerFlyoutButton}">
+                    Theme="{StaticResource M3DatePickerFlyoutButton}">
               <Grid Name="PART_ButtonContentGrid"
                     ColumnDefinitions="78*,Auto,132*,Auto,78*">
                 <TextBlock Name="PART_DayTextBlock"
@@ -154,17 +123,37 @@
       </ControlTemplate>
     </Setter>
 
-    <Style Selector="^:disabled /template/ Rectangle">
-      <Setter Property="Opacity" Value="0.38" />
+    <!-- M3 field states (outline thickens to Primary on focus; OnSurface on hover; Error). -->
+    <Style Selector="^:pointerover /template/ Button#PART_FlyoutButton">
+      <Setter Property="BorderBrush" Value="{DynamicResource OnSurface}" />
+    </Style>
+    <Style Selector="^:focus-within /template/ Button#PART_FlyoutButton">
+      <Setter Property="BorderBrush" Value="{DynamicResource Primary}" />
+      <Setter Property="BorderThickness" Value="2" />
+    </Style>
+    <Style Selector="^:error /template/ Button#PART_FlyoutButton">
+      <Setter Property="BorderBrush" Value="{DynamicResource Error}" />
     </Style>
 
-    <!--  Changes foreground for watermark text when SelectedDate is null  -->
+    <!-- Disabled: neutral M3 recolor (outline OnSurface12, content OnSurface38), not a dim. -->
+    <Style Selector="^:disabled /template/ Button#PART_FlyoutButton">
+      <Setter Property="BorderBrush" Value="{DynamicResource OnSurface12}" />
+    </Style>
+    <Style Selector="^:disabled /template/ Button#PART_FlyoutButton TextBlock">
+      <Setter Property="Foreground" Value="{DynamicResource OnSurface38}" />
+    </Style>
+
+    <!-- Watermark colour when no date is selected. -->
     <Style Selector="^:hasnodate /template/ Button#PART_FlyoutButton TextBlock">
       <Setter Property="Foreground" Value="{DynamicResource OnSurfaceVariant}" />
     </Style>
+
+    <!-- Opt-in compact density for the field (independent of the theme-level DensityStyle). -->
+    <Style Selector="^.Compact">
+      <Setter Property="MinHeight" Value="{DynamicResource TextFieldMinHeightCompact}" />
+    </Style>
   </ControlTheme>
 
-  <!--  WinUI: DatePickerFlyoutPresenter  -->
   <ControlTheme x:Key="{x:Type DatePickerPresenter}"
                 TargetType="DatePickerPresenter">
     <Setter Property="Width" Value="296" />
@@ -175,6 +164,7 @@
     <Setter Property="Background" Value="{DynamicResource SurfaceContainerHigh}" />
     <Setter Property="BorderBrush" Value="{DynamicResource OutlineVariant}" />
     <Setter Property="BorderThickness" Value="{DynamicResource DateTimeFlyoutBorderThickness}" />
+    <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusMedium}" />
     <Setter Property="Template">
       <ControlTemplate>
         <Border Name="Background"
@@ -183,13 +173,15 @@
                 Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}"
-                CornerRadius="{TemplateBinding CornerRadius}">
+                CornerRadius="{TemplateBinding CornerRadius}"
+                ClipToBounds="False"
+                BoxShadow="0 4 8 0 #33000000, 0 2 4 0 #1F000000">
           <Grid Name="ContentRoot"
                 RowDefinitions="*,Auto">
             <Grid Name="PART_PickerContainer">
               <Grid.Styles>
                 <Style Selector="DateTimePickerPanel > ListBoxItem">
-                  <Setter Property="Theme" Value="{StaticResource SimpleDateTimePickerItem}" />
+                  <Setter Property="Theme" Value="{StaticResource M3DateTimePickerItem}" />
                 </Style>
               </Grid.Styles>
               <!--  Column Definitions set in code, ignore here  -->
@@ -202,9 +194,9 @@
                                        ShouldLoop="True" />
                 </ScrollViewer>
                 <RepeatButton Name="PART_MonthUpButton"
-                              Theme="{StaticResource SimpleDateTimePickerUpButton}" />
+                              Theme="{StaticResource M3DateTimePickerUpButton}" />
                 <RepeatButton Name="PART_MonthDownButton"
-                              Theme="{StaticResource SimpleDateTimePickerDownButton}" />
+                              Theme="{StaticResource M3DateTimePickerDownButton}" />
               </Panel>
               <Panel Name="PART_DayHost">
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled"
@@ -215,9 +207,9 @@
                                        ShouldLoop="True" />
                 </ScrollViewer>
                 <RepeatButton Name="PART_DayUpButton"
-                              Theme="{StaticResource SimpleDateTimePickerUpButton}" />
+                              Theme="{StaticResource M3DateTimePickerUpButton}" />
                 <RepeatButton Name="PART_DayDownButton"
-                              Theme="{StaticResource SimpleDateTimePickerDownButton}" />
+                              Theme="{StaticResource M3DateTimePickerDownButton}" />
               </Panel>
               <Panel Name="PART_YearHost">
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled"
@@ -228,9 +220,9 @@
                                        ShouldLoop="False" />
                 </ScrollViewer>
                 <RepeatButton Name="PART_YearUpButton"
-                              Theme="{StaticResource SimpleDateTimePickerUpButton}" />
+                              Theme="{StaticResource M3DateTimePickerUpButton}" />
                 <RepeatButton Name="PART_YearDownButton"
-                              Theme="{StaticResource SimpleDateTimePickerDownButton}" />
+                              Theme="{StaticResource M3DateTimePickerDownButton}" />
               </Panel>
               <Rectangle Name="HighlightRect"
                          Grid.Column="0"
@@ -267,7 +259,7 @@
                       Height="{DynamicResource DatePickerFlyoutPresenterAcceptDismissHostGridHeight}"
                       HorizontalAlignment="Stretch"
                       VerticalAlignment="Stretch"
-                      Theme="{StaticResource SimpleDateTimePickerButton}">
+                      Theme="{StaticResource M3DateTimePickerButton}">
                 <Path Data="M0.5,8.5 5,13.5 15.5,3"
                       Stroke="{Binding $parent[Button].Foreground}"
                       StrokeLineCap="Round"
@@ -278,7 +270,7 @@
                       Height="{DynamicResource DatePickerFlyoutPresenterAcceptDismissHostGridHeight}"
                       HorizontalAlignment="Stretch"
                       VerticalAlignment="Stretch"
-                      Theme="{StaticResource SimpleDateTimePickerButton}">
+                      Theme="{StaticResource M3DateTimePickerButton}">
                 <Path Data="M2,2 14,14 M2,14 14 2"
                       Stroke="{Binding $parent[Button].Foreground}"
                       StrokeLineCap="Round"
@@ -296,6 +288,5 @@
       </Style>
     </Style>
   </ControlTheme>
-
 
 </ResourceDictionary>
