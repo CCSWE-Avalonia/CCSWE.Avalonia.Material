@@ -38,7 +38,7 @@
     <Project Path="CCSWE.Avalonia.Material/CCSWE.Avalonia.Material.csproj" />
   </Folder>
   <Folder Name="/tests/">
-    <Project Path="tests/CCSWE.Avalonia.Material.UnitTests/CCSWE.Avalonia.Material.UnitTests.csproj" />
+    <Project Path="CCSWE.Avalonia.Material.UnitTests/CCSWE.Avalonia.Material.UnitTests.csproj" />
   </Folder>
   <Folder Name="/tokens/">
     <File Path="../tokens/tokens.upstream-1.1.0.json" />

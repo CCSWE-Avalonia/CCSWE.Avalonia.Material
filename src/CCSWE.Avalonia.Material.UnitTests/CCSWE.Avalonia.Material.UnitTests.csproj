@@ -14,14 +14,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\CCSWE.Avalonia.Material\CCSWE.Avalonia.Material.csproj" />
+    <ProjectReference Include="..\CCSWE.Avalonia.Material\CCSWE.Avalonia.Material.csproj" />
   </ItemGroup>
 
   <!-- Embed the library's raw XAML so ResourceReferenceTests can scan DynamicResource keys.
        The compiled theme keeps no readable .axaml asset at runtime, only the compiled form.
        These are EmbeddedResource only (outside the project dir, so not auto-globbed as AvaloniaResource). -->
   <ItemGroup>
-    <EmbeddedResource Include="..\..\CCSWE.Avalonia.Material\**\*.axaml">
+    <EmbeddedResource Include="..\CCSWE.Avalonia.Material\**\*.axaml">
       <LogicalName>ThemeXaml/%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
