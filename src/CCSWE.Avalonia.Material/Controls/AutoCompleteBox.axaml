@@ -33,7 +33,7 @@
       <Setter Property="Foreground" Value="{DynamicResource OnSurface}" />
       <Setter Property="FontFamily" Value="{DynamicResource BodyFontFamily}" />
       <Setter Property="FontSize" Value="16" />
-      <Setter Property="MinHeight" Value="56" />
+      <Setter Property="MinHeight" Value="{DynamicResource TextFieldMinHeight}" />
       <Setter Property="Template">
         <ControlTemplate TargetType="AutoCompleteBox">
           <Panel>

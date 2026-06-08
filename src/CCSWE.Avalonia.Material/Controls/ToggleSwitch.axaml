@@ -27,8 +27,9 @@
     <Setter Property="Template">
       <ControlTemplate TargetType="ToggleSwitch">
         <Grid ColumnDefinitions="Auto,*">
-          <Panel Grid.Column="0" Width="52" Height="32">
-            <Border x:Name="Track" CornerRadius="16"
+          <Panel x:Name="SwitchOuter" Grid.Column="0"
+                 Width="{DynamicResource SwitchTrackWidth}" Height="{DynamicResource SwitchTrackHeight}">
+            <Border x:Name="Track" CornerRadius="{DynamicResource SwitchTrackCornerRadius}"
                     Background="{DynamicResource SurfaceContainerHighest}"
                     BorderBrush="{DynamicResource Outline}" BorderThickness="2">
               <Border.Transitions>
@@ -38,10 +39,10 @@
                 </Transitions>
               </Border.Transitions>
             </Border>
-            <Border x:Name="Thumb" Width="16" Height="16" CornerRadius="12"
+            <Border x:Name="Thumb" Width="{DynamicResource SwitchThumbSize}" Height="{DynamicResource SwitchThumbSize}" CornerRadius="12"
                     Background="{DynamicResource OnSurfaceVariant}"
                     HorizontalAlignment="Left" VerticalAlignment="Center"
-                    Margin="8,0,0,0">
+                    Margin="{DynamicResource SwitchThumbMargin}">
               <Border.Transitions>
                 <Transitions>
                   <ThicknessTransition Property="Margin" Duration="{DynamicResource MotionDurationShort4}" Easing="{DynamicResource MotionEasingEmphasized}" />
@@ -84,9 +85,9 @@
       <Setter Property="BorderBrush" Value="{DynamicResource Primary}" />
     </Style>
     <Style Selector="^:checked /template/ Border#Thumb">
-      <Setter Property="Width" Value="24" />
-      <Setter Property="Height" Value="24" />
-      <Setter Property="Margin" Value="20,0,0,0" />
+      <Setter Property="Width" Value="{DynamicResource SwitchThumbSelectedSize}" />
+      <Setter Property="Height" Value="{DynamicResource SwitchThumbSelectedSize}" />
+      <Setter Property="Margin" Value="{DynamicResource SwitchThumbSelectedMargin}" />
       <Setter Property="Background" Value="{DynamicResource OnPrimary}" />
     </Style>
 
@@ -95,6 +96,27 @@
     </Style>
     <Style Selector="^:checked /template/ ContentPresenter#PART_OffContentPresenter">
       <Setter Property="IsVisible" Value="False" />
+    </Style>
+
+    <!-- Opt-in compact density (independent of the theme-level DensityStyle property),
+         scaling the whole switch assembly ~0.75x. The :checked variant is more specific,
+         so it wins over both the base ^:checked thumb and the unchecked ^.Compact thumb. -->
+    <Style Selector="^.Compact /template/ Panel#SwitchOuter">
+      <Setter Property="Width" Value="{DynamicResource SwitchTrackWidthCompact}" />
+      <Setter Property="Height" Value="{DynamicResource SwitchTrackHeightCompact}" />
+    </Style>
+    <Style Selector="^.Compact /template/ Border#Track">
+      <Setter Property="CornerRadius" Value="{DynamicResource SwitchTrackCornerRadiusCompact}" />
+    </Style>
+    <Style Selector="^.Compact /template/ Border#Thumb">
+      <Setter Property="Width" Value="{DynamicResource SwitchThumbSizeCompact}" />
+      <Setter Property="Height" Value="{DynamicResource SwitchThumbSizeCompact}" />
+      <Setter Property="Margin" Value="{DynamicResource SwitchThumbMarginCompact}" />
+    </Style>
+    <Style Selector="^.Compact:checked /template/ Border#Thumb">
+      <Setter Property="Width" Value="{DynamicResource SwitchThumbSelectedSizeCompact}" />
+      <Setter Property="Height" Value="{DynamicResource SwitchThumbSelectedSizeCompact}" />
+      <Setter Property="Margin" Value="{DynamicResource SwitchThumbSelectedMarginCompact}" />
     </Style>
 
     <!-- Disabled: neutral recolor (NOT a whole-element opacity dim), placed AFTER the

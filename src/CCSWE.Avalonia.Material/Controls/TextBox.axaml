@@ -75,8 +75,8 @@
       <Setter Property="Foreground" Value="{DynamicResource OnSurface}" />
       <Setter Property="FontFamily" Value="{DynamicResource BodyFontFamily}" />
       <Setter Property="FontSize" Value="16" />
-      <Setter Property="MinHeight" Value="56" />
-      <Setter Property="Padding" Value="16,0" />
+      <Setter Property="MinHeight" Value="{DynamicResource TextFieldMinHeight}" />
+      <Setter Property="Padding" Value="{DynamicResource TextFieldPadding}" />
       <Setter Property="VerticalContentAlignment" Value="Center" />
       <Setter Property="CaretBrush" Value="{DynamicResource Primary}" />
       <Setter Property="SelectionBrush" Value="{DynamicResource PrimaryContainer}" />
@@ -244,6 +244,12 @@
   </Style>
   <Style Selector="TextBox.Filled">
     <Setter Property="Theme" Value="{StaticResource M3FilledTextBox}" />
+  </Style>
+  <!-- Opt-in compact density (independent of the theme-level DensityStyle property). Sets
+       individual properties, not Theme, so it composes with .Outlined/.Filled. -->
+  <Style Selector="TextBox.Compact">
+    <Setter Property="MinHeight" Value="{DynamicResource TextFieldMinHeightCompact}" />
+    <Setter Property="Padding" Value="{DynamicResource TextFieldPaddingCompact}" />
   </Style>
 
 </Styles>

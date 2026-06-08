@@ -50,7 +50,7 @@
       <Setter Property="Foreground" Value="{DynamicResource OnSecondaryContainer}" />
       <Setter Property="BorderThickness" Value="0" />
       <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusFull}" />
-      <Setter Property="MinHeight" Value="40" />
+      <Setter Property="MinHeight" Value="{DynamicResource ButtonMinHeight}" />
       <Setter Property="HorizontalAlignment" Value="Left" />
       <Setter Property="VerticalAlignment" Value="Center" />
       <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -113,4 +113,8 @@
     </ControlTheme>
   </Styles.Resources>
 
+  <!-- Opt-in compact density (independent of the theme-level DensityStyle property). -->
+  <Style Selector="SplitButton.Compact">
+    <Setter Property="MinHeight" Value="{DynamicResource ButtonMinHeightCompact}" />
+  </Style>
 </Styles>

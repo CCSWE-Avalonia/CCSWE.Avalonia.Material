@@ -35,8 +35,8 @@
       <Setter Property="Foreground" Value="{DynamicResource OnSurface}" />
       <Setter Property="FontFamily" Value="{DynamicResource BodyFontFamily}" />
       <Setter Property="FontSize" Value="14" />
-      <Setter Property="MinHeight" Value="48" />
-      <Setter Property="Padding" Value="16,12" />
+      <Setter Property="MinHeight" Value="{DynamicResource ItemMinHeight}" />
+      <Setter Property="Padding" Value="{DynamicResource ListItemPadding}" />
       <Setter Property="Margin" Value="0,2" />
       <Setter Property="VerticalContentAlignment" Value="Center" />
       <Setter Property="Template">
@@ -82,4 +82,10 @@
     </ControlTheme>
 
   </Styles.Resources>
+
+  <!-- Opt-in compact density for items (independent of the theme-level DensityStyle). -->
+  <Style Selector="ListBox.Compact ListBoxItem">
+    <Setter Property="MinHeight" Value="{DynamicResource ItemMinHeightCompact}" />
+    <Setter Property="Padding" Value="{DynamicResource ListItemPaddingCompact}" />
+  </Style>
 </Styles>

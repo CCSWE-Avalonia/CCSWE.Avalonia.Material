@@ -22,8 +22,8 @@
     <!-- Base - template + shared metrics. -->
     <ControlTheme x:Key="M3ButtonBase" TargetType="Button">
       <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusFull}" />
-      <Setter Property="MinHeight" Value="40" />
-      <Setter Property="Padding" Value="24,0" />
+      <Setter Property="MinHeight" Value="{DynamicResource ButtonMinHeight}" />
+      <Setter Property="Padding" Value="{DynamicResource ButtonPadding}" />
       <Setter Property="HorizontalContentAlignment" Value="Center" />
       <Setter Property="VerticalContentAlignment" Value="Center" />
       <Setter Property="FontFamily" Value="{DynamicResource BodyFontFamily}" />
@@ -152,7 +152,7 @@
     <ControlTheme x:Key="M3TextButton" TargetType="Button" BasedOn="{StaticResource M3ButtonBase}">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="Foreground" Value="{DynamicResource Primary}" />
-      <Setter Property="Padding" Value="12,0" />
+      <Setter Property="Padding" Value="{DynamicResource TextButtonPadding}" />
       <Style Selector="^ /template/ Border#PART_StateLayer">
         <Setter Property="Background" Value="{DynamicResource Primary}" />
       </Style>
@@ -206,6 +206,13 @@
   </Style>
   <Style Selector="Button.Icon">
     <Setter Property="Theme" Value="{StaticResource M3IconButton}" />
+  </Style>
+  <!-- Opt-in compact density (independent of the theme-level DensityStyle property). Height
+       only - per-variant padding compaction comes from the theme-level property, which
+       shadows ButtonPadding/TextButtonPadding individually. Icon buttons keep their fixed
+       40x40 size. Sets a property (not Theme), so it composes with the variant classes. -->
+  <Style Selector="Button.Compact">
+    <Setter Property="MinHeight" Value="{DynamicResource ButtonMinHeightCompact}" />
   </Style>
 
 </Styles>

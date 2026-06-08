@@ -9,7 +9,7 @@
       <Setter Property="BorderThickness" Value="0" />
       <Setter Property="Foreground" Value="{DynamicResource OnSurfaceVariant}" />
       <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusSmall}" />
-      <Setter Property="Padding" Value="8,4" />
+      <Setter Property="Padding" Value="{DynamicResource CommandBarButtonPadding}" />
       <Setter Property="Width" Value="68" />
       <Setter Property="MinHeight" Value="40" />
       <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -35,7 +35,7 @@
                 </Border.Transitions>
               </Border>
               <StackPanel x:Name="PART_LayoutRoot"
-                          Spacing="4"
+                          Spacing="{DynamicResource CommandBarButtonSpacing}"
                           Margin="{TemplateBinding Padding}"
                           HorizontalAlignment="Center"
                           VerticalAlignment="Center">
@@ -93,7 +93,7 @@
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="Width" Value="NaN" />
-        <Setter Property="MinHeight" Value="36" />
+        <Setter Property="MinHeight" Value="{DynamicResource CommandBarOverflowItemMinHeight}" />
       </Style>
       <Style Selector="^[IsInOverflow=True] /template/ StackPanel#PART_LayoutRoot">
         <Setter Property="HorizontalAlignment" Value="Left" />
@@ -121,7 +121,7 @@
       <Setter Property="BorderThickness" Value="0" />
       <Setter Property="Foreground" Value="{DynamicResource OnSurfaceVariant}" />
       <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusSmall}" />
-      <Setter Property="Padding" Value="8,4" />
+      <Setter Property="Padding" Value="{DynamicResource CommandBarButtonPadding}" />
       <Setter Property="Width" Value="68" />
       <Setter Property="MinHeight" Value="40" />
       <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -147,7 +147,7 @@
                 </Border.Transitions>
               </Border>
               <StackPanel x:Name="PART_LayoutRoot"
-                          Spacing="4"
+                          Spacing="{DynamicResource CommandBarButtonSpacing}"
                           Margin="{TemplateBinding Padding}"
                           HorizontalAlignment="Center"
                           VerticalAlignment="Center">
@@ -220,7 +220,7 @@
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="Width" Value="NaN" />
-        <Setter Property="MinHeight" Value="36" />
+        <Setter Property="MinHeight" Value="{DynamicResource CommandBarOverflowItemMinHeight}" />
       </Style>
       <Style Selector="^[IsInOverflow=True] /template/ StackPanel#PART_LayoutRoot">
         <Setter Property="HorizontalAlignment" Value="Left" />
@@ -273,7 +273,7 @@
       <Setter Property="BorderBrush" Value="{DynamicResource OutlineVariant}" />
       <Setter Property="BorderThickness" Value="1" />
       <Setter Property="Foreground" Value="{DynamicResource OnSurfaceVariant}" />
-      <Setter Property="MinHeight" Value="48" />
+      <Setter Property="MinHeight" Value="{DynamicResource CommandBarMinHeight}" />
       <Setter Property="Padding" Value="4,4" />
       <Setter Property="ItemWidthBottom" Value="70" />
       <Setter Property="ItemWidthRight" Value="102" />

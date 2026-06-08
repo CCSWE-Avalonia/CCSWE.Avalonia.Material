@@ -53,7 +53,7 @@
       <Setter Property="Foreground" Value="{DynamicResource OnSurface}" />
       <Setter Property="FontFamily" Value="{DynamicResource BodyFontFamily}" />
       <Setter Property="FontSize" Value="14" />
-      <Setter Property="MinHeight" Value="48" />
+      <Setter Property="MinHeight" Value="{DynamicResource ItemMinHeight}" />
       <Setter Property="Padding" Value="8,12,16,12" />
       <Setter Property="Template">
         <ControlTemplate TargetType="TreeViewItem">
@@ -141,4 +141,9 @@
     </ControlTheme>
 
   </Styles.Resources>
+
+  <!-- Opt-in compact density for items (independent of the theme-level DensityStyle). -->
+  <Style Selector="TreeView.Compact TreeViewItem">
+    <Setter Property="MinHeight" Value="{DynamicResource ItemMinHeightCompact}" />
+  </Style>
 </Styles>

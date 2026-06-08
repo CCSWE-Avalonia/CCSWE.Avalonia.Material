@@ -9,19 +9,22 @@
             <TextBlock Classes="HeadlineSmall" Text="Buttons" />
             <Border Classes="Card Outlined">
                 <StackPanel Spacing="16">
-                    <WrapPanel>
-                        <Button Classes="Filled" Content="Filled" Margin="0,0,12,12" />
-                        <Button Classes="FilledTonal" Content="Tonal" Margin="0,0,12,12" />
-                        <Button Classes="Elevated" Content="Elevated" Margin="0,0,12,12" />
-                        <Button Classes="Outlined" Content="Outlined" Margin="0,0,12,12" />
-                        <Button Classes="Text" Content="Text" Margin="0,0,12,12" />
-                        <Button Classes="Icon" Content="+" Margin="0,0,12,12" />
+                    <WrapPanel ItemSpacing="12">
+                        <Button Classes="Filled" Content="Filled" VerticalAlignment="Center" Margin="0,0, 0,12" />
+                        <Button Classes="FilledTonal" Content="Tonal" VerticalAlignment="Center" Margin="0,0, 0,12" />
+                        <Button Classes="Elevated" Content="Elevated" VerticalAlignment="Center" Margin="0,0, 0,12" />
+                        <Button Classes="Outlined" Content="Outlined" VerticalAlignment="Center" Margin="0,0, 0,12" />
+                        <Button Classes="Text" Content="Text" VerticalAlignment="Center" Margin="0,0, 0,12" />
+                        <Button Classes="Icon" Content="+" VerticalAlignment="Center" Margin="0,0, 0,12" />
                     </WrapPanel>
                     <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="DISABLED" />
-                    <WrapPanel>
-                        <Button Classes="Filled" Content="Filled" IsEnabled="False" Margin="0,0,12,0" />
-                        <Button Classes="Outlined" Content="Outlined" IsEnabled="False" Margin="0,0,12,0" />
-                        <Button Classes="Text" Content="Text" IsEnabled="False" Margin="0,0,12,0" />
+                    <WrapPanel ItemSpacing="12">
+                        <Button Classes="Filled" Content="Filled" IsEnabled="False" VerticalAlignment="Center" Margin="0,0, 0,12" />
+                        <Button Classes="FilledTonal" Content="Tonal" IsEnabled="False" VerticalAlignment="Center" Margin="0,0, 0,12" />
+                        <Button Classes="Elevated" Content="Elevated" IsEnabled="False" VerticalAlignment="Center" Margin="0,0, 0,12" />
+                        <Button Classes="Outlined" Content="Outlined" IsEnabled="False" VerticalAlignment="Center" Margin="0,0, 0,12" />
+                        <Button Classes="Text" Content="Text" IsEnabled="False" VerticalAlignment="Center" Margin="0,0, 0,12" />
+                        <Button Classes="Icon" Content="+" IsEnabled="False" VerticalAlignment="Center" Margin="0,0, 0,12" />
                     </WrapPanel>
                     <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="TOGGLE (off / on / disabled)" />
                     <WrapPanel>
