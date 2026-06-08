@@ -134,7 +134,7 @@ placeholder, not a real frame.
 ## 7. Headless alternative (no display)
 
 When you don't want a live window (CI, determinism), render off-screen with Avalonia's Skia
-rasterizer — bypasses X11/Wayland entirely. `src/tests/CCSWE.Avalonia.Material.UnitTests` is a working
+rasterizer — bypasses X11/Wayland entirely. `src/CCSWE.Avalonia.Material.UnitTests` is a working
 `Avalonia.Headless.NUnit` harness; the only change for a screenshot is disabling the stub renderer:
 
 ```csharp
