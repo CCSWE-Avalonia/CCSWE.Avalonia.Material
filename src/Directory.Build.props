@@ -12,8 +12,8 @@
     <Company>CCSWE</Company>
     <Copyright>© Copyright CCSWE, 2026. All rights reserved.</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/CoryCharlton/CCSWE.Avalonia.Material</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/CoryCharlton/CCSWE.Avalonia.Material</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/CCSWE-Avalonia/CCSWE.Avalonia.Material</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/CCSWE-Avalonia/CCSWE.Avalonia.Material</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
