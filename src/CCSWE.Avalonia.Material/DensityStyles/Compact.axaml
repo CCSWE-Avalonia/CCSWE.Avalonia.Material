@@ -1,0 +1,49 @@
+<!--
+  Compact density shadow dictionary.
+
+  Pulled out of MaterialTheme's resources via GetAndRemove("CompactStyles") and held
+  detached (see MaterialTheme.axaml.cs). When DensityStyle == Compact, the theme's
+  IResourceNode.TryGetResource checks THIS dictionary first, so it shadows the BASE
+  dimension keys defined in Dimensions.axaml with the compact values below.
+
+  Because this dictionary is detached from the resource tree, it CANNOT {StaticResource}-
+  alias the *Compact keys in Dimensions.axaml - the values are duplicated here as literals.
+  KEEP THESE IN SYNC WITH the *Compact keys in Dimensions.axaml.
+-->
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <!-- Height tiers -->
+  <x:Double x:Key="TextFieldMinHeight">48</x:Double>
+  <x:Double x:Key="ItemMinHeight">40</x:Double>
+  <x:Double x:Key="ButtonMinHeight">36</x:Double>
+  <x:Double x:Key="NavItemHeight">48</x:Double>
+
+  <!-- Paddings -->
+  <Thickness x:Key="TextFieldPadding">12,0</Thickness>
+  <Thickness x:Key="ButtonPadding">16,0</Thickness>
+  <Thickness x:Key="TextButtonPadding">8,0</Thickness>
+  <Thickness x:Key="ListItemPadding">12,8</Thickness>
+  <Thickness x:Key="MenuItemPadding">8,6</Thickness>
+  <x:Double x:Key="SpinnerButtonHeight">22</x:Double>
+  <x:Double x:Key="FabSizeRegular">48</x:Double>
+  <x:Double x:Key="FabSizeSmall">36</x:Double>
+  <x:Double x:Key="FabSizeLarge">80</x:Double>
+  <x:Double x:Key="CommandBarMinHeight">40</x:Double>
+  <Thickness x:Key="CommandBarButtonPadding">8,2</Thickness>
+  <x:Double x:Key="CommandBarButtonSpacing">2</x:Double>
+  <x:Double x:Key="CommandBarOverflowItemMinHeight">32</x:Double>
+
+  <!-- Switch -->
+  <x:Double x:Key="SwitchTrackWidth">40</x:Double>
+  <x:Double x:Key="SwitchTrackHeight">24</x:Double>
+  <CornerRadius x:Key="SwitchTrackCornerRadius">12</CornerRadius>
+  <x:Double x:Key="SwitchThumbSize">12</x:Double>
+  <x:Double x:Key="SwitchThumbSelectedSize">18</x:Double>
+  <Thickness x:Key="SwitchThumbMargin">6,0,0,0</Thickness>
+  <Thickness x:Key="SwitchThumbSelectedMargin">16,0,0,0</Thickness>
+
+  <!-- Page-shell tab header (TabbedPage defines its own base key locally; shadow it here) -->
+  <x:Double x:Key="TabbedPageTabItemHeaderMinHeight">40</x:Double>
+
+</ResourceDictionary>

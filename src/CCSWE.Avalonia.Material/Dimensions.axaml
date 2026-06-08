@@ -1,0 +1,84 @@
+<!--
+  Dimensions - library-owned control sizing tokens (heights, paddings, switch metrics).
+
+  These are NOT part of the DS-emitted token layer (Tokens.axaml holds Spacing*/
+  CornerRadius*/FontSize* and is consume-verbatim); control dimensions are library-owned,
+  so they live here.
+
+  Two parallel sets:
+    - BASE keys (e.g. TextFieldMinHeight)        - consumed by the control themes' default
+                                                    setters via {DynamicResource}.
+    - *Compact keys (e.g. TextFieldMinHeightCompact) - consumed by the per-control `.Compact`
+                                                    style classes.
+
+  The theme-level `DensityStyle="Compact"` property does NOT read this file; it shadows the
+  BASE keys with DensityStyles/Compact.axaml (see MaterialTheme.axaml.cs). KEEP THE COMPACT
+  NUMBERS BELOW IN SYNC WITH DensityStyles/Compact.axaml - the detached shadow dict can't
+  alias these keys, so the values are duplicated there by necessity.
+-->
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <!-- Height tiers -->
+  <x:Double x:Key="TextFieldMinHeight">56</x:Double>
+  <x:Double x:Key="TextFieldMinHeightCompact">48</x:Double>
+  <x:Double x:Key="ItemMinHeight">48</x:Double>
+  <x:Double x:Key="ItemMinHeightCompact">40</x:Double>
+  <x:Double x:Key="ButtonMinHeight">40</x:Double>
+  <x:Double x:Key="ButtonMinHeightCompact">36</x:Double>
+  <x:Double x:Key="NavItemHeight">56</x:Double>
+  <x:Double x:Key="NavItemHeightCompact">48</x:Double>
+
+  <!-- Paddings -->
+  <Thickness x:Key="TextFieldPadding">16,0</Thickness>
+  <Thickness x:Key="TextFieldPaddingCompact">12,0</Thickness>
+  <Thickness x:Key="ButtonPadding">24,0</Thickness>
+  <Thickness x:Key="ButtonPaddingCompact">16,0</Thickness>
+  <Thickness x:Key="TextButtonPadding">12,0</Thickness>
+  <Thickness x:Key="TextButtonPaddingCompact">8,0</Thickness>
+  <Thickness x:Key="ListItemPadding">16,12</Thickness>
+  <Thickness x:Key="ListItemPaddingCompact">12,8</Thickness>
+  <Thickness x:Key="MenuItemPadding">12,8</Thickness>
+  <Thickness x:Key="MenuItemPaddingCompact">8,6</Thickness>
+
+  <!-- NumericUpDown spinner buttons: two stack vertically, so their combined height must
+       stay under the field height (2x26=52 < 56; 2x22=44 < 48) or it floors the control. -->
+  <x:Double x:Key="SpinnerButtonHeight">26</x:Double>
+  <x:Double x:Key="SpinnerButtonHeightCompact">22</x:Double>
+
+  <!-- Floating action button (square; M3 has no compact FAB - desktop-compact choice) -->
+  <x:Double x:Key="FabSizeRegular">56</x:Double>
+  <x:Double x:Key="FabSizeRegularCompact">48</x:Double>
+  <x:Double x:Key="FabSizeSmall">40</x:Double>
+  <x:Double x:Key="FabSizeSmallCompact">36</x:Double>
+  <x:Double x:Key="FabSizeLarge">96</x:Double>
+  <x:Double x:Key="FabSizeLargeCompact">80</x:Double>
+
+  <!-- CommandBar (toolbar). Bar height + the stacked icon/label button's vertical padding
+       and spacing must shrink together, else the content (icon+label) clips in a shorter bar. -->
+  <x:Double x:Key="CommandBarMinHeight">48</x:Double>
+  <x:Double x:Key="CommandBarMinHeightCompact">40</x:Double>
+  <Thickness x:Key="CommandBarButtonPadding">8,4</Thickness>
+  <Thickness x:Key="CommandBarButtonPaddingCompact">8,2</Thickness>
+  <x:Double x:Key="CommandBarButtonSpacing">4</x:Double>
+  <x:Double x:Key="CommandBarButtonSpacingCompact">2</x:Double>
+  <x:Double x:Key="CommandBarOverflowItemMinHeight">36</x:Double>
+  <x:Double x:Key="CommandBarOverflowItemMinHeightCompact">32</x:Double>
+
+  <!-- Switch (per-control; M3 switch is a fixed 52x32 assembly, compact ~0.75x) -->
+  <x:Double x:Key="SwitchTrackWidth">52</x:Double>
+  <x:Double x:Key="SwitchTrackWidthCompact">40</x:Double>
+  <x:Double x:Key="SwitchTrackHeight">32</x:Double>
+  <x:Double x:Key="SwitchTrackHeightCompact">24</x:Double>
+  <CornerRadius x:Key="SwitchTrackCornerRadius">16</CornerRadius>
+  <CornerRadius x:Key="SwitchTrackCornerRadiusCompact">12</CornerRadius>
+  <x:Double x:Key="SwitchThumbSize">16</x:Double>
+  <x:Double x:Key="SwitchThumbSizeCompact">12</x:Double>
+  <x:Double x:Key="SwitchThumbSelectedSize">24</x:Double>
+  <x:Double x:Key="SwitchThumbSelectedSizeCompact">18</x:Double>
+  <Thickness x:Key="SwitchThumbMargin">8,0,0,0</Thickness>
+  <Thickness x:Key="SwitchThumbMarginCompact">6,0,0,0</Thickness>
+  <Thickness x:Key="SwitchThumbSelectedMargin">20,0,0,0</Thickness>
+  <Thickness x:Key="SwitchThumbSelectedMarginCompact">16,0,0,0</Thickness>
+
+</ResourceDictionary>

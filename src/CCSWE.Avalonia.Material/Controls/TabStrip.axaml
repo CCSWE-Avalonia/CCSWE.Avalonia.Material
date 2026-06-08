@@ -38,7 +38,7 @@
       <Setter Property="FontWeight" Value="Medium" />
       <Setter Property="LetterSpacing" Value="0.1" />
       <Setter Property="Padding" Value="16,0" />
-      <Setter Property="MinHeight" Value="48" />
+      <Setter Property="MinHeight" Value="{DynamicResource ItemMinHeight}" />
       <Setter Property="HorizontalContentAlignment" Value="Center" />
       <Setter Property="VerticalContentAlignment" Value="Center" />
       <Setter Property="Cursor" Value="Hand" />
@@ -87,4 +87,9 @@
     </ControlTheme>
 
   </Styles.Resources>
+
+  <!-- Opt-in compact density for tabs (independent of the theme-level DensityStyle). -->
+  <Style Selector="TabStrip.Compact TabStripItem">
+    <Setter Property="MinHeight" Value="{DynamicResource ItemMinHeightCompact}" />
+  </Style>
 </Styles>

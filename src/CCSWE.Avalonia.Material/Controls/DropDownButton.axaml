@@ -8,7 +8,7 @@
       <Setter Property="BorderThickness" Value="0" />
       <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusFull}" />
       <Setter Property="Padding" Value="20,0,16,0" />
-      <Setter Property="MinHeight" Value="40" />
+      <Setter Property="MinHeight" Value="{DynamicResource ButtonMinHeight}" />
       <Setter Property="HorizontalContentAlignment" Value="Center" />
       <Setter Property="VerticalContentAlignment" Value="Center" />
       <Setter Property="FontFamily" Value="{DynamicResource BodyFontFamily}" />
@@ -71,4 +71,8 @@
     </ControlTheme>
   </Styles.Resources>
 
+  <!-- Opt-in compact density (independent of the theme-level DensityStyle property). -->
+  <Style Selector="DropDownButton.Compact">
+    <Setter Property="MinHeight" Value="{DynamicResource ButtonMinHeightCompact}" />
+  </Style>
 </Styles>

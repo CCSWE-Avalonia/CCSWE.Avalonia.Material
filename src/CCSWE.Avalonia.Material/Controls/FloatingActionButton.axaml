@@ -21,8 +21,8 @@
 
     <!-- Base = Regular size (56) + Primary color. -->
     <ControlTheme x:Key="{x:Type theme:FloatingActionButton}" TargetType="theme:FloatingActionButton">
-      <Setter Property="Width" Value="56" />
-      <Setter Property="Height" Value="56" />
+      <Setter Property="Width" Value="{DynamicResource FabSizeRegular}" />
+      <Setter Property="Height" Value="{DynamicResource FabSizeRegular}" />
       <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusLarge}" />
       <Setter Property="Padding" Value="0" />
       <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -95,13 +95,13 @@
 
       <!-- Size: Small (40 / r12) and Large (96 / r28); Regular is the base. -->
       <Style Selector="^[Size=Small]">
-        <Setter Property="Width" Value="40" />
-        <Setter Property="Height" Value="40" />
+        <Setter Property="Width" Value="{DynamicResource FabSizeSmall}" />
+        <Setter Property="Height" Value="{DynamicResource FabSizeSmall}" />
         <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusMedium}" />
       </Style>
       <Style Selector="^[Size=Large]">
-        <Setter Property="Width" Value="96" />
-        <Setter Property="Height" Value="96" />
+        <Setter Property="Width" Value="{DynamicResource FabSizeLarge}" />
+        <Setter Property="Height" Value="{DynamicResource FabSizeLarge}" />
         <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusExtraLarge}" />
       </Style>
 

@@ -79,7 +79,7 @@
       <Setter Property="Foreground" Value="{DynamicResource OnSurface}" />
       <Setter Property="FontFamily" Value="{DynamicResource BodyFontFamily}" />
       <Setter Property="FontSize" Value="14" />
-      <Setter Property="Padding" Value="12,8" />
+      <Setter Property="Padding" Value="{DynamicResource MenuItemPadding}" />
       <Setter Property="Template">
         <ControlTemplate TargetType="MenuItem">
           <Panel>

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Net.Mime;
 using System.Numerics;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.Media;
 using Avalonia.Styling;
+using CCSWE.Avalonia.Material;
 using CCSWE.Avalonia.Material.Demo.ViewModels;
 using Vector = Avalonia.Vector;
 
@@ -61,6 +63,20 @@ public partial class MainWindow : Window
     {
         var goingLight = Application.Current?.RequestedThemeVariant != ThemeVariant.Light;
         SetTheme(goingLight ? ThemeVariant.Light : ThemeVariant.Dark);
+    }
+
+    // Normal/Compact density toggle. Flips MaterialTheme.DensityStyle, which re-resolves
+    // every dimension DynamicResource live (no restart) across the whole control surface.
+    private void OnDensityToggleClick(object? sender, RoutedEventArgs e)
+    {
+        if (Application.Current?.Styles.OfType<MaterialTheme>().FirstOrDefault() is not { } theme)
+        {
+            return;
+        }
+
+        theme.DensityStyle = theme.DensityStyle == DensityStyle.Compact
+            ? DensityStyle.Normal
+            : DensityStyle.Compact;
     }
 
     // Collapse the labeled drawer (360dp) to the icon rail (80dp) and back. IsRail drives

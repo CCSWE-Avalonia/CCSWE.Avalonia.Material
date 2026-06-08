@@ -27,6 +27,8 @@
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Fonts.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Motion.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Tokens.axaml" />
+        <!-- Library-owned control sizing tokens (Normal base + *Compact keys) -->
+        <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Dimensions.axaml" />
         <!-- Interim shims - ORDER IS LOAD-BEARING (BaseAliases overrides SimplePalette; keep last) -->
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/SimplePalette.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/Strings.axaml" />
@@ -48,6 +50,10 @@
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/WindowDrawnDecorations.axaml" />
         <ResourceInclude Source="avares://CCSWE.Avalonia.Material/Base/WindowNotificationManager.axaml" />
       </ResourceDictionary.MergedDictionaries>
+      <!-- Compact-density overrides. Kept OUT of MergedDictionaries (declared as a keyed
+           resource) so the code-behind can GetAndRemove it and shadow the base dimension
+           keys only when DensityStyle == Compact. See MaterialTheme.axaml.cs. -->
+      <ResourceInclude x:Key="CompactStyles" Source="avares://CCSWE.Avalonia.Material/DensityStyles/Compact.axaml" />
     </ResourceDictionary>
   </Styles.Resources>
 

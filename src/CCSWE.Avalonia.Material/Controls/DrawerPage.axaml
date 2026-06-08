@@ -24,7 +24,7 @@
       <Setter Property="FontFamily" Value="{DynamicResource BodyFontFamily}" />
       <Setter Property="FontSize" Value="{DynamicResource FontSizeLabelLarge}" />
       <Setter Property="FontWeight" Value="Medium" />
-      <Setter Property="Height" Value="56" />
+      <Setter Property="Height" Value="{DynamicResource NavItemHeight}" />
       <!-- Side inset 12dp (pill sits in from the pane edge) + 2dp vertical = 4dp item gap. -->
       <Setter Property="Margin" Value="12,2" />
       <!-- Leading pad 16 -> icon; trailing pad 24 (badge room). Icon size + the 12dp
@@ -89,8 +89,8 @@
     <ControlTheme x:Key="M3NavigationRailItem" TargetType="ListBoxItem">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="FontFamily" Value="{DynamicResource BodyFontFamily}" />
-      <!-- 56dp min touch target; 6dp top/bottom -> 12dp item-to-item gap. -->
-      <Setter Property="MinHeight" Value="56" />
+      <!-- 56dp min touch target (48 under Compact); 6dp top/bottom -> 12dp item-to-item gap. -->
+      <Setter Property="MinHeight" Value="{DynamicResource NavItemHeight}" />
       <Setter Property="Margin" Value="0,6" />
       <Setter Property="Padding" Value="0" />
       <Setter Property="HorizontalContentAlignment" Value="Center" />
