@@ -1,6 +1,6 @@
 # CCSWE.Avalonia.Material
 
-[![Build](https://img.shields.io/github/actions/workflow/status/CoryCharlton/CCSWE.Avalonia.Material/dotnet-build-publish-library.yml?branch=master&label=build)](https://github.com/CoryCharlton/CCSWE.Avalonia.Material/actions/workflows/dotnet-build-publish-library.yml)
+[![Build](https://img.shields.io/github/actions/workflow/status/CCSWE-Avalonia/CCSWE.Avalonia.Material/dotnet-build-publish-library.yml?branch=master&label=build)](https://github.com/CCSWE-Avalonia/CCSWE.Avalonia.Material/actions/workflows/dotnet-build-publish-library.yml)
 [![NuGet](https://img.shields.io/nuget/v/CCSWE.Avalonia.Material.svg)](https://www.nuget.org/packages/CCSWE.Avalonia.Material)
 [![Downloads](https://img.shields.io/nuget/dt/CCSWE.Avalonia.Material.svg)](https://www.nuget.org/packages/CCSWE.Avalonia.Material)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
