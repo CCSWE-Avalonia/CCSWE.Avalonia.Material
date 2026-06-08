@@ -16,6 +16,7 @@ sealed class Program
     public static AppBuilder BuildAvaloniaApp()
         => AppBuilder.Configure<App>()
             .UsePlatformDetect()
+            .With(new Win32PlatformOptions { DpiAwareness = Win32DpiAwareness.Unaware })
 #if DEBUG
             .WithDeveloperTools()
 #endif
