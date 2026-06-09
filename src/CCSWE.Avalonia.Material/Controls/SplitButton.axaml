@@ -95,9 +95,9 @@
                       VerticalAlignment="Stretch"
                       Focusable="False"
                       KeyboardNavigation.IsTabStop="False">
-                <PathIcon Width="18" Height="18"
+                <PathIcon Width="12" Height="12"
                           Foreground="{DynamicResource OnSecondaryContainer}"
-                          Data="M1939 486L2029 576L1024 1581L19 576L109 486L1024 1401L1939 486Z" />
+                          Data="{DynamicResource Material_IconArrowDropDown}" />
               </Button>
             </Grid>
           </Border>

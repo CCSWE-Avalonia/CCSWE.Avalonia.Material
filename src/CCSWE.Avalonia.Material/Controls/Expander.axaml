@@ -31,7 +31,7 @@
             <Grid ColumnDefinitions="*,Auto" Margin="{TemplateBinding Padding}">
               <ContentPresenter Grid.Column="0" Content="{TemplateBinding Content}" VerticalAlignment="Center" />
               <Path x:Name="Chevron" Grid.Column="1" Width="12" Height="8" Stretch="Uniform"
-                    Fill="{DynamicResource OnSurfaceVariant}" Data="M0,0 L12,0 L6,8 Z"
+                    Fill="{DynamicResource OnSurfaceVariant}" Data="{DynamicResource Material_IconExpandMore}"
                     VerticalAlignment="Center" RenderTransformOrigin="50%,50%" Margin="16,0,0,0">
                 <Path.Transitions>
                   <Transitions>

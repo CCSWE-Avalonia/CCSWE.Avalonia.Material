@@ -27,9 +27,9 @@
                     BorderThickness="2" BorderBrush="{DynamicResource OnSurfaceVariant}"
                     Background="Transparent">
               <Path x:Name="CheckGlyph"
-                    Stroke="{DynamicResource OnPrimary}" StrokeThickness="2"
-                    StrokeLineCap="Round" StrokeJoin="Round"
-                    Data="M3,8 L6.5,11.5 L13,4" IsVisible="False"
+                    Width="14" Height="14" Stretch="Uniform"
+                    Fill="{DynamicResource OnPrimary}"
+                    Data="{DynamicResource Material_IconCheck}" IsVisible="False"
                     HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
           </Panel>
@@ -59,7 +59,7 @@
     </Style>
     <Style Selector="^:indeterminate /template/ Path#CheckGlyph">
       <Setter Property="IsVisible" Value="True" />
-      <Setter Property="Data" Value="M3,8 L13,8" />
+      <Setter Property="Data" Value="{DynamicResource Material_IconRemove}" />
     </Style>
     <Style Selector="^:indeterminate /template/ Border#StateLayer">
       <Setter Property="Background" Value="{DynamicResource Primary}" />
@@ -82,7 +82,7 @@
       <Setter Property="BorderBrush" Value="{DynamicResource OnSurface12}" />
     </Style>
     <Style Selector="^:disabled /template/ Path#CheckGlyph">
-      <Setter Property="Stroke" Value="{DynamicResource OnSurface38}" />
+      <Setter Property="Fill" Value="{DynamicResource OnSurface38}" />
     </Style>
     <Style Selector="^:checked:disabled /template/ Border#Box, ^:indeterminate:disabled /template/ Border#Box">
       <Setter Property="Background" Value="{DynamicResource OnSurface12}" />

@@ -260,10 +260,9 @@
                       HorizontalAlignment="Stretch"
                       VerticalAlignment="Stretch"
                       Theme="{StaticResource M3DateTimePickerButton}">
-                <Path Data="M0.5,8.5 5,13.5 15.5,3"
-                      Stroke="{Binding $parent[Button].Foreground}"
-                      StrokeLineCap="Round"
-                      StrokeThickness="0.75" />
+                <Path Width="16" Height="16" Stretch="Uniform"
+                      Data="{DynamicResource Material_IconCheck}"
+                      Fill="{Binding $parent[Button].Foreground}" />
               </Button>
               <Button Name="PART_DismissButton"
                       Grid.Column="1"
@@ -271,10 +270,9 @@
                       HorizontalAlignment="Stretch"
                       VerticalAlignment="Stretch"
                       Theme="{StaticResource M3DateTimePickerButton}">
-                <Path Data="M2,2 14,14 M2,14 14 2"
-                      Stroke="{Binding $parent[Button].Foreground}"
-                      StrokeLineCap="Round"
-                      StrokeThickness="0.75" />
+                <Path Width="16" Height="16" Stretch="Uniform"
+                      Data="{DynamicResource Material_IconClose}"
+                      Fill="{Binding $parent[Button].Foreground}" />
               </Button>
             </Grid>
           </Grid>

@@ -15,15 +15,34 @@
         <ControlTemplate>
           <LayoutTransformControl Name="PART_LayoutTransformControl"
                                   UseRenderTransform="True">
-            <ContentPresenter Name="PART_ContentPresenter"
-                              MinHeight="64"
-                              Padding="16,12"
-                              Background="{TemplateBinding Background}"
-                              BorderBrush="{TemplateBinding BorderBrush}"
-                              BorderThickness="{TemplateBinding BorderThickness}"
-                              CornerRadius="{TemplateBinding CornerRadius}"
-                              TextElement.Foreground="{TemplateBinding Foreground}"
-                              Content="{TemplateBinding Content}" />
+            <Border Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{TemplateBinding CornerRadius}">
+              <Grid ColumnDefinitions="*,Auto">
+                <ContentPresenter Name="PART_ContentPresenter"
+                                  Grid.Column="0"
+                                  MinHeight="64"
+                                  Padding="16,12"
+                                  TextElement.Foreground="{TemplateBinding Foreground}"
+                                  Content="{TemplateBinding Content}" />
+
+                <!-- CloseOnClick is the attached property NotificationCard wires to Close().
+                     Classes="Icon" = the M3 icon button (transparent, circular state layer);
+                     local Foreground adopts the per-severity On*Container color. -->
+                <Button Grid.Column="1"
+                        Classes="Icon"
+                        NotificationCard.CloseOnClick="True"
+                        VerticalAlignment="Top"
+                        Margin="0,4,4,0"
+                        Foreground="{TemplateBinding Foreground}">
+                  <PathIcon Width="16"
+                            Height="16"
+                            Foreground="{TemplateBinding Foreground}"
+                            Data="{DynamicResource Material_IconClose}" />
+                </Button>
+              </Grid>
+            </Border>
           </LayoutTransformControl>
         </ControlTemplate>
       </Setter>

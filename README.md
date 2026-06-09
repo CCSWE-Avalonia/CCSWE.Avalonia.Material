@@ -80,6 +80,11 @@ depends only on Avalonia core. **No `<FluentTheme/>` or other base theme is requ
   (color). Use `DynamicResource` for role brushes so they re-resolve on a
   Dark↔Light switch; `StaticResource` is fine for the theme-invariant metrics
   (`CornerRadius*`, `Spacing*`, `Motion*`).
+- **Icons:** the theme's glyphs are [Google Material Symbols](https://fonts.google.com/icons)
+  (Outlined), shipped as `StreamGeometry` resources keyed `Material_Icon*`
+  (e.g. `Material_IconClose`, `Material_IconChevronRight`). Use any in your own UI via
+  `<PathIcon Data="{DynamicResource Material_IconMenu}" />`, or override one for your app
+  by redefining the same key downstream.
 
 ### Switching theme variant
 

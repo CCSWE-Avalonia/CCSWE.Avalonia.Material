@@ -61,6 +61,10 @@ depends only on Avalonia core. **No `<FluentTheme/>` (or other base theme) is re
 - **Color roles:** `{DynamicResource Primary}` (brush) /
   `{DynamicResource PrimaryColor}` (color). Use `DynamicResource` for role brushes
   so they re-resolve when the theme variant flips.
+- **Icons:** Google Material Symbols (Outlined) ship as `StreamGeometry` resources
+  keyed `Material_Icon*` (e.g. `Material_IconClose`). Reference any via
+  `<PathIcon Data="{DynamicResource Material_IconMenu}" />`, or override one for your
+  app by redefining the same key downstream.
 
 ### Switch theme variant at runtime
 

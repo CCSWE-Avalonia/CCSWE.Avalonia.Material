@@ -26,7 +26,7 @@ public sealed class NavIndexToPageConverter : IValueConverter
                 6 => new FeedbackPage(),
                 7 => new TabsPage(),
                 8 => new ContainersPage(),
-                9 => new CoveragePage(),
+                9 => new IconsPage(),
                 _ => null,
             }
             : null;

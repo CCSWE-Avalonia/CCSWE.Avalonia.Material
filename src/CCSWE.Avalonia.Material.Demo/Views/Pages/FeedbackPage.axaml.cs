@@ -1,3 +1,4 @@
+using System;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
@@ -24,9 +25,9 @@ public partial class FeedbackPage : GalleryPage
         };
     }
 
-    private void Show(string title, string message, NotificationType type)
+    private void Show(string title, string message, NotificationType type, TimeSpan? expiration = null)
     {
-        _notificationManager?.Show(new Notification(title, message, type));
+        _notificationManager?.Show(new Notification(title, message, type, expiration));
     }
 
     private void OnShowInformation(object? sender, RoutedEventArgs e) =>
@@ -40,4 +41,8 @@ public partial class FeedbackPage : GalleryPage
 
     private void OnShowError(object? sender, RoutedEventArgs e) =>
         Show("Error", "adb server failed to start on port 5037.", NotificationType.Error);
+
+    private void OnShowPersistent(object? sender, RoutedEventArgs e) =>
+        Show("Persistent", "This notification stays until you dismiss it with the close button.",
+            NotificationType.Information, TimeSpan.Zero);
 }

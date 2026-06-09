@@ -65,8 +65,8 @@
                         Height="10"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Data="M288.75,232.25 L288.75,240.625 L283,236.625 z"
-                        Stretch="Fill" />
+                        Data="{DynamicResource Material_IconChevronLeft}"
+                        Stretch="Uniform" />
                 </Button>
 
                 <Button Name="PART_HeaderButton"
@@ -85,8 +85,8 @@
                         Height="10"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Data="M282.875,231.875 L282.875,240.375 L288.625,236 z"
-                        Stretch="Fill" />
+                        Data="{DynamicResource Material_IconChevronRight}"
+                        Stretch="Uniform" />
                 </Button>
 
                 <Grid Name="PART_MonthView"

@@ -29,7 +29,7 @@
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"
                     Margin="4">
-              <PathIcon Width="12" Height="12" Data="M 8.12,2.29 L 3.41,7.00 C 3.14,7.27 3.14,7.71 3.41,7.98 L 8.12,12.69 C 8.57,13.14 9.33,12.82 9.33,12.19 L 9.33,2.79 C 9.33,2.16 8.57,1.84 8.12,2.29 Z" />
+              <PathIcon Width="12" Height="12" Data="{DynamicResource Material_IconChevronLeft}" />
             </Button>
 
             <ListBox Name="PART_PipsPagerList"
@@ -110,18 +110,18 @@
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"
                     Margin="4">
-              <PathIcon Width="12" Height="12" Data="M 3.88,2.29 L 8.59,7.00 C 8.86,7.27 8.86,7.71 8.59,7.98 L 3.88,12.69 C 3.43,13.14 2.67,12.82 2.67,12.19 L 2.67,2.79 C 2.67,2.16 3.43,1.84 3.88,2.29 Z" />
+              <PathIcon Width="12" Height="12" Data="{DynamicResource Material_IconChevronRight}" />
             </Button>
           </StackPanel>
         </ControlTemplate>
       </Setter>
 
       <Style Selector="^:vertical /template/ Button#PART_PreviousButton PathIcon">
-        <Setter Property="Data" Value="M 2.29,9.33 L 7.00,4.62 C 7.27,4.35 7.71,4.35 7.98,4.62 L 12.69,9.33 C 13.14,9.78 12.82,10.54 12.19,10.54 L 2.79,10.54 C 2.16,10.54 1.84,9.78 2.29,9.33 Z" />
+        <Setter Property="Data" Value="{DynamicResource Material_IconExpandLess}" />
       </Style>
 
       <Style Selector="^:vertical /template/ Button#PART_NextButton PathIcon">
-        <Setter Property="Data" Value="M 2.29,4.46 L 7.00,9.17 C 7.27,9.44 7.71,9.44 7.98,9.17 L 12.69,4.46 C 13.14,4.01 12.82,3.25 12.19,3.25 L 2.79,3.25 C 2.16,3.25 1.84,4.01 2.29,4.46 Z" />
+        <Setter Property="Data" Value="{DynamicResource Material_IconExpandMore}" />
       </Style>
 
       <Style Selector="^:first-page /template/ Button#PART_PreviousButton">

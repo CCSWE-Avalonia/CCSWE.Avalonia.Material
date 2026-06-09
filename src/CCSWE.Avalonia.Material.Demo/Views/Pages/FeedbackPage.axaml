@@ -34,7 +34,10 @@
                         <Button Classes="FilledTonal" Content="Success" Margin="0,0,12,12" Click="OnShowSuccess" />
                         <Button Classes="FilledTonal" Content="Warning" Margin="0,0,12,12" Click="OnShowWarning" />
                         <Button Classes="FilledTonal" Content="Error" Margin="0,0,12,12" Click="OnShowError" />
+                        <Button Classes="Filled" Content="Persistent" Margin="0,0,12,12" Click="OnShowPersistent" />
                     </WrapPanel>
+                    <TextBlock Classes="BodySmall" Foreground="{DynamicResource OnSurfaceVariant}"
+                               Text="Persistent stays until dismissed via its close (X) button; the others auto-expire." />
 
                     <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="REFRESHCONTAINER (pull down to reveal the M3 spinner)" />
                     <Border Height="120" CornerRadius="{DynamicResource CornerRadiusMedium}" BorderBrush="{DynamicResource OutlineVariant}" BorderThickness="1" ClipToBounds="True">

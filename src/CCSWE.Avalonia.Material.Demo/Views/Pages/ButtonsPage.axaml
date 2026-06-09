@@ -5,6 +5,15 @@
              xmlns:vm="using:CCSWE.Avalonia.Material.Demo.ViewModels"
              x:Class="CCSWE.Avalonia.Material.Demo.Views.Pages.ButtonsPage"
              x:DataType="vm:MainWindowViewModel">
+        <views:GalleryPage.Resources>
+            <!-- Demo-only icons: Google Material Symbols (Outlined), inlined as path data
+                 (not part of the theme's Material_Icon* set). -->
+            <StreamGeometry x:Key="IconAdd">M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z</StreamGeometry>
+            <StreamGeometry x:Key="IconSave">M840-680v480q0 33-23.5 56.5T760-120H200q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h480l160 160Zm-80 34L646-760H200v560h560v-446ZM480-240q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35ZM240-560h360v-160H240v160Zm-40-86v446-560 114Z</StreamGeometry>
+            <StreamGeometry x:Key="IconPushPin">m16 12 2 2v2h-5v6l-1 1-1-1v-6H6v-2l2-2V5H7V3h10v2h-1Zm-7.15 2h6.3L14 12.85V5h-4v7.85ZM12 14Z</StreamGeometry>
+            <StreamGeometry x:Key="IconSettings">m370-80-16-128q-13-5-24.5-12T307-235l-119 50L78-375l103-78q-1-7-1-13.5v-27q0-6.5 1-13.5L78-585l110-190 119 50q11-8 23-15t24-12l16-128h220l16 128q13 5 24.5 12t22.5 15l119-50 110 190-103 78q1 7 1 13.5v27q0 6.5-2 13.5l103 78-110 190-118-50q-11 8-23 15t-24 12L590-80H370Zm70-80h79l14-106q31-8 57.5-23.5T639-327l99 41 39-68-86-65q5-14 7-29.5t2-31.5q0-16-2-31.5t-7-29.5l86-65-39-68-99 42q-22-23-48.5-38.5T533-694l-13-106h-79l-14 106q-31 8-57.5 23.5T321-633l-99-41-39 68 86 64q-5 15-7 30t-2 32q0 16 2 31t7 30l-86 65 39 68 99-42q22 23 48.5 38.5T427-266l13 106Zm42-180q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Zm-2-140Z</StreamGeometry>
+            <StreamGeometry x:Key="IconInfo">M440-280h80v-240h-80v240Zm40-320q17 0 28.5-11.5T520-640q0-17-11.5-28.5T480-680q-17 0-28.5 11.5T440-640q0 17 11.5 28.5T480-600Zm0 520q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z</StreamGeometry>
+        </views:GalleryPage.Resources>
         <StackPanel Spacing="24" Margin="32,24,32,48">
             <TextBlock Classes="HeadlineSmall" Text="Buttons" />
             <Border Classes="Card Outlined">
@@ -61,29 +70,29 @@
                     <CommandBar>
                         <CommandBarButton Label="New">
                             <CommandBarButton.Icon>
-                                <PathIcon Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                                <PathIcon Data="{StaticResource IconAdd}" />
                             </CommandBarButton.Icon>
                         </CommandBarButton>
                         <CommandBarButton Label="Save">
                             <CommandBarButton.Icon>
-                                <PathIcon Data="M15,9H5V5H15M12,19A3,3 0 0,1 9,16A3,3 0 0,1 12,13A3,3 0 0,1 15,16A3,3 0 0,1 12,19M17,3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V7L17,3Z" />
+                                <PathIcon Data="{StaticResource IconSave}" />
                             </CommandBarButton.Icon>
                         </CommandBarButton>
                         <CommandBarSeparator />
                         <CommandBarToggleButton Label="Pin" IsChecked="True">
                             <CommandBarToggleButton.Icon>
-                                <PathIcon Data="M16,12V4H17V2H7V4H8V12L6,14V16H11.2V22H12.8V16H18V14L16,12Z" />
+                                <PathIcon Data="{StaticResource IconPushPin}" />
                             </CommandBarToggleButton.Icon>
                         </CommandBarToggleButton>
                         <CommandBar.SecondaryCommands>
                             <CommandBarButton Label="Settings">
                                 <CommandBarButton.Icon>
-                                    <PathIcon Data="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z" />
+                                    <PathIcon Data="{StaticResource IconSettings}" />
                                 </CommandBarButton.Icon>
                             </CommandBarButton>
                             <CommandBarButton Label="About">
                                 <CommandBarButton.Icon>
-                                    <PathIcon Data="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z" />
+                                    <PathIcon Data="{StaticResource IconInfo}" />
                                 </CommandBarButton.Icon>
                             </CommandBarButton>
                         </CommandBar.SecondaryCommands>
@@ -96,31 +105,31 @@
                     <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="COLOR (Primary / Secondary / Tertiary / Surface)" />
                     <WrapPanel>
                         <theme:FloatingActionButton Color="Primary" Margin="0,0,16,16" Command="{Binding FabClickedCommand}">
-                            <PathIcon Width="24" Height="24" Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                            <PathIcon Width="24" Height="24" Data="{StaticResource IconAdd}" />
                         </theme:FloatingActionButton>
                         <theme:FloatingActionButton Color="Secondary" Margin="0,0,16,16" Command="{Binding FabClickedCommand}">
-                            <PathIcon Width="24" Height="24" Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                            <PathIcon Width="24" Height="24" Data="{StaticResource IconAdd}" />
                         </theme:FloatingActionButton>
                         <theme:FloatingActionButton Color="Tertiary" Margin="0,0,16,16" Command="{Binding FabClickedCommand}">
-                            <PathIcon Width="24" Height="24" Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                            <PathIcon Width="24" Height="24" Data="{StaticResource IconAdd}" />
                         </theme:FloatingActionButton>
                         <theme:FloatingActionButton Color="Surface" Margin="0,0,16,16" Command="{Binding FabClickedCommand}">
-                            <PathIcon Width="24" Height="24" Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                            <PathIcon Width="24" Height="24" Data="{StaticResource IconAdd}" />
                         </theme:FloatingActionButton>
                     </WrapPanel>
                     <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="SIZE (Small / Regular / Large) &amp; DISABLED" />
                     <WrapPanel VerticalAlignment="Center">
                         <theme:FloatingActionButton Size="Small" Margin="0,0,16,16" VerticalAlignment="Center" Command="{Binding FabClickedCommand}">
-                            <PathIcon Width="24" Height="24" Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                            <PathIcon Width="24" Height="24" Data="{StaticResource IconAdd}" />
                         </theme:FloatingActionButton>
                         <theme:FloatingActionButton Size="Regular" Margin="0,0,16,16" VerticalAlignment="Center" Command="{Binding FabClickedCommand}">
-                            <PathIcon Width="24" Height="24" Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                            <PathIcon Width="24" Height="24" Data="{StaticResource IconAdd}" />
                         </theme:FloatingActionButton>
                         <theme:FloatingActionButton Size="Large" Margin="0,0,16,16" VerticalAlignment="Center" Command="{Binding FabClickedCommand}">
-                            <PathIcon Width="36" Height="36" Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                            <PathIcon Width="36" Height="36" Data="{StaticResource IconAdd}" />
                         </theme:FloatingActionButton>
                         <theme:FloatingActionButton IsEnabled="False" Margin="0,0,16,16" VerticalAlignment="Center">
-                            <PathIcon Width="24" Height="24" Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                            <PathIcon Width="24" Height="24" Data="{StaticResource IconAdd}" />
                         </theme:FloatingActionButton>
                     </WrapPanel>
                     <TextBlock Classes="LabelMedium" Foreground="{DynamicResource OnSurfaceVariant}" Text="{Binding FabClicks}" />

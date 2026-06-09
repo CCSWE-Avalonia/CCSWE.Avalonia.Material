@@ -146,14 +146,14 @@
                           VerticalAlignment="Center" Margin="0,0,6,0"
                           IsVisible="{TemplateBinding ShowButtonSpinner}">
                 <RepeatButton x:Name="PART_IncreaseButton" Theme="{StaticResource CcsweSpinnerButton}">
-                  <Path Width="10" Height="6" Stretch="Uniform"
+                  <Path Width="10" Height="7" Stretch="Uniform"
                         Fill="{DynamicResource OnSurfaceVariant}"
-                        Data="M0,6 L5,0 L10,6 Z" />
+                        Data="{DynamicResource Material_IconKeyboardArrowUp}" />
                 </RepeatButton>
                 <RepeatButton x:Name="PART_DecreaseButton" Theme="{StaticResource CcsweSpinnerButton}">
-                  <Path Width="10" Height="6" Stretch="Uniform"
+                  <Path Width="10" Height="7" Stretch="Uniform"
                         Fill="{DynamicResource OnSurfaceVariant}"
-                        Data="M0,0 L5,6 L10,0 Z" />
+                        Data="{DynamicResource Material_IconKeyboardArrowDown}" />
                 </RepeatButton>
               </StackPanel>
             </Grid>

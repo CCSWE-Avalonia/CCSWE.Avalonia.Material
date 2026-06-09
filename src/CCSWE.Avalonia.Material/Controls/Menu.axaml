@@ -100,7 +100,7 @@
                          VerticalAlignment="Center" IsVisible="False" />
               <Path x:Name="PART_ChevronPath" Grid.Column="3" Width="6" Height="10"
                     Stretch="Uniform" Fill="{DynamicResource OnSurfaceVariant}"
-                    Data="M0,0 L6,5 L0,10 Z" Margin="16,0,0,0" VerticalAlignment="Center" />
+                    Data="{DynamicResource Material_IconChevronRight}" Margin="16,0,0,0" VerticalAlignment="Center" />
             </Grid>
             <Popup x:Name="PART_Popup" Placement="Right" IsLightDismissEnabled="False"
                    IsOpen="{TemplateBinding IsSubMenuOpen, Mode=TwoWay}">

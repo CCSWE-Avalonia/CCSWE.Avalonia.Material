@@ -1,0 +1,43 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <!--
+    Icons - the theme's single icon vocabulary. HAND-AUTHORED (library-owned).
+
+    All theme iconography is sourced from Google Material Symbols (Outlined, weight 400,
+    grade 0, optical size 24; viewBox 0 -960 960 960). Material Symbols is the authentic
+    Material 3 icon set, so it keeps the desktop theme consistent with Android/M3.
+    Licensed Apache-2.0 (c) Google - see THIRD-PARTY-NOTICES/MATERIAL-SYMBOLS-LICENSE.txt
+    (repo: Assets/Icons/MATERIAL-SYMBOLS-LICENSE.txt).
+
+    Do NOT introduce glyphs from other icon sets (Phosphor, etc.) unless Material Symbols
+    genuinely lacks the glyph - document the exception here if so. Add icons as the theme
+    needs them rather than bundling the whole set.
+
+    Keys are uniquely prefixed Material_Icon* so consuming apps never collide with these
+    resources and can opt in to OVERRIDE a glyph by redefining the same key downstream
+    (control themes reference them via {DynamicResource}). Reference from a Path with
+    Stretch="Uniform" + Fill (these are filled single-color paths, not strokes).
+  -->
+
+  <StreamGeometry x:Key="Material_IconArrowBack">m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z</StreamGeometry>
+  <StreamGeometry x:Key="Material_IconArrowDropDown">M480-360 280-560h400L480-360Z</StreamGeometry>
+  <StreamGeometry x:Key="Material_IconArrowDropUp">m280-400 200-200 200 200H280Z</StreamGeometry>
+  <StreamGeometry x:Key="Material_IconCalendarMonth">M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Zm280 240q-17 0-28.5-11.5T440-440q0-17 11.5-28.5T480-480q17 0 28.5 11.5T520-440q0 17-11.5 28.5T480-400Zm-160 0q-17 0-28.5-11.5T280-440q0-17 11.5-28.5T320-480q17 0 28.5 11.5T360-440q0 17-11.5 28.5T320-400Zm320 0q-17 0-28.5-11.5T600-440q0-17 11.5-28.5T640-480q17 0 28.5 11.5T680-440q0 17-11.5 28.5T640-400ZM480-240q-17 0-28.5-11.5T440-280q0-17 11.5-28.5T480-320q17 0 28.5 11.5T520-280q0 17-11.5 28.5T480-240Zm-160 0q-17 0-28.5-11.5T280-280q0-17 11.5-28.5T320-320q17 0 28.5 11.5T360-280q0 17-11.5 28.5T320-240Zm320 0q-17 0-28.5-11.5T600-280q0-17 11.5-28.5T640-320q17 0 28.5 11.5T680-280q0 17-11.5 28.5T640-240Z</StreamGeometry>
+  <StreamGeometry x:Key="Material_IconCheck">M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z</StreamGeometry>
+  <StreamGeometry x:Key="Material_IconChevronLeft">M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z</StreamGeometry>
+  <StreamGeometry x:Key="Material_IconChevronRight">M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z</StreamGeometry>
+  <StreamGeometry x:Key="Material_IconClose">m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z</StreamGeometry>
+  <StreamGeometry x:Key="Material_IconCropSquare">M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm0 0v-560 560Z</StreamGeometry>
+  <StreamGeometry x:Key="Material_IconExpandLess">m296-345-56-56 240-240 240 240-56 56-184-184-184 184Z</StreamGeometry>
+  <StreamGeometry x:Key="Material_IconExpandMore">M480-345 240-585l56-56 184 184 184-184 56 56-240 240Z</StreamGeometry>
+  <StreamGeometry x:Key="Material_IconFilterNone">M320-240q-33 0-56.5-23.5T240-320v-480q0-33 23.5-56.5T320-880h480q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H320Zm0-80h480v-480H320v480ZM160-80q-33 0-56.5-23.5T80-160v-560h80v560h560v80H160Zm160-720v480-480Z</StreamGeometry>
+  <StreamGeometry x:Key="Material_IconFullscreen">M120-120v-200h80v120h120v80H120Zm520 0v-80h120v-120h80v200H640ZM120-640v-200h200v80H200v120h-80Zm640 0v-120H640v-80h200v200h-80Z</StreamGeometry>
+  <StreamGeometry x:Key="Material_IconFullscreenExit">M240-120v-120H120v-80h200v200h-80Zm400 0v-200h200v80H720v120h-80ZM120-640v-80h120v-120h80v200H120Zm520 0v-200h80v120h120v80H640Z</StreamGeometry>
+  <StreamGeometry x:Key="Material_IconKeyboardArrowDown">M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z</StreamGeometry>
+  <StreamGeometry x:Key="Material_IconKeyboardArrowUp">M480-528 296-344l-56-56 240-240 240 240-56 56-184-184Z</StreamGeometry>
+  <StreamGeometry x:Key="Material_IconMenu">M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z</StreamGeometry>
+  <StreamGeometry x:Key="Material_IconMinimize">M240-120v-80h480v80H240Z</StreamGeometry>
+  <StreamGeometry x:Key="Material_IconMoreVert">M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z</StreamGeometry>
+  <StreamGeometry x:Key="Material_IconRefresh">M480-160q-134 0-227-93t-93-227q0-134 93-227t227-93q69 0 132 28.5T720-690v-110h80v280H520v-80h168q-32-56-87.5-88T480-720q-100 0-170 70t-70 170q0 100 70 170t170 70q77 0 139-44t87-116h84q-28 106-114 173t-196 67Z</StreamGeometry>
+  <StreamGeometry x:Key="Material_IconRemove">M200-440v-80h560v80H200Z</StreamGeometry>
+</ResourceDictionary>
