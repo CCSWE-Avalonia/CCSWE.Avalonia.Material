@@ -299,7 +299,7 @@
                         IsVisible="{TemplateBinding IsOverflowButtonVisible}">
                   <PathIcon Width="16" Height="16"
                             Foreground="{TemplateBinding Foreground}"
-                            Data="M6,10A2,2 0 0,0 4,12A2,2 0 0,0 6,14A2,2 0 0,0 8,12A2,2 0 0,0 6,10M12,10A2,2 0 0,0 10,12A2,2 0 0,0 12,14A2,2 0 0,0 14,12A2,2 0 0,0 12,10M18,10A2,2 0 0,0 16,12A2,2 0 0,0 18,14A2,2 0 0,0 20,12A2,2 0 0,0 18,10Z" />
+                            Data="{DynamicResource Material_IconMoreVert}" />
                 </Button>
 
                 <!-- Custom content area (docked left) -->

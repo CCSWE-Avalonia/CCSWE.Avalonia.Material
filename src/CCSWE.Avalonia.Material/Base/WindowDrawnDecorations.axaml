@@ -80,9 +80,9 @@
                         WindowDecorationProperties.ElementRole="FullScreenButton">
                   <Viewbox Width="11" Margin="2">
                     <Path Name="FullScreenButtonPath"
-                          Stretch="UniformToFill"
+                          Stretch="Uniform"
                           Fill="{DynamicResource CaptionButtonForeground}"
-                          Data="M2048 2048v-819h-205v469l-1493 -1493h469v-205h-819v819h205v-469l1493 1493h-469v205h819z" />
+                          Data="{DynamicResource Material_IconFullscreen}" />
                   </Viewbox>
                 </Button>
                 <Button x:Name="PART_MinimizeButton"
@@ -90,9 +90,9 @@
                         WindowDecorationProperties.ElementRole="MinimizeButton"
                         AutomationProperties.Name="Minimize">
                   <Viewbox Width="11" Margin="2">
-                    <Path Stretch="UniformToFill"
+                    <Path Stretch="Uniform"
                           Fill="{DynamicResource CaptionButtonForeground}"
-                          Data="M2048 1229v-205h-2048v205h2048z" />
+                          Data="{DynamicResource Material_IconMinimize}" />
                   </Viewbox>
                 </Button>
                 <Button x:Name="PART_MaximizeButton"
@@ -100,13 +100,10 @@
                         WindowDecorationProperties.ElementRole="MaximizeButton"
                         AutomationProperties.Name="Maximize">
                   <Viewbox Width="11" Margin="2">
-                    <Viewbox.RenderTransform>
-                      <RotateTransform Angle="-90" />
-                    </Viewbox.RenderTransform>
                     <Path Name="RestoreButtonPath"
-                          Stretch="UniformToFill"
+                          Stretch="Uniform"
                           Fill="{DynamicResource CaptionButtonForeground}"
-                          Data="M2048 2048v-2048h-2048v2048h2048zM1843 1843h-1638v-1638h1638v1638z"/>
+                          Data="{DynamicResource Material_IconCropSquare}"/>
                   </Viewbox>
                 </Button>
                 <Button x:Name="PART_CloseButton"
@@ -116,9 +113,9 @@
                         WindowDecorationProperties.ElementRole="CloseButton"
                         AutomationProperties.Name="Close">
                   <Viewbox Width="11" Margin="2">
-                    <Path Stretch="UniformToFill"
+                    <Path Stretch="Uniform"
                           Fill="{DynamicResource CaptionButtonForeground}"
-                          Data="M1169 1024l879 -879l-145 -145l-879 879l-879 -879l-145 145l879 879l-879 879l145 145l879 -879l879 879l145 -145z" />
+                          Data="{DynamicResource Material_IconClose}" />
                   </Viewbox>
                 </Button>
               </StackPanel>
@@ -144,9 +141,9 @@
                         Theme="{StaticResource SimpleDrawnCaptionButton}"
                         WindowDecorationProperties.ElementRole="FullScreenButton">
                   <Viewbox Width="11" Margin="2">
-                    <Path Stretch="UniformToFill"
+                    <Path Stretch="Uniform"
                           Fill="{DynamicResource CaptionButtonForeground}"
-                          Data="M205 1024h819v-819h-205v469l-674 -674l-145 145l674 674h-469v205zM1374 1229h469v-205h-819v819h205v-469l674 674l145 -145z" />
+                          Data="{DynamicResource Material_IconFullscreenExit}" />
                   </Viewbox>
                 </Button>
                 <Button x:Name="PART_PopoverCloseButton"
@@ -156,9 +153,9 @@
                         WindowDecorationProperties.ElementRole="CloseButton"
                         AutomationProperties.Name="Close">
                   <Viewbox Width="11" Margin="2">
-                    <Path Stretch="UniformToFill"
+                    <Path Stretch="Uniform"
                           Fill="{DynamicResource CaptionButtonForeground}"
-                          Data="M1169 1024l879 -879l-145 -145l-879 879l-879 -879l-145 145l879 879l-879 879l145 145l879 -879l879 879l145 -145z" />
+                          Data="{DynamicResource Material_IconClose}" />
                   </Viewbox>
                 </Button>
               </StackPanel>
@@ -194,7 +191,7 @@
 
     <!-- Maximized: restore button path changes -->
     <Style Selector="^:maximized /template/ Path#RestoreButtonPath">
-      <Setter Property="Data" Value="M2048 410h-410v-410h-1638v1638h410v410h1638v-1638zM1434 1434h-1229v-1229h1229v1229zM1843 1843h-1229v-205h1024v-1024h205v1229z" />
+      <Setter Property="Data" Value="{DynamicResource Material_IconFilterNone}" />
     </Style>
 
     <!-- Disabled buttons -->

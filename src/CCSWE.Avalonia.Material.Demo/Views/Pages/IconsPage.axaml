@@ -1,0 +1,154 @@
+<views:GalleryPage xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:views="using:CCSWE.Avalonia.Material.Demo.Views"
+             xmlns:vm="using:CCSWE.Avalonia.Material.Demo.ViewModels"
+             x:Class="CCSWE.Avalonia.Material.Demo.Views.Pages.IconsPage"
+             x:DataType="vm:MainWindowViewModel">
+    <views:GalleryPage.Resources>
+        <ControlTheme x:Key="IconTile" TargetType="Border">
+            <Setter Property="Width" Value="132" />
+            <Setter Property="Padding" Value="12,16" />
+            <Setter Property="Margin" Value="0,0,12,12" />
+            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusMedium}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource OutlineVariant}" />
+            <Setter Property="BorderThickness" Value="1" />
+        </ControlTheme>
+    </views:GalleryPage.Resources>
+    <StackPanel Spacing="24" Margin="32,24,32,48">
+        <TextBlock Classes="HeadlineSmall" Text="Icons" />
+        <Border Classes="Card Outlined">
+            <StackPanel Spacing="16">
+                <TextBlock Classes="BodyMedium" Foreground="{DynamicResource OnSurfaceVariant}" TextWrapping="Wrap"
+                           Text="The theme ships its iconography as Google Material Symbols (Outlined) under uniquely-prefixed Material_Icon* keys. Reference any of these from your own controls via {DynamicResource Material_IconName}." />
+                <WrapPanel>
+                    <Border Theme="{StaticResource IconTile}">
+                        <StackPanel Spacing="8" HorizontalAlignment="Center">
+                            <PathIcon Width="24" Height="24" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurface}" Data="{DynamicResource Material_IconArrowBack}" />
+                            <TextBlock Classes="LabelSmall" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurfaceVariant}" Text="arrow_back" />
+                        </StackPanel>
+                    </Border>
+                    <Border Theme="{StaticResource IconTile}">
+                        <StackPanel Spacing="8" HorizontalAlignment="Center">
+                            <PathIcon Width="24" Height="24" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurface}" Data="{DynamicResource Material_IconArrowDropDown}" />
+                            <TextBlock Classes="LabelSmall" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurfaceVariant}" Text="arrow_drop_down" />
+                        </StackPanel>
+                    </Border>
+                    <Border Theme="{StaticResource IconTile}">
+                        <StackPanel Spacing="8" HorizontalAlignment="Center">
+                            <PathIcon Width="24" Height="24" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurface}" Data="{DynamicResource Material_IconArrowDropUp}" />
+                            <TextBlock Classes="LabelSmall" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurfaceVariant}" Text="arrow_drop_up" />
+                        </StackPanel>
+                    </Border>
+                    <Border Theme="{StaticResource IconTile}">
+                        <StackPanel Spacing="8" HorizontalAlignment="Center">
+                            <PathIcon Width="24" Height="24" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurface}" Data="{DynamicResource Material_IconCalendarMonth}" />
+                            <TextBlock Classes="LabelSmall" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurfaceVariant}" Text="calendar_month" />
+                        </StackPanel>
+                    </Border>
+                    <Border Theme="{StaticResource IconTile}">
+                        <StackPanel Spacing="8" HorizontalAlignment="Center">
+                            <PathIcon Width="24" Height="24" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurface}" Data="{DynamicResource Material_IconCheck}" />
+                            <TextBlock Classes="LabelSmall" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurfaceVariant}" Text="check" />
+                        </StackPanel>
+                    </Border>
+                    <Border Theme="{StaticResource IconTile}">
+                        <StackPanel Spacing="8" HorizontalAlignment="Center">
+                            <PathIcon Width="24" Height="24" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurface}" Data="{DynamicResource Material_IconChevronLeft}" />
+                            <TextBlock Classes="LabelSmall" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurfaceVariant}" Text="chevron_left" />
+                        </StackPanel>
+                    </Border>
+                    <Border Theme="{StaticResource IconTile}">
+                        <StackPanel Spacing="8" HorizontalAlignment="Center">
+                            <PathIcon Width="24" Height="24" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurface}" Data="{DynamicResource Material_IconChevronRight}" />
+                            <TextBlock Classes="LabelSmall" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurfaceVariant}" Text="chevron_right" />
+                        </StackPanel>
+                    </Border>
+                    <Border Theme="{StaticResource IconTile}">
+                        <StackPanel Spacing="8" HorizontalAlignment="Center">
+                            <PathIcon Width="24" Height="24" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurface}" Data="{DynamicResource Material_IconClose}" />
+                            <TextBlock Classes="LabelSmall" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurfaceVariant}" Text="close" />
+                        </StackPanel>
+                    </Border>
+                    <Border Theme="{StaticResource IconTile}">
+                        <StackPanel Spacing="8" HorizontalAlignment="Center">
+                            <PathIcon Width="24" Height="24" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurface}" Data="{DynamicResource Material_IconCropSquare}" />
+                            <TextBlock Classes="LabelSmall" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurfaceVariant}" Text="crop_square" />
+                        </StackPanel>
+                    </Border>
+                    <Border Theme="{StaticResource IconTile}">
+                        <StackPanel Spacing="8" HorizontalAlignment="Center">
+                            <PathIcon Width="24" Height="24" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurface}" Data="{DynamicResource Material_IconExpandLess}" />
+                            <TextBlock Classes="LabelSmall" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurfaceVariant}" Text="expand_less" />
+                        </StackPanel>
+                    </Border>
+                    <Border Theme="{StaticResource IconTile}">
+                        <StackPanel Spacing="8" HorizontalAlignment="Center">
+                            <PathIcon Width="24" Height="24" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurface}" Data="{DynamicResource Material_IconExpandMore}" />
+                            <TextBlock Classes="LabelSmall" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurfaceVariant}" Text="expand_more" />
+                        </StackPanel>
+                    </Border>
+                    <Border Theme="{StaticResource IconTile}">
+                        <StackPanel Spacing="8" HorizontalAlignment="Center">
+                            <PathIcon Width="24" Height="24" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurface}" Data="{DynamicResource Material_IconFilterNone}" />
+                            <TextBlock Classes="LabelSmall" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurfaceVariant}" Text="filter_none" />
+                        </StackPanel>
+                    </Border>
+                    <Border Theme="{StaticResource IconTile}">
+                        <StackPanel Spacing="8" HorizontalAlignment="Center">
+                            <PathIcon Width="24" Height="24" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurface}" Data="{DynamicResource Material_IconFullscreen}" />
+                            <TextBlock Classes="LabelSmall" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurfaceVariant}" Text="fullscreen" />
+                        </StackPanel>
+                    </Border>
+                    <Border Theme="{StaticResource IconTile}">
+                        <StackPanel Spacing="8" HorizontalAlignment="Center">
+                            <PathIcon Width="24" Height="24" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurface}" Data="{DynamicResource Material_IconFullscreenExit}" />
+                            <TextBlock Classes="LabelSmall" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurfaceVariant}" Text="fullscreen_exit" />
+                        </StackPanel>
+                    </Border>
+                    <Border Theme="{StaticResource IconTile}">
+                        <StackPanel Spacing="8" HorizontalAlignment="Center">
+                            <PathIcon Width="24" Height="24" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurface}" Data="{DynamicResource Material_IconKeyboardArrowDown}" />
+                            <TextBlock Classes="LabelSmall" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurfaceVariant}" Text="keyboard_arrow_down" />
+                        </StackPanel>
+                    </Border>
+                    <Border Theme="{StaticResource IconTile}">
+                        <StackPanel Spacing="8" HorizontalAlignment="Center">
+                            <PathIcon Width="24" Height="24" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurface}" Data="{DynamicResource Material_IconKeyboardArrowUp}" />
+                            <TextBlock Classes="LabelSmall" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurfaceVariant}" Text="keyboard_arrow_up" />
+                        </StackPanel>
+                    </Border>
+                    <Border Theme="{StaticResource IconTile}">
+                        <StackPanel Spacing="8" HorizontalAlignment="Center">
+                            <PathIcon Width="24" Height="24" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurface}" Data="{DynamicResource Material_IconMenu}" />
+                            <TextBlock Classes="LabelSmall" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurfaceVariant}" Text="menu" />
+                        </StackPanel>
+                    </Border>
+                    <Border Theme="{StaticResource IconTile}">
+                        <StackPanel Spacing="8" HorizontalAlignment="Center">
+                            <PathIcon Width="24" Height="24" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurface}" Data="{DynamicResource Material_IconMinimize}" />
+                            <TextBlock Classes="LabelSmall" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurfaceVariant}" Text="minimize" />
+                        </StackPanel>
+                    </Border>
+                    <Border Theme="{StaticResource IconTile}">
+                        <StackPanel Spacing="8" HorizontalAlignment="Center">
+                            <PathIcon Width="24" Height="24" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurface}" Data="{DynamicResource Material_IconMoreVert}" />
+                            <TextBlock Classes="LabelSmall" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurfaceVariant}" Text="more_vert" />
+                        </StackPanel>
+                    </Border>
+                    <Border Theme="{StaticResource IconTile}">
+                        <StackPanel Spacing="8" HorizontalAlignment="Center">
+                            <PathIcon Width="24" Height="24" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurface}" Data="{DynamicResource Material_IconRefresh}" />
+                            <TextBlock Classes="LabelSmall" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurfaceVariant}" Text="refresh" />
+                        </StackPanel>
+                    </Border>
+                    <Border Theme="{StaticResource IconTile}">
+                        <StackPanel Spacing="8" HorizontalAlignment="Center">
+                            <PathIcon Width="24" Height="24" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurface}" Data="{DynamicResource Material_IconRemove}" />
+                            <TextBlock Classes="LabelSmall" HorizontalAlignment="Center" Foreground="{DynamicResource OnSurfaceVariant}" Text="remove" />
+                        </StackPanel>
+                    </Border>
+                </WrapPanel>
+            </StackPanel>
+        </Border>
+    </StackPanel>
+</views:GalleryPage>

@@ -100,9 +100,8 @@
                  Height="10"
                  HorizontalAlignment="Center"
                  VerticalAlignment="Center">
-          <Path Data="M 0,9 L 9,0 L 18,9"
-                Stroke="{Binding $parent[RepeatButton].Foreground}"
-                StrokeThickness="1" />
+          <Path Data="{DynamicResource Material_IconKeyboardArrowUp}"
+                Fill="{Binding $parent[RepeatButton].Foreground}" />
         </Viewbox>
       </Template>
     </Setter>
@@ -123,9 +122,8 @@
                  Height="10"
                  HorizontalAlignment="Center"
                  VerticalAlignment="Center">
-          <Path Data="M 0,0 L 9,9 L 18,0"
-                Stroke="{Binding $parent[RepeatButton].Foreground}"
-                StrokeThickness="1" />
+          <Path Data="{DynamicResource Material_IconKeyboardArrowDown}"
+                Fill="{Binding $parent[RepeatButton].Foreground}" />
         </Viewbox>
       </Template>
     </Setter>

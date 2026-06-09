@@ -16,9 +16,7 @@
   <Styles.Resources>
     <x:Double x:Key="NavigationControlNavBarHeight">48</x:Double>
 
-    <StreamGeometry x:Key="DrawerPaneButtonIcon">M3 17h18a1 1 0 0 1 .117 1.993L21 19H3a1 1 0 0 1-.117-1.993L3 17h18H3Zm0-6 18-.002a1 1 0 0 1 .117 1.993l-.117.007L3 13a1 1 0 0 1-.117-1.993L3 11l18-.002L3 11Zm0-6h18a1 1 0 0 1 .117 1.993L21 7H3a1 1 0 0 1-.117-1.993L3 5h18H3Z</StreamGeometry>
-
-    <!-- A) The M3 navigation-drawer destination. KEYED (not {x:Type ListBoxItem}). -->
+<!-- A) The M3 navigation-drawer destination. KEYED (not {x:Type ListBoxItem}). -->
     <ControlTheme x:Key="M3NavigationDrawerItem" TargetType="ListBoxItem">
       <Setter Property="Foreground" Value="{DynamicResource OnSurfaceVariant}" />
       <Setter Property="FontFamily" Value="{DynamicResource BodyFontFamily}" />
@@ -206,7 +204,7 @@
                   <Panel>
                     <PathIcon
                       IsVisible="{Binding DrawerIcon, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ObjectConverters.IsNull}}"
-                      Data="{DynamicResource DrawerPaneButtonIcon}"
+                      Data="{DynamicResource Material_IconMenu}"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center" />
                     <ContentPresenter
@@ -258,7 +256,7 @@
                       <Panel>
                         <PathIcon
                           IsVisible="{Binding DrawerIcon, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ObjectConverters.IsNull}}"
-                          Data="{DynamicResource DrawerPaneButtonIcon}"
+                          Data="{DynamicResource Material_IconMenu}"
                           HorizontalAlignment="Center"
                           VerticalAlignment="Center" />
                         <ContentPresenter
@@ -299,7 +297,7 @@
                       <Panel>
                         <PathIcon
                           IsVisible="{Binding DrawerIcon, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ObjectConverters.IsNull}}"
-                          Data="{DynamicResource DrawerPaneButtonIcon}"
+                          Data="{DynamicResource Material_IconMenu}"
                           HorizontalAlignment="Center"
                           VerticalAlignment="Center" />
                         <ContentPresenter
