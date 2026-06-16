@@ -14,8 +14,7 @@
                           Spacing="8">
                 <TextBlock FontWeight="Medium"
                            Text="{Binding Title}" />
-                <TextBlock MaxHeight="80"
-                           Margin="0,0,12,0"
+                <TextBlock Margin="0,0,12,0"
                            Text="{Binding Message}"
                            TextWrapping="Wrap" />
               </StackPanel>
