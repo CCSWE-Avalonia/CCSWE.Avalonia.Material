@@ -34,7 +34,7 @@ case. **Pinned.**
 Within a `ThemeDictionary`, all `Color`s are declared **before** the
 `SolidColorBrush`es — `{StaticResource}` resolves top-down within a dictionary.
 
-Two derived alpha brushes ship in each `ThemeDictionary`, built from `OnSurfaceColor`
+Three derived alpha brushes ship in each `ThemeDictionary`, built from `OnSurfaceColor`
 / `ScrimColor` with an explicit `Opacity`: **`OnSurface12`** (disabled container fill /
 outline @ 12%), **`OnSurface38`** (disabled content @ 38%), and **`Scrim32`** (modal
 backdrop @ 32%). These are the M3 state primitives the library's control themes consume
@@ -160,10 +160,10 @@ per-role and stay inline in `Typography.axaml` (not tokenized).
 
 ## Motion (`Motion.axaml`)
 
-- 10 durations emitted as `sys:TimeSpan` resources (`MotionDurationShort1` …
+- Durations emitted as `sys:TimeSpan` resources (`MotionDurationShort1` …
   `MotionDurationLong2`); both `Animation.Duration` and `Transition.Duration` are
   `TimeSpan`-typed in Avalonia, so they bind directly.
-- 6 easings emitted as `SplineEasing` resources (`MotionEasing*`) built from the
+- Easings emitted as `SplineEasing` resources (`MotionEasing*`) built from the
   upstream cubic-bezier control-point arrays (`X1 Y1 X2 Y2`).
 - Reference via `DynamicResource` inside control themes/transitions (library);
   `StaticResource` is fine in a standalone `<Animation>` in app markup.

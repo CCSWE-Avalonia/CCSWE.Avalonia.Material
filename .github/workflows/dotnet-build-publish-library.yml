@@ -39,12 +39,7 @@ jobs:
         run: dotnet build src/CCSWE.Avalonia.Material.slnx -c Release --no-restore /p:ContinuousIntegrationBuild=true
 
       - name: Test
-        run: |
-          if [ -n "$(find . -name '*.Tests.csproj' -o -name '*.UnitTests.csproj' 2>/dev/null)" ]; then
-            dotnet test src/CCSWE.Avalonia.Material.slnx -c Release --no-build --verbosity normal
-          else
-            echo "No test projects yet — skipping."
-          fi
+        run: dotnet test src/CCSWE.Avalonia.Material.slnx -c Release --no-build --verbosity normal
 
       - name: Pack
         run: dotnet pack src/CCSWE.Avalonia.Material/CCSWE.Avalonia.Material.csproj -c Release --no-build -o "${{ github.workspace }}/artifacts"

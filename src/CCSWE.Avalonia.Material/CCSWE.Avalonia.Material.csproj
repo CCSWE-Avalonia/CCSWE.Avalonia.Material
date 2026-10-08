@@ -9,8 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- VersionOverride widens the packed dependency to any 12.0.x so consumers on older
-         12.0 patches (e.g. 12.0.3) can restore; CPM keeps the build/test pin at 12.0.4. -->
+    <!-- VersionOverride widens the packed dependency to any 12.x so consumers on older
+         12.x versions can restore; CPM pins the build/test version. -->
     <PackageReference Include="Avalonia" VersionOverride="[12.0.0, 13.0.0)" />
   </ItemGroup>
 

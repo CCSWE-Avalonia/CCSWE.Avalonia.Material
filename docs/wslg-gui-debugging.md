@@ -38,8 +38,8 @@ Quick check: `DISPLAY=:0 xdotool getdisplaygeometry` should print the screen siz
 dotnet build src/CCSWE.Avalonia.Material.slnx -c Release -v q --nologo
 
 # Launch in the BACKGROUND (run_in_background) so the agent keeps control.
-# DEMO_PAGE jumps straight to a gallery page on startup (nav order: 0 Typography, 1 Buttons,
-# 2 Inputs, 3 Selection, 4 Collections, 5 Feedback, 6 Tabs, 7 Containers, 8 Coverage).
+# DEMO_PAGE jumps straight to a gallery page on startup (index order: see
+# src/CCSWE.Avalonia.Material.Demo/Converters/NavIndexToPageConverter.cs).
 DISPLAY=:0 DEMO_PAGE=1 dotnet run --project src/CCSWE.Avalonia.Material.Demo -c Release
 ```
 

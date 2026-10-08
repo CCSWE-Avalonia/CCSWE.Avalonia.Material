@@ -14,6 +14,7 @@
     <File Path="../docs/design-system/FONTS.md" />
     <File Path="../docs/design-system/FLUENT-AUDIT.md" />
     <File Path="../docs/design-system/CHANGELOG.md" />
+    <File Path="../docs/design-system/m3-conformance-audit.md" />
   </Folder>
   <Folder Name="/docs/samples/">
     <File Path="../docs/samples/App.sample.axaml" />
