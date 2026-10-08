@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 A branded **Material 3** theme library for **Avalonia** 12. It gives stock Avalonia controls the CCSWE look — a Dark/Light color system, M3 type scale, motion, embedded brand fonts, and M3 control themes across the full surface: buttons (incl. toggle/split/dropdown/hyperlink + command bar + floating action button), text fields, autocomplete, numeric steppers, selection controls, lists, tree views, dropdowns, menus, expander, cards, group boxes, dividers, sliders, progress (linear + circular), tabs (tab control + tab strip), pips pager, tooltips, notifications, the date family (calendar, date/time pickers), page shells (content/tabbed/carousel/navigation), and a navigation drawer + rail (`DrawerPage`) — so consuming apps get consistent branding by referencing the package.
 
-The library is .NET 10 / C# targeting `net10.0`, built against **Avalonia 12**, distributed as a NuGet package (`CCSWE.Avalonia.Material`). It is the desktop sibling of the CCSWE web and Android bundles: all three consume the same shared cross-platform design tokens.
+The library is C# (TFM set in `src/Directory.Build.props`), built against **Avalonia 12**, distributed as a NuGet package (`CCSWE.Avalonia.Material`). It is the desktop sibling of the CCSWE web and Android bundles: all three consume the same shared cross-platform design tokens.
 
 It is a **standalone, no-base theme**: it depends only on **Avalonia core** (no `FluentTheme`/`SimpleTheme` base) and supplies the whole control surface itself. Consumers add a single element to `App.axaml`:
 
@@ -35,7 +35,7 @@ Litmus test: a pure function of the shared tokens → the DS emits it; an Avalon
 
 ### The `Base/` interim layer + hybrid migration
 
-`Base/*` is the control base **forked once from `Avalonia.Themes.Simple` 12.0.4** — the structural infra (Window, popups, SplitView, overlay/adorner hosts, …) recolored to M3, plus the `Base/BaseAliases.axaml` / `SimplePalette.axaml` / `Strings.axaml` shims. These are **interim scaffolding**: each control is hand-rolled to real M3 (referencing our tokens directly) over time and moved to `Controls/`; the shims shrink as forks fall away. **Status:** all styleable + page-shell controls are now hand-rolled M3 in `Controls/`; what remains in `Base/` is the recolored structural infra + shims, and no control theme references the Simple `Theme*` palette anymore. Folder rule: a from-scratch M3 `ControlTheme` lives in `Controls/`; a recolored-but-still-Simple-skeleton fork stays in `Base/` (see `src/CCSWE.Avalonia.Material/Base/README.md`). `MaterialTheme.axaml` merges everything via **`ResourceInclude`** (nested, last-wins) — never `MergeResourceInclude` (it flattens and throws on duplicate keys).
+`Base/*` is the control base **forked once from `Avalonia.Themes.Simple`** (tag in `src/CCSWE.Avalonia.Material/Base/README.md`) — the structural infra (Window, popups, SplitView, overlay/adorner hosts, …) recolored to M3, plus the `Base/BaseAliases.axaml` / `SimplePalette.axaml` / `Strings.axaml` shims. These are **interim scaffolding**: each control is hand-rolled to real M3 (referencing our tokens directly) over time and moved to `Controls/`; the shims shrink as forks fall away. **Status:** all styleable + page-shell controls are now hand-rolled M3 in `Controls/`; what remains in `Base/` is the recolored structural infra + shims, and no control theme references the Simple `Theme*` palette anymore. Folder rule: a from-scratch M3 `ControlTheme` lives in `Controls/`; a recolored-but-still-Simple-skeleton fork stays in `Base/` (see `src/CCSWE.Avalonia.Material/Base/README.md`). `MaterialTheme.axaml` merges everything via **`ResourceInclude`** (nested, last-wins) — never `MergeResourceInclude` (it flattens and throws on duplicate keys).
 
 The token JSON source-of-truth lives in `tokens/`; the design-system handoff docs live in `docs/design-system/`. Consumer→DS feedback (round-trip notes) lives in `eng/ds-feedback/`, which is **gitignored** — internal, not published.
 
@@ -44,7 +44,7 @@ The token JSON source-of-truth lives in `tokens/`; the design-system handoff doc
 Projects live under `src/`; the solution is `src/CCSWE.Avalonia.Material.slnx`.
 
 ```bash
-# Build everything (library + Demo)
+# Build everything (library + Demo + UnitTests)
 dotnet build src/CCSWE.Avalonia.Material.slnx --configuration Release
 
 # Run the Demo gallery (visual verification harness — Dark/Light toggle)
@@ -56,14 +56,14 @@ dotnet run --project src/CCSWE.Avalonia.Material.Demo
 # Pack the NuGet package (library only)
 dotnet pack src/CCSWE.Avalonia.Material/CCSWE.Avalonia.Material.csproj --configuration Release
 
-# Run all tests (once a test project is added under tests/)
+# Run all tests
 dotnet test src/CCSWE.Avalonia.Material.slnx
 
 # Run a specific test
 dotnet test src/CCSWE.Avalonia.Material.slnx --filter "FullyQualifiedName~ClassName"
 ```
 
-The SDK is pinned to `10.0.0` (`rollForward: latestMinor`) via the root `global.json`. `src/Directory.Build.props` applies `LangVersion=preview`, `ImplicitUsings=enable`, and `Nullable=enable` solution-wide, and references JetBrains.Annotations and Nerdbank.GitVersioning (version derived from git history — base `12.0` in the root `version.json`).
+The SDK is pinned via the root `global.json`. `src/Directory.Build.props` sets the TFM, `LangVersion`, `ImplicitUsings`, and `Nullable` solution-wide, and references JetBrains.Annotations, Nerdbank.GitVersioning (version derived from git history — base in the root `version.json`), and Microsoft.SourceLink.GitHub.
 
 ## Package management
 
@@ -73,11 +73,11 @@ Keep the Avalonia package versions (`Avalonia`, `Avalonia.Desktop`, etc.) in loc
 
 ## Publishing
 
-The library publishes to **NuGet.org** as `CCSWE.Avalonia.Material`. Versioning is **Nerdbank.GitVersioning** (root `version.json`, base `12.0` → `12.0.x`). **The major version tracks the supported Avalonia major** (12.x → Avalonia 12.x; bump to 13.x when retargeting Avalonia 13) — this mirrors the Semi.Avalonia convention and reflects the library's tight coupling to Avalonia's control templates. Minor/patch are the library's own (features/fixes), **not** Avalonia's minor/patch. Shared package metadata lives in `src/Directory.Build.props`; per-package metadata (description, tags, README) in the library csproj. The Demo sets `IsPackable=false`. SourceLink + `snupkg` symbols are enabled.
+The library publishes to **NuGet.org** as `CCSWE.Avalonia.Material`. Versioning is **Nerdbank.GitVersioning** (root `version.json`). **The major version tracks the supported Avalonia major** (12.x → Avalonia 12.x; bump to 13.x when retargeting Avalonia 13) — this mirrors the Semi.Avalonia convention and reflects the library's tight coupling to Avalonia's control templates. Minor/patch are the library's own (features/fixes), **not** Avalonia's minor/patch. Shared package metadata lives in `src/Directory.Build.props`; per-package metadata (description, tags, README) in the library csproj. The Demo sets `IsPackable=false`. SourceLink + `snupkg` symbols are enabled.
 
-CI (`.github/workflows/dotnet-build-publish-library.yml`, "Build, test, and publish"): pushes to **`master`** build + test + pack + **publish to NuGet.org** (via the `NUGET_API_KEY` secret); PRs build + test only. NuGet versions are immutable, so every `master` push is an immutable public release. There is no committed `nuget.config` with credentials. Two more GitHub-native checks run (both free on this public repo): **CodeQL** code scanning (`.github/workflows/codeql.yml`, buildless C#, on push/PR + weekly) and **Dependabot** version updates (`.github/dependabot.yml`, NuGet via CPM with Avalonia grouped + GitHub Actions, weekly — active once on `master`, since Dependabot reads config from the default branch).
+CI (`.github/workflows/dotnet-build-publish-library.yml`, "Build, test, and publish"): pushes to **`master`** build + test + pack + **publish to NuGet.org** (via the `NUGET_API_KEY` secret); PRs build + test + pack (no publish). NuGet versions are immutable, so every `master` push is an immutable public release. There is no committed `nuget.config` with credentials. Two more GitHub-native checks run (both free on this public repo): **CodeQL** code scanning (`.github/workflows/codeql.yml`, buildless C#, on push/PR + weekly) and **Dependabot** version updates (`.github/dependabot.yml`, NuGet via CPM with Avalonia grouped + GitHub Actions, weekly).
 
-The package embeds a self-contained NuGet README (`src/CCSWE.Avalonia.Material/README.md`, distinct from the repo root `README.md`, which uses repo-relative links) and the fonts' `OFL.txt` under `THIRD-PARTY-NOTICES/`.
+The package embeds a self-contained NuGet README (`src/CCSWE.Avalonia.Material/README.md`, distinct from the repo root `README.md`, which uses repo-relative links) and the fonts' `*-OFL.txt` plus `MATERIAL-SYMBOLS-LICENSE.txt` under `THIRD-PARTY-NOTICES/`.
 
 ## Architecture
 
@@ -87,17 +87,18 @@ Projects in `src/CCSWE.Avalonia.Material.slnx`:
   - `MaterialTheme.axaml` (+ `MaterialTheme.axaml.cs`) — the `Styles` subclass consumers instantiate as `<theme:MaterialTheme/>`; merges tokens + `Base/*` + `Controls/*` (layer order documented in the file header).
   - `Card.cs` — the library's first **custom control type**: `Card` (an M3 card surface; `Card : ContentControl` with hand-rolled `Command`/`CommandParameter`/`Click`, a nullable `IsClickable` that derives from `Command`, and `:clickable`-gated hover/press state layers). Its `ControlTheme` lives in `Controls/Card.axaml` (which also keeps the `Border.Card` class convention for static surfaces). The library themes stock Avalonia controls by default; a custom type is added only where Avalonia ships no equivalent. *[library-owned]*
   - `Tokens.axaml` — Dark/Light color roles (as `ResourceDictionary.ThemeDictionaries`) + theme-invariant metrics (`CornerRadius*`, `Spacing*`, the M3 `FontSize*` scale). *[DS-emitted]*
-  - `Fonts.axaml`, `Motion.axaml`, `Typography.axaml` *[DS-emitted]*; `Controls/*.axaml` — the hand-authored M3 control themes (~49; all styleable + page-shell controls now live here). *[library-owned]*
+  - `Fonts.axaml`, `Motion.axaml`, `Typography.axaml` *[DS-emitted]*; `Controls/*.axaml` — the hand-authored M3 control themes (all styleable + page-shell controls now live here). *[library-owned]*
   - `Icons.axaml` — the theme's icon vocabulary: Google Material Symbols (Outlined) as `StreamGeometry` resources keyed `Material_Icon*`, referenced by control themes via `{DynamicResource}`. Sourced from Material Symbols, not DS-emitted. *[library-owned]*
   - `Base/*.axaml` — the interim structural-infra forks (Window/popups/SplitView/overlay hosts, all M3-recolored) + the `BaseAliases`/`SimplePalette`/`Strings` shims. *[library-owned; shrinking — see `Base/README.md`]*
   - `Assets/Fonts/` — embedded OFL variable TTFs (DM Sans, Plus Jakarta Sans), referenced by family name from `Fonts.axaml`.
+- **`CCSWE.Avalonia.Material.UnitTests`** — NUnit + Avalonia headless tests (solution folder `/tests/`); see Testing.
 - **`CCSWE.Avalonia.Material.Demo`** — an Avalonia desktop app that wires the theme (`<theme:MaterialTheme/>`) and renders a control gallery with a Dark/Light toggle. It is the **visual verification harness**; keep it in sync when adding controls.
 
 Conventions when working on the theme (full detail in `docs/design-system/CONVENTIONS.md`):
 
 - **Resource naming:** each color role emits a paired `SolidColorBrush` (bare PascalCase, e.g. `Primary`) and `Color` (role + `Color` suffix, e.g. `PrimaryColor`). Reach for the bare brush name in markup. Reference global M3 roles directly in control themes — no per-control key vocabulary.
 - **`DynamicResource` inside `ControlTheme`s — always**, for color/metric/motion refs. `StaticResource` freezes a brush at parse time so the control won't repaint on a `ThemeVariant` flip (a real bug). `StaticResource` is only for same-file structural refs (`BasedOn=`, `Theme=` assignments).
-- **Control themes** are full templates (no base theme to `BasedOn`), honoring required Avalonia part names (`PART_*`) and the standard pseudo-classes (`:checked`, `:error`, `:focus-within`, …). `ControlTheme`s must be declared inside `<Styles.Resources>`.
+- **Control themes** are full templates (no base theme to `BasedOn`), honoring required Avalonia part names (`PART_*`) and the standard pseudo-classes (`:checked`, `:error`, `:focus-within`, …). `ControlTheme`s must be declared inside `<Styles.Resources>` (except the ResourceDictionary-rooted date/time picker files).
 - **Custom control types** (only where Avalonia ships no stock control, e.g. `Card`) derive from the closest semantic base — `ContentControl` for containers, **not** `Button` — and hand-roll any interactivity (`Command`/`Click`, `:clickable`/`:pressed` pseudo-classes) faithfully ported from the matching Avalonia control. Set `ClipToBounds="False"` when a template-root `Border` paints a `BoxShadow` (otherwise the shadow is clipped to bounds). In Dark mode shadows are near-invisible, so convey elevation/hover-raise with a surface-tone step too.
 - **Icons:** every glyph the theme draws is sourced from **Google Material Symbols** (Outlined, weight 400; viewBox `0 -960 960 960`) and centralized in `Icons.axaml` as `StreamGeometry` resources keyed **`Material_Icon*`** (e.g. `Material_IconClose`). Reference them from control themes via `{DynamicResource Material_Icon*}` — the unique prefix prevents consumer collisions and lets a consumer opt in to override a glyph by redefining the key. Do **not** add glyphs from other icon sets (Phosphor, etc.) unless Material Symbols genuinely lacks one (note the exception in the `Icons.axaml` header). Material Symbols are **filled** single-color paths, so render each from a `Path`/`PathIcon` with `Stretch="Uniform"` + `Fill`/`Foreground` (never `Stroke`). Add icons as needed, not the whole set. *[library-owned]*
 - Files are `AvaloniaResource` (auto-globbed for axaml; fonts included explicitly in the csproj) and resolve via `avares://CCSWE.Avalonia.Material/...` URIs.
@@ -110,11 +111,9 @@ For implementation questions about Avalonia theming, study the real source rathe
 - **Avalonia 12.0.4** — https://github.com/AvaloniaUI/Avalonia (tag `12.0.4`). `src/Avalonia.Themes.Simple` is the source our `Base/*` forks come from; `src/Avalonia.Themes.Fluent` is the reference for richer templates/animation and for control-default mappings.
 - **Semi.Avalonia** — https://github.com/irihitech/Semi.Avalonia — a complete **standalone** Avalonia theme (a `Styles` subclass + `ThemeDictionaries` + a `Controls/_index.axaml` aggregator; no Fluent/Simple dependency). The model this library's architecture mirrors.
 
-Tests belong under the solution's `tests/` folder (no test project exists yet — see Testing).
-
 # Testing
 
-Tests use **NUnit 4**. (No test project exists yet; follow these conventions when adding one under `tests/`.)
+Tests use **NUnit** with `Avalonia.Headless.NUnit` (`[AvaloniaTest]`), in `src/CCSWE.Avalonia.Material.UnitTests` (solution folder `/tests/`).
 
 ## Class organization
 
@@ -127,7 +126,7 @@ public class SomeServiceTests
 {
     public class When_GetAsync_Is_Called : SomeServiceTests
     {
-        [Test]
+        [AvaloniaTest]
         public async Task It_returns_expected_result() { ... }
     }
 }
@@ -140,7 +139,6 @@ Follow the AAA pattern. Use blank lines to separate sections — do **not** use 
 ## Mocking
 
 - Use **Moq** for mocking
-- `ILogger` should be mocked using the `LoggerFake` class, not `new Mock<ILogger>()`
 - Prefer `ReturnsAsync(...)` and `ThrowsAsync(...)` over manually setting up async mock methods
 
 # Coding Standards
