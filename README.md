@@ -106,10 +106,11 @@ src/
     Motion.axaml               durations + easings
     Typography.axaml           M3 type-scale TextBlock classes
     Controls/*.axaml           M3 control themes (hand-authored)
-    Card.cs                    custom control type (Card; most controls theme stock Avalonia)
+    *.cs                       custom control types (Card, Divider, ...; most controls theme stock Avalonia)
     Base/*.axaml               interim control base (forked from Simple 12.0.4)
     Assets/Fonts/              embedded OFL TTFs (DM Sans, Plus Jakarta Sans)
   CCSWE.Avalonia.Material.Demo/   gallery app — visual verification harness
+  CCSWE.Avalonia.Material.UnitTests/  headless NUnit tests
 tokens/                        shared token JSON (source of truth)
 docs/design-system/            the design-system handoff bundle (conventions, fonts, audit)
 docs/samples/                  App.axaml wiring sample
@@ -135,7 +136,7 @@ dotnet run --project src/CCSWE.Avalonia.Material.Demo
 dotnet pack src/CCSWE.Avalonia.Material/CCSWE.Avalonia.Material.csproj -c Release
 ```
 
-Requires the .NET 10 SDK (pinned via `global.json`).
+Requires the .NET SDK pinned in `global.json`.
 
 ## License
 

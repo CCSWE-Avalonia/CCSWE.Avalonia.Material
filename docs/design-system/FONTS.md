@@ -23,7 +23,7 @@ The bundle ships fetch scripts in `Assets/Fonts/` — run the one for your OS fr
 that folder. They pull the two variable TTFs **and** each `OFL.txt`:
 
 ```bash
-cd CCSWE.Avalonia.Material/Assets/Fonts
+cd src/CCSWE.Avalonia.Material/Assets/Fonts
 ./fetch-fonts.sh           # macOS / Linux
 # or
 pwsh ./fetch-fonts.ps1     # Windows / cross-platform PowerShell
@@ -51,7 +51,7 @@ body 500 (title-small / labels), 700 for emphasis.
 ## Where they go
 
 ```
-CCSWE.Avalonia.Material/Assets/Fonts/
+src/CCSWE.Avalonia.Material/Assets/Fonts/
 ├── fetch-fonts.sh / fetch-fonts.ps1   (acquisition scripts, shipped)
 ├── PlusJakartaSans[wght].ttf          (downloaded)
 ├── PlusJakartaSans-OFL.txt            (downloaded)

@@ -1,7 +1,6 @@
 # CCSWE Avalonia Design System
 
-**Design System (Avalonia):** 2.1.0
-**Tokens:** 1.1.0 · **Avalonia:** 12
+**Versions:** see the `Tokens.axaml` header (design system, tokens) and `src/Directory.Packages.props` (Avalonia).
 **Sources of truth:** `tokens/tokens.upstream-1.1.0.json` (the master CCSWE cross-platform tokens — primitive ramps + four-scheme M3 semantic layer + 15-role type scale + shape + motion, consumed **verbatim**) and `tokens/tokens.local.json` (the Avalonia/.NET desktop translation layer — spacing scale, letterSpacing resolution, resource-naming convention, font delivery, which schemes to wire).
 
 It is the desktop sibling of the **web** bundle (emits `tokens.css`) and the **Android** bundle (emits Kotlin/XML), all consuming one shared token set. As of **v2** it emits the **token layer only** — Avalonia `ResourceDictionary` + `Styles` files that drop into the **CCSWE.Avalonia.Material** library, which owns the actual M3 component themes.
@@ -20,7 +19,7 @@ So the emit-vs-own line moved. **There is no shared component model across platf
 |---|---|
 | **`Tokens.axaml`** | Dark/Light color roles (`ResourceDictionary.ThemeDictionaries`, paired `Color` + `SolidColorBrush`) — the full M3 ColorScheme + `OnSurfaceStrong` + the **Success / Warning / Info** status roles (each a `Role` / `On<Role>` / `<Role>Container` / `On<Role>Container` quad) — plus theme-invariant metrics: `CornerRadius*`, the 4px spacing scale (`double` + `Thickness`), and the **M3 type-size scale** `FontSize<Role>` (all 15 roles). |
 | **`Typography.axaml`** | the 15-role M3 type scale as `TextBlock` style classes — sizes reference the `FontSize*` tokens as the single source of truth. |
-| **`Motion.axaml`** | the M3 motion scale: 10 durations (`sys:TimeSpan`) + 6 easings (`SplineEasing`). |
+| **`Motion.axaml`** | the M3 motion scale: durations (`sys:TimeSpan`) + easings (`SplineEasing`). |
 | **`Fonts.axaml`** | `avares://` `FontFamily` resources for the two embedded families. |
 
 That is the **entire emitted surface** — four files plus the font assets they reference.
@@ -41,13 +40,14 @@ The **litmus test** is unchanged, but the line it draws has moved: if you can re
 tokens/
   tokens.upstream-1.1.0.json   master tokens, consumed verbatim
   tokens.local.json            Avalonia-side desktop decisions
-CCSWE.Avalonia.Material/        (emitted token layer — drop in verbatim at the library root)
+src/CCSWE.Avalonia.Material/    (emitted token layer — drop in verbatim at the library root)
   Tokens.axaml                 ThemeDictionaries Dark/Light + metrics + FontSize scale  ← single source of truth for values
   Fonts.axaml                  avares:// FontFamily resources
   Motion.axaml                 durations (TimeSpan) + easings (SplineEasing)
   Typography.axaml             15 M3 type roles as TextBlock classes (FontSize from Tokens.axaml)
   Assets/Fonts/                fetch-fonts.sh / .ps1 (acquisition) → TTFs + OFL.txt (see FONTS.md)
-README.md  HANDOFF.md  CONVENTIONS.md  FONTS.md  CHANGELOG.md
+docs/design-system/
+  README.md  HANDOFF.md  CONVENTIONS.md  FONTS.md  CHANGELOG.md
 ```
 
 (The design-system source also maintains an HTML `preview/` showcase generated
@@ -71,7 +71,7 @@ The library merges the emitted token files itself and exposes a single entry. A 
 </Application>
 ```
 
-`MaterialTheme` (library-owned) merges `Tokens.axaml`, `Fonts.axaml`, `Motion.axaml`, and `Typography.axaml` into its resources and layers its hand-authored M3 control themes on top. The emitted `ThemeDictionaries` respond to `RequestedThemeVariant` automatically.
+`MaterialTheme` (library-owned) merges `Tokens.axaml`, `Fonts.axaml`, and `Motion.axaml` into its resources, includes `Typography.axaml`, and layers its hand-authored M3 control themes on top. The emitted `ThemeDictionaries` respond to `RequestedThemeVariant` automatically.
 
 ```xml
 <!-- Any view -->
